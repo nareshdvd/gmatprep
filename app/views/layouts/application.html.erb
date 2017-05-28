@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gmatprep</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <% if current_user %>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+      <% if current_user.is_admin? %>
+        <%= link_to "Categories", categories_path %>
+        <%= link_to "Levels", levels_path %>
+        <%= link_to "Questions", questions_path %>
+        <%= link_to "Passages", passages_path %>
+      <% end %>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>

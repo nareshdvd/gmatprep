@@ -1,0 +1,34 @@
+<%= simple_form_for @paper_question, url: papers_question_answer_path do |f| %>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <% if @paper_question.question.passage_id.present? %>
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Passage <%= @paper_question.question.passage.description %></p>
+          </div>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="col-sm-12">
+          <b>Question <%= @paper_question.question_number %></b> : <%= @paper_question.question.description %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <% @paper_question.question.options.each do |option| %>
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2">
+                <%= f.radio_button :option_id, option.id %><b><%= option.description %></b>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="submit">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

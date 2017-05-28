@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyText
+  level_id: 
+  category_id: 
+  passage_id: 
+
+two:
+  description: MyText
+  level_id: 
+  category_id: 
+  passage_id: 

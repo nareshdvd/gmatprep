@@ -1,0 +1,15 @@
+<%= simple_form_for @passage do |f| %>
+  <%= f.input :title %>
+  <%= f.input :description %>
+  <%= f.input :question_count %>
+  <% uniq_str = "#{SecureRandom.hex(4)}" %>
+  <% accordion_id = "accordion-questions-#{uniq_str}" %>
+  <div class="panel-group" id="<%= accordion_id %>" role="tablist" aria-multiselectable="false">
+    <% f.object.questions.each_with_index do |question, index| %>
+      <%= f.simple_fields_for :questions, question do |q_fields| %>
+        <%= render "shared/fields_with_panel", {panel_name: "question", panel_heading: "Question", f: q_fields, index: index, form_partial: "questions/form", accordion_id: accordion_id, uniq_str: uniq_str} %>
+      <% end %>
+    <% end %>
+  </div>
+  <%= f.button :submit %>
+<% end %>

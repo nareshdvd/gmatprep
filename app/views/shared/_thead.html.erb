@@ -1,0 +1,15 @@
+<thead>
+  <tr>
+    <% object_class = @objects.klass %>
+    <% object_class.index_columns.each do |db_column_name, column_name| %>
+      <th id="th-<%= db_column_name %>">
+        <%= column_name %>
+      </th>
+    <% end %>
+    <% if object_class.respond_to?(:index_actions) %>
+      <th>
+        Actions
+      </th>
+    <% end %>
+  </tr>
+</thead>

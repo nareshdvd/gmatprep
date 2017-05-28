@@ -1,0 +1,20 @@
+<%= f.input :description %>
+<%= f.input :level_id, :collection => Level.all, :label_method => :name, :value_method => :id, :label => "Level" ,:include_blank => true %>
+<% if f.object.category_id.blank? || f.object.category.name != Category::PASSAGE %>
+  <%= f.input :category_id, :collection => Category.where("name !=?", Category::PASSAGE), :label_method => :name, :value_method => :id, :label => "Category" ,:include_blank => true, selected: f.object.category_id %>
+<% else %>
+  <%= f.input :category_id, as: :hidden %>
+<% end %>
+<div class="nested-form-fields row">
+  <div class="col-xs-12">
+    <% uniq_str_options = "#{SecureRandom.hex(4)}" %>
+    <% accordion_id = "accordion-options-#{uniq_str_options}" %>
+    <div class="panel-group" id="<%= accordion_id %>" role="tablist" aria-multiselectable="false">
+      <% f.object.options.each_with_index do |option, index| %>
+        <%= f.simple_fields_for :options, option do |option_fields| %>
+          <%= render "shared/fields_with_panel", {panel_name: "option", panel_heading: "Option", f: option_fields, index: index, form_partial: "options/form", accordion_id: accordion_id, uniq_str: uniq_str_options} %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

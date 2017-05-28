@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <%= simple_form_for @question do |f| %>
+      <%= render "questions/form", {f: f} %>
+      <%= f.button :submit %>
+    <% end %>
+  </div>
+</div>

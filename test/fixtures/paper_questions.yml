@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  paper_id: 
+  question_id: 
+  question_number: 1
+  option_id: 
+  start_time: 2017-05-28 11:37:28
+  finish_time: 2017-05-28 11:37:28
+
+two:
+  paper_id: 
+  question_id: 
+  question_number: 1
+  option_id: 
+  start_time: 2017-05-28 11:37:28
+  finish_time: 2017-05-28 11:37:28
