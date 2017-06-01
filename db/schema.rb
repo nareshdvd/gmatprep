@@ -11,19 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528105201) do
+ActiveRecord::Schema.define(version: 20170530200852) do
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",        limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.text     "description", limit: 65535
   end
 
   create_table "levels", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.integer  "weight",     limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",           limit: 255
+    t.integer  "weight",         limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.text     "description",    limit: 65535
+    t.float    "question_score", limit: 24
   end
 
   create_table "options", force: :cascade do |t|
@@ -88,6 +91,8 @@ ActiveRecord::Schema.define(version: 20170528105201) do
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
     t.boolean  "marked_for_free_plan", limit: 1,     default: false
+    t.text     "question_text",        limit: 65535
+    t.text     "explanation",          limit: 65535
   end
 
   add_index "questions", ["category_id"], name: "index_questions_on_category_id", using: :btree

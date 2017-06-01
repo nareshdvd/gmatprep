@@ -1,34 +1,30 @@
-<%= simple_form_for @paper_question, url: papers_question_answer_path do |f| %>
-  <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-      <% if @paper_question.question.passage_id.present? %>
-        <div class="row">
-          <div class="col-sm-12">
-            <p>Passage <%= @paper_question.question.passage.description %></p>
-          </div>
-        </div>
-      <% end %>
-      <div class="row">
-        <div class="col-sm-12">
-          <b>Question <%= @paper_question.question_number %></b> : <%= @paper_question.question.description %>
-        </div>
-      </div>
-      <div class="row">
+<div class="question-box bg-success text-muted padding-20">
+  <% if @paper_question.passage_question? %>
+    <p>
+      <%= @paper_question.question.passage.description %>
+    </p>
+  <% end %>
+  <p>
+    <%= @paper_question.question.question_text.html_safe %>
+  </p>
+  <div class="option-box">
+    <%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal"} do |f| %>
+      <div class="form-group">
         <div class="col-sm-12">
           <% @paper_question.question.options.each do |option| %>
-            <div class="row">
-              <div class="col-sm-8 col-sm-offset-2">
-                <%= f.radio_button :option_id, option.id %><b><%= option.description %></b>
+            <div class="row margin-b-10">
+              <div class="col-sm-12">
+                <%= f.radio_button :option_id, option.id %><b class="padding-l-20"><%= option.description %></b>
               </div>
             </div>
           <% end %>
         </div>
       </div>
-      <div class="row">
+      <div class="form-group">
         <div class="col-sm-12">
-          <button type="submit">Save</button>
+          <button type="submit" class="btn btn-sumit">Next</button>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

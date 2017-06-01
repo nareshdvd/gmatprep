@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :questions
   resources :passages
 
-  get 'papers/new'
+  get 'papers/new', as: "new_test"
   get '/test/questions/:question_number' => "papers#question", as: "papers_question"
   patch '/test/questions/:question_number' => "papers#answer_question", as: "papers_question_answer"
   get 'home/index'
