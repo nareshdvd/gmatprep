@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   load_and_authorize_resource
   def index
-    @objects = Question.all
+    @objects = Question.paginate(:page => params[:page], per_page: 10)
     respond_to do |format|
       format.html {render "shared/index"}
     end
@@ -44,7 +44,7 @@ class QuestionsController < ApplicationController
 
   private
   def question_params
-    new_params = params.require(:question).permit(:description, :level_id, :category_id, options_attributes: [:id, :description, :correct])
+    new_params = params.require(:question).permit(:description, :question_text, :level_id, :category_id, options_attributes: [:id, :description, :correct])
     new_params[:options_attributes].each do |option_param|
       option_param[:correct] = "0" if option_param[:correct].blank?
     end

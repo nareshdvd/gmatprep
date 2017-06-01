@@ -1,7 +1,7 @@
 class LevelsController < ApplicationController
   load_and_authorize_resource
   def index
-    @objects = Level.all
+    @objects = Level.paginate(:page => params[:page], per_page: 10)
     respond_to do |format|
       format.html {render "shared/index"}
     end

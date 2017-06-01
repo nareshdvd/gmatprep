@@ -1,6 +1,6 @@
 <%= simple_form_for @passage do |f| %>
   <%= f.input :title %>
-  <%= f.input :description %>
+  <%= f.input :description, input_html: {class: "tinymce"} %>
   <%= f.input :question_count %>
   <% uniq_str = "#{SecureRandom.hex(4)}" %>
   <% accordion_id = "accordion-questions-#{uniq_str}" %>

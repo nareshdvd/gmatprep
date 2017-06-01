@@ -1,2 +1,2 @@
-<%= f.input :description %>
+<%= f.input :description, input_html: {class: "tinymce"} %>
 <%= f.radio_button :correct, 1, {checked: f.object.correct} %>

@@ -1,6 +1,9 @@
-<div class="row margin-b-5">
-  <div class="col-sm-12">
-    <%= render_index_action("new", @objects.klass.index_actions["new"], @objects.klass, nil, {class: 'btn btn-success'}) %>
+<div class="row">
+  <div class="col-sm-8">
+    <%= will_paginate @objects, :renderer => BootstrapPagination::Rails %>
+  </div>
+  <div class="col-sm-4">
+    <%= render_index_action("new", @objects.klass.index_actions["new"], @objects.klass, nil, {class: 'btn btn-success margin-t-12 margin-b-10 pull-right'}) %>
   </div>
 </div>
 <div class="row">
@@ -9,5 +12,13 @@
       <%= render "shared/thead" %>
       <%= render "shared/tbody" %>
     </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8">
+    <%= will_paginate @objects, :renderer => BootstrapPagination::Rails %>
+  </div>
+  <div class="col-sm-4">
+    <%= render_index_action("new", @objects.klass.index_actions["new"], @objects.klass, nil, {class: 'btn btn-success margin-t-12 margin-b-10 pull-right'}) %>
   </div>
 </div>

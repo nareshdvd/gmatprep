@@ -1,7 +1,7 @@
 class PassagesController < ApplicationController
   load_and_authorize_resource
   def index
-    @objects = Passage.all
+    @objects = Passage.paginate(:page => params[:page], per_page: 10)
     respond_to do |format|
       format.html {render "shared/index"}
     end
@@ -44,7 +44,14 @@ class PassagesController < ApplicationController
 
   private
   def passage_params
-    new_params = params.require(:passage).permit(:title, :description, :question_count, questions_attributes: [:id, :description, :level_id, :category_id, options_attributes: [:id, :description, :correct]])
+    new_params = params.require(:passage).permit(:title, :description, :question_count, questions_attributes: [:id, :description, :level_id, :question_text, :category_id, options_attributes: [:id, :description, :correct]])
+    if new_params[:question_count].to_i == 3
+      if new_params[:questions_attributes].is_a?(Array)
+        new_params[:questions_attributes].pop()
+      elsif new_params[:questions_attributes].is_a?(Hash)
+        new_params[:questions_attributes].delete("3")
+      end
+    end
     new_params[:questions_attributes].each do |inx, question_param|
       question_param[:options_attributes].each do |option_param|
         option_param[:correct] = "0" if option_param[:correct].blank?

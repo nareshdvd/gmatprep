@@ -4,7 +4,12 @@
       <tr>
         <% object_class.index_columns.each do |db_column_name, column_name| %>
           <td id="td-<%= db_column_name %>">
-            <%= object.send(db_column_name.to_sym) %>
+            <% dt = object.send(db_column_name.to_sym) %>
+            <% if dt.respond_to?(:html_safe) %>
+              <%= object.send(db_column_name.to_sym).html_safe %>
+            <% else %>
+              <%= object.send(db_column_name.to_sym) %>
+            <% end %>
           </td>
         <% end %>
         <% if object_class.respond_to?(:index_actions) %>

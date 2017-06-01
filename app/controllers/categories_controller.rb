@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   load_and_authorize_resource
   def index
-    @objects = Category.all
+    @objects = Category.paginate(:page => params[:page], per_page: 10)
     respond_to do |format|
       format.html {render "shared/index"}
     end
