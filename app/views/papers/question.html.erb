@@ -1,7 +1,13 @@
 <div class="question-box bg-success text-muted padding-20">
+  <div class="row">
+    <div class="col-sm-12">
+      <b>Level</b> : <b><%= @paper_question.question.level %></b><br/>
+      <b>Category</b> : <b><%= @paper_question.question.category %></b>
+    </div>
+  </div>
   <% if @paper_question.passage_question? %>
     <p>
-      <%= @paper_question.question.passage.description %>
+      <%= @paper_question.question.passage.description.html_safe %>
     </p>
   <% end %>
   <p>
@@ -14,7 +20,7 @@
           <% @paper_question.question.options.each do |option| %>
             <div class="row margin-b-10">
               <div class="col-sm-12">
-                <%= f.radio_button :option_id, option.id %><b class="padding-l-20"><%= option.description %></b>
+                <%= f.radio_button :option_id, option.id %><b class="padding-l-20"><%= option.description.html_safe %></b>
               </div>
             </div>
           <% end %>

@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     unlocks: 'users/unlocks',
   }
+  get "/paypal/return" => "payments#paypal_callback"
+  get "/paypal/cancel" => "payments#paypal_cancel"
   root "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
