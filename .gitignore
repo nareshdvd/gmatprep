@@ -18,3 +18,4 @@
 /Gemfile.lock
 /config/database.yml
 /config/secrets.yml
+/db/schema.rb
