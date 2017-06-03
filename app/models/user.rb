@@ -31,6 +31,32 @@ class User < ActiveRecord::Base
     return self.subscriptions.where(is_active: true).last
   end
 
+  def free_subscription
+    @free_subscription ||= subscriptions.find_by_plan_id(Plan.free_plan)
+  end
+
+  def available_tests
+    [1,2,3,4]
+  end
+
+  def available_plans_to_buy
+    user = self
+    Plan.joins("LEFT OUTER JOIN subscriptions ON subscriptions.plan_id=plans.id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("
+        ((
+           subscriptions.user_id=#{user.id}
+         ) AND
+         (
+          subscriptions.is_active != 0 AND subscriptions.is_active IS NULL
+         ) AND
+        ((CASE
+          WHEN plans.interval='MONTH' THEN DATE_ADD(subscriptions.created_at, INTERVAL plans.interval_count MONTH)
+          WHEN plans.interval='WEEK' THEN DATE_ADD(subscriptions.created_at, INTERVAL plans.interval_count WEEK)
+        END) > NOW())) OR (
+          subscriptions.user_id IS NULL
+        )
+    ")
+  end
+
   def get_unseen_question_id(level_id, category_id, only_free_plan_questions = false)
     conditions = "papers_questions.question_id IS NULL AND questions.level_id=? AND questions.category_id=?"
     values = [level_id, category_id]

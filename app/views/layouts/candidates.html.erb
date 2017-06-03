@@ -3,12 +3,17 @@
   <head>
     <title>Gmatprep</title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <style type="text/css">
+      .candidate-container{
+        margin-top: 20px;
+      }
+    </style>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
   <body class="">
     <%= render "shared/navbar" %>
-    <div class="container-fluid">
+    <div class="container-fluid candidate-container">
       <% if notice || alert %>
         <div class="row">
           <div class="col-sm-12">

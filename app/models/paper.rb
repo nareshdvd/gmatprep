@@ -1,7 +1,7 @@
 class Paper < ActiveRecord::Base
   belongs_to :subscription
   has_many :papers_questions
-  MINUTES = 120
+  MINUTES = 75
   QUESTION_COUNT = 41
 
   def current_question

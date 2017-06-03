@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   }
   get "/paypal/return" => "payments#paypal_callback"
   get "/paypal/cancel" => "payments#paypal_cancel"
+  post "/plans/:id/init_subscribe" => "plans#init_subscribe", as: :init_subscribe_to_plan
+  post "/paypal/notification" => "payments#notification", as: :payment_notification
   root "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
