@@ -1,0 +1,22 @@
+<%= bootstrap_row do %>
+  <% (plans = Plan.all).each do |plan| %>
+    <%= bootstrap_col((12 / plans.size)) do %>
+      <div class="plan-name"><%= plan.name %></div>
+      <div class="plan-description">
+        <% if plan.paper_count == 0 %>
+          Upto <%= plan.paper_count %> for <%= plan.interval_count %> <%= plan.interval %>
+        <% elsif plan.interval_count == 0 %>
+          <%= plan.paper_count %> tests for unlimited period
+        <% else %>
+          Upto <%= plan.paper_count %> tests for <%= plan.interval_count %> <%= plan.interval %>
+        <% end %>
+      </div>
+      <div class="plan-amount">
+        <i class="glyphicon glyphicon-<%= plan.currency.downcase %>"></i> <%= plan.amount %>
+      </div>
+      <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
+        <a class="subscribe btn <% if !plan.free_plan? %>btn-success<% else %>btn-default disabled<% end %>" href="<%= init_subscribe_to_plan_path(plan.id) %>" data-remote="true" data-method="post">Subscribe</a>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
