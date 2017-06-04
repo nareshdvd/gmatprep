@@ -1,1 +1,2 @@
+$("#plan-purchase-div-<%= @plan.id %> .subscribe-btn").remove();
 $("#plan-purchase-div-<%= @plan.id %>").append("<%= escape_javascript(render partial: 'plans/init_subscribe', locals: {payment: @payment, plan: @plan}) %>")

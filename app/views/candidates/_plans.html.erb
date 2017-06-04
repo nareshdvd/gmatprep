@@ -1,22 +1,62 @@
-<%= bootstrap_row do %>
-  <% (plans = Plan.all).each do |plan| %>
-    <%= bootstrap_col((12 / plans.size)) do %>
-      <div class="plan-name"><%= plan.name %></div>
+<% if @subscription %>
+  <%= bootstrap_row do %>
+    <%= bootstrap_col(6) do %>
+      <div class="plan-name"><%= current_user.free_subscription.name %></div>
       <div class="plan-description">
-        <% if plan.paper_count == 0 %>
-          Upto <%= plan.paper_count %> for <%= plan.interval_count %> <%= plan.interval %>
-        <% elsif plan.interval_count == 0 %>
-          <%= plan.paper_count %> tests for unlimited period
+        <% if current_user.free_subscription.paper_count == 0 %>
+          Upto <%= current_user.free_subscription.paper_count %> for <%= current_user.free_subscription.interval_count %> <%= current_user.free_subscription.interval %>
+        <% elsif current_user.free_subscription.interval_count == 0 %>
+          <%= current_user.free_subscription.paper_count %> tests for unlimited period
         <% else %>
-          Upto <%= plan.paper_count %> tests for <%= plan.interval_count %> <%= plan.interval %>
+          Upto <%= current_user.free_subscription.paper_count %> tests for <%= current_user.free_subscription.interval_count %> <%= current_user.free_subscription.interval %>
         <% end %>
       </div>
       <div class="plan-amount">
-        <i class="glyphicon glyphicon-<%= plan.currency.downcase %>"></i> <%= plan.amount %>
+        <i class="glyphicon glyphicon-<%= current_user.free_subscription.currency.downcase %>"></i> <%= current_user.free_subscription.amount %>
       </div>
-      <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
-        <a class="subscribe btn <% if !plan.free_plan? %>btn-success<% else %>btn-default disabled<% end %>" href="<%= init_subscribe_to_plan_path(plan.id) %>" data-remote="true" data-method="post">Subscribe</a>
+    <% end %>
+    <%= bootstrap_col(6) do %>
+      <div class="plan-name"><%= @subscription.name %></div>
+      <div class="plan-description">
+        <% if @subscription.paper_count == 0 %>
+          Upto <%= @subscription.paper_count %> for <%= @subscription.interval_count %> <%= @subscription.interval %>
+        <% elsif @subscription.interval_count == 0 %>
+          <%= @subscription.paper_count %> tests for unlimited period
+        <% else %>
+          Upto <%= @subscription.paper_count %> tests for <%= @subscription.interval_count %> <%= @subscription.interval %>
+        <% end %>
       </div>
+      <div class="plan-amount">
+        <i class="glyphicon glyphicon-<%= @subscription.currency.downcase %>"></i> <%= @subscription.amount %>
+      </div>
+      <div class="plan-status">
+        <% if @subscription.is_active %>
+          <i class="glyphicon glyphicon-ok"></i>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= bootstrap_row do %>
+    <% (plans = Plan.all).each do |plan| %>
+      <%= bootstrap_col((12 / plans.size)) do %>
+        <div class="plan-name"><%= plan.name %></div>
+        <div class="plan-description">
+          <% if plan.paper_count == 0 %>
+            Upto <%= plan.paper_count %> for <%= plan.interval_count %> <%= plan.interval %>
+          <% elsif plan.interval_count == 0 %>
+            <%= plan.paper_count %> tests for unlimited period
+          <% else %>
+            Upto <%= plan.paper_count %> tests for <%= plan.interval_count %> <%= plan.interval %>
+          <% end %>
+        </div>
+        <div class="plan-amount">
+          <i class="glyphicon glyphicon-<%= plan.currency.downcase %>"></i> <%= plan.amount %>
+        </div>
+        <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
+          <a class="subscribe-btn btn <% if !plan.free_plan? %>btn-success<% else %>btn-default disabled<% end %>" href="<%= init_subscribe_to_plan_path(plan.id) %>" data-remote="true" data-method="post">Subscribe</a>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

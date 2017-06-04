@@ -2,11 +2,18 @@ class Subscription < ActiveRecord::Base
   belongs_to :plan
   belongs_to :user
   has_many :papers
-  before_create :activate_subscription
-  after_create :deactivate_users_other_subscriptions
   has_many :payments
+  # before_create :activate_subscription
+  # after_create :deactivate_users_other_subscriptions
+  after_create :create_payment
   scope :with_plan, -> { joins(:plan) }
+  scope :with_payments, -> { joins(:payments).preload(:payments) }
   scope :not_free, -> { joins(:plan).where("(plans.name != ?)", Plan::FREE_PLAN) }
+  scope :payment_pending, -> { joins(:payments).where("payments.status = ?", Payment::STATUS[:pending]) }
+  scope :payment_initiated, -> { joins(:payments).where("payments.status = ? ", Payment::STATUS[:initiated]) }
+  scope :payment_success, -> { joins(:payments).where("payments.status = ? ", Payment::STATUS[:initiated]) }
+  scope :payment_paid, -> { joins(:payments).where("payments.status = ? ", Payment::STATUS[:paid]) }
+  scope :payment_paid_or_success, -> { joins(:payments).where("payments.status IN (?)", [Payment::STATUS[:paid], Payment::STATUS[:success]]) }
   scope :not_elapsed, -> { where("
     (plans.interval = 0
         OR
@@ -23,7 +30,9 @@ class Subscription < ActiveRecord::Base
     joins(:payments)
   }
 
-
+  def create_payment
+    self.payments.create(status: Payment::STATUS[:pending], amount: self.plan.amount, currency: self.plan.currency, gm_txn_id: SecureRandom.hex(8))
+  end
 
   def activate_subscription
     self.is_active = true
@@ -41,11 +50,35 @@ class Subscription < ActiveRecord::Base
     return self.plan.paper_count - self.papers.count
   end
 
-  def elapsed?
-
+  def paid?(payments_preloaded = false)
+    if payments_preloaded == false
+      return self.payments.where(status: Payment::STATUS[:paid]).present?
+    else
+      return self.payments.any?{|payment| payment.status == Payment::STATUS[:paid]}
+    end
   end
 
-  def exhausted?
+  def success?(payments_preloaded = false)
+    if payments_preloaded == false
+      return self.payments.where(status: Payment::STATUS[:success]).present?
+    else
+      return self.payments.any?{|payment| payment.status == Payment::STATUS[:success]}
+    end
+  end
 
+  def pending?(payments_preloaded = false)
+    if payments_preloaded == false
+      return self.payments.where(status: Payment::STATUS[:pending]).present?
+    else
+      return self.payments.any?{|payment| payment.status == Payment::STATUS[:pending]}
+    end
+  end
+
+  def initiated?(payments_preloaded = false)
+    if payments_preloaded == false
+      return self.payments.where(status: Payment::STATUS[:initiated]).present?
+    else
+      return self.payments.any?{|payment| payment.status == Payment::STATUS[:initiated]}
+    end
   end
 end
