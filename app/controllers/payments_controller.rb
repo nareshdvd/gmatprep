@@ -52,7 +52,7 @@ class PaymentsController < ApplicationController
 
   def notification
     respond_to do |format|
-      encrypted_key = params[:cm]
+      encrypted_key = params[:custom]
       begin
         plain_text = AES.decrypt(encrypted_key, Gmatprep::Application.config.secret_for_encryption)
         proceed = true
