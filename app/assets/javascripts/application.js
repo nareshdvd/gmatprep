@@ -52,7 +52,7 @@ RegExp.escape= function(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
-$(".paypal-form").on("submit", function(){
+$(document).on("submit", ".paypal-form", function(){
   e.preventDefault();
   var $form = $(this)
   var payment_id = $form.data("paymentid");
