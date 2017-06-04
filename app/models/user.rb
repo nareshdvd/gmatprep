@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
   def subscribe_for_free_plan
     plan = Plan.where(name: Plan::FREE_PLAN).first
-    self.subscriptions.create(plan_id: plan.id)
+    self.subscriptions.create(plan_id: plan.id, is_active: true)
   end
 
   def is_admin?
