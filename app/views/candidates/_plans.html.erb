@@ -1,7 +1,7 @@
 <% if @subscription %>
   <%= bootstrap_row do %>
     <%= bootstrap_col(6) do %>
-      <div class="plan-name"><%= current_user.free_subscription.name %></div>
+      <div class="plan-name"><%= current_user.free_subscription.plan.name %></div>
       <div class="plan-description">
         <% if current_user.free_subscription.paper_count == 0 %>
           Upto <%= current_user.free_subscription.paper_count %> for <%= current_user.free_subscription.interval_count %> <%= current_user.free_subscription.interval %>
@@ -16,7 +16,7 @@
       </div>
     <% end %>
     <%= bootstrap_col(6) do %>
-      <div class="plan-name"><%= @subscription.name %></div>
+      <div class="plan-name"><%= @subscription.plan.name %></div>
       <div class="plan-description">
         <% if @subscription.paper_count == 0 %>
           Upto <%= @subscription.paper_count %> for <%= @subscription.interval_count %> <%= @subscription.interval %>
