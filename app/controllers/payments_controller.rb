@@ -37,13 +37,13 @@ class PaymentsController < ApplicationController
             end
             format.html {render "payments/thankyou" }
           else
-            format.html { render text: "Invalid Payment" }
+            format.html { render text: "Invalid Payment 1" }
           end
         else
-          format.html { render text: "Invalid Payment" }
+          format.html { render text: "Invalid Payment 2" }
         end
       else
-        format.html{ render text: "Invalid Payment" }
+        format.html{ render text: "Invalid Payment 3" }
       end
     end
   end

@@ -17,10 +17,11 @@ class Payment < ActiveRecord::Base
   end
 
   def start_subscription
+    payment = self
     plan = payment.subscription.plan
     curr_date = Time.now.to_date
     payment.subscription.update_attributes(start_date: curr_date, end_date: curr_date + plan.interval_count.send(plan.interval.pluralize))
-    payment.subscription.user.subscriptions.where("id != ? AND is_active = ?", self.id, true).update_all({is_active: false})
+    payment.subscription.user.subscriptions.where("id != ? AND is_active = ?", payment.id, true).update_all({is_active: false})
   end
 
   def pending?
