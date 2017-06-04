@@ -9,7 +9,7 @@
       }
     </style>
     <script>
-      var payment_init_url = "<% payment_init_url(format: :json) %>";
+      var payment_init_url = "<%= payment_init_url(format: :json) %>";
     </script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>

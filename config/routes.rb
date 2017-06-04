@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     unlocks: 'users/unlocks',
   }
-  post "/payment/init" => "payments#init_payment"
+  post "/payment/init" => "payments#init_payment", as: :payment_init
   get "/paypal/return" => "payments#paypal_callback"
   get "/paypal/cancel" => "payments#paypal_cancel"
   post "/plans/:id/init_subscribe" => "plans#init_subscribe", as: :init_subscribe_to_plan
