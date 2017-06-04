@@ -3,31 +3,31 @@
     <%= bootstrap_col(6) do %>
       <div class="plan-name"><%= current_user.free_subscription.plan.name %></div>
       <div class="plan-description">
-        <% if current_user.free_subscription.paper_count == 0 %>
-          Upto <%= current_user.free_subscription.paper_count %> for <%= current_user.free_subscription.interval_count %> <%= current_user.free_subscription.interval %>
-        <% elsif current_user.free_subscription.interval_count == 0 %>
-          <%= current_user.free_subscription.paper_count %> tests for unlimited period
+        <% if current_user.free_subscription.plan.paper_count == 0 %>
+          Upto <%= current_user.free_subscription.plan.paper_count %> for <%= current_user.free_subscription.plan.interval_count %> <%= current_user.free_subscription.plan.interval %>
+        <% elsif current_user.free_subscription.plan.interval_count == 0 %>
+          <%= current_user.free_subscription.plan.paper_count %> tests for unlimited period
         <% else %>
-          Upto <%= current_user.free_subscription.paper_count %> tests for <%= current_user.free_subscription.interval_count %> <%= current_user.free_subscription.interval %>
+          Upto <%= current_user.free_subscription.plan.paper_count %> tests for <%= current_user.free_subscription.plan.interval_count %> <%= current_user.free_subscription.plan.interval %>
         <% end %>
       </div>
       <div class="plan-amount">
-        <i class="glyphicon glyphicon-<%= current_user.free_subscription.currency.downcase %>"></i> <%= current_user.free_subscription.amount %>
+        <i class="glyphicon glyphicon-<%= current_user.free_subscription.plan.currency.downcase %>"></i> <%= current_user.free_subscription.plan.amount %>
       </div>
     <% end %>
     <%= bootstrap_col(6) do %>
       <div class="plan-name"><%= @subscription.plan.name %></div>
       <div class="plan-description">
-        <% if @subscription.paper_count == 0 %>
-          Upto <%= @subscription.paper_count %> for <%= @subscription.interval_count %> <%= @subscription.interval %>
-        <% elsif @subscription.interval_count == 0 %>
-          <%= @subscription.paper_count %> tests for unlimited period
+        <% if @subscription.plan.paper_count == 0 %>
+          Upto <%= @subscription.plan.paper_count %> for <%= @subscription.plan.interval_count %> <%= @subscription.plan.interval %>
+        <% elsif @subscription.plan.interval_count == 0 %>
+          <%= @subscription.plan.paper_count %> tests for unlimited period
         <% else %>
-          Upto <%= @subscription.paper_count %> tests for <%= @subscription.interval_count %> <%= @subscription.interval %>
+          Upto <%= @subscription.plan.paper_count %> tests for <%= @subscription.plan.interval_count %> <%= @subscription.plan.interval %>
         <% end %>
       </div>
       <div class="plan-amount">
-        <i class="glyphicon glyphicon-<%= @subscription.currency.downcase %>"></i> <%= @subscription.amount %>
+        <i class="glyphicon glyphicon-<%= @subscription.plan.currency.downcase %>"></i> <%= @subscription.plan.amount %>
       </div>
       <div class="plan-status">
         <% if @subscription.is_active %>
