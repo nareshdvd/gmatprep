@@ -73,7 +73,7 @@ class PaymentsController < ApplicationController
           end
         end
       rescue => ex
-        Rails.logger.info "Payment Notification"
+        Rails.logger.info "Payment Notification : #{ex.message}"
         Rails.logger.info params.except("controller", "action").inspect
         Rails.logger.info ex.backtrace.join("\n") if ex.respond_to?(:backtrace)
       end
