@@ -32,7 +32,7 @@ class PaymentsController < ApplicationController
           if @payment.present? && @payment.id == payment_id.to_i && @payment.amount == amount.to_f && @payment.created_at.to_i == created_at.to_i && @payment.currency == currency
             if ![Payment::STATUS[:paid], Payment::STATUS[:success]].include?(@payment.status) && @payment.amount == amount.to_f && status == "Completed"
               @payment.status = Payment::STATUS[:success]
-              @payment.txn_id = txn_id
+              @payment.txn_id = paypal_txn_id
               @payment.save
             end
             format.html {render "payments/thankyou" }
