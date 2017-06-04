@@ -1,6 +1,16 @@
 class PaymentsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:notification]
   skip_before_action :verify_authenticity_token, only: [:notification]
+
+  def init_payment
+    payment_id = params[:id]
+    @payment = Payment.find_by_id(payment_id)
+    @payment.update_attribute(:status, Payment::STATUS[:initiated])
+    respond_to do |format|
+      format.json {render json: {status: "success"}}
+    end
+  end
+
   def paypal_callback
     respond_to do |format|
       amount = params[:amt]

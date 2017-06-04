@@ -1,0 +1,140 @@
+<%= bootstrap_row do %>
+  <%= bootstrap_col(6) do %>
+    <%= bootstrap_row do %>
+      <%= bootstrap_col(12) do %>
+        <%= bootstrap_panel("Your Subscriptions", "default") do %>
+          <% current_user.subscriptions.each do |subscription| %>
+            <%= dashboard_panel_row(subscription.plan.name) do %>
+              <%= subscription.plan.currency.upcase %> <%= subscription.plan.amount %>
+              <% if subscription.is_active %>
+                <i class="glyphicon glyphicon-ok"></i>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% Plan.where(id: 2).each do |plan| %>
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="JJANJFTXUNUEW">
+              <input type="hidden" name="on0" value="gmatpreptxnid">
+              <input type="hidden" name="os0" value="<%=%>">
+              <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+              <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= bootstrap_row do %>
+      <%= bootstrap_col(12) do %>
+        <%= bootstrap_panel("Tests Details (Active Subscription)", "default") do %>
+          <%= dashboard_panel_row("Total Tests (in plan)") do %>
+            <%= current_user.active_subscription.plan.paper_count %>
+          <% end %>
+          <%= dashboard_panel_row("Tests Attempted (in plan)") do %>
+            <%= current_user.active_subscription.papers.count %>
+          <% end %>
+          <%= dashboard_panel_row("Remaining Papers (in plan)") do %>
+            <%= current_user.active_subscription.remaining_paper_count %>
+          <% end %>
+          <%= dashboard_panel_row("Ongoing Test") do %>
+            <%= link_to "Go to Ongoing Test", new_test_path %>
+          <% end if (in_progress_paper = current_user.active_subscription.in_progress_paper).present? %>
+          <%= dashboard_panel_row("Take new test") do %>
+            <%= link_to "Start", new_test_path %>
+          <% end if in_progress_paper.blank? && !current_user.active_subscription.remaining_paper_count.zero? %>
+        <% end %>
+      <% end %>
+    <% end if current_user.active_subscription.present? %>
+  <% end %>
+  <%= bootstrap_col(6) do %>
+    <%= bootstrap_row do %>
+      <%= bootstrap_col(12) do %>
+        <%= bootstrap_panel("Current Plan Details", "default") do %>
+          <%= dashboard_panel_row("Plan Amount") do %>
+            <%= current_user.active_subscription.plan.currency.upcase %> <%= current_user.active_subscription.plan.amount %>
+          <% end %>
+          <%= dashboard_panel_row("Subscribed on") do %>
+            <%= (current_user.active_subscription.created_at).to_date.strftime("%b %d, %Y") %>
+          <% end %>
+          <%= dashboard_panel_row("Subscription ends on") do %>
+            <%= (current_user.active_subscription.created_at + current_user.active_subscription.plan.interval_count.send(current_user.active_subscription.plan.interval)).to_date.strftime("%b %d, %Y") %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end if current_user.active_subscription.present? %>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+<%= bootstrap_row do %>
+  <%= bootstrap_col(6) do %>
+    <%= bootstrap_panel("Your Subscriptions", "default") do %>
+      <% current_user.subscriptions.each do |subscription| %>
+        <%= dashboard_panel_row("Name") do %>
+          <%= subscription.plan.name %>
+        <% end %>
+
+        <%= dashboard_panel_row("Amount") do %>
+          <%= subscription.plan.currency.upcase %> <%= subscription.plan.amount %>
+        <% end %>
+
+        <%= dashboard_panel_row("Active") do %>
+          <% if subscription.is_active %>
+            <i class="glyphicon glyphicon-ok"></i>
+          <% end %>
+        <% end %>
+
+        <%= dashboard_panel_row("Total Tests (in plan)") do %>
+          <% if subscription.plan.paper_count.zero? %>
+            <%= current_user.available_tests.count %>
+          <% else %>
+            <%= subscription.plan.paper_count %>
+          <% end %>
+        <% end %>
+
+        <%= dashboard_panel_row("Tests Attempted (in plan)") do %>
+          <%= subscription.papers.count %>
+        <% end %>
+
+        <%= dashboard_panel_row("Remaining Papers (in plan)") do %>
+          <%= subscription.remaining_paper_count %>
+        <% end %>
+
+        <%= dashboard_panel_row("Ongoing Test") do %>
+          <%= link_to "Go to Ongoing Test", new_test_path %>
+        <% end if (subscription.is_active && (in_progress_paper = current_user.active_subscription.in_progress_paper)).present? %>
+        <%= dashboard_panel_row("Take new test") do %>
+          <%= link_to "Start", new_test_path %>
+        <% end if in_progress_paper.blank? && !current_user.active_subscription.remaining_paper_count.zero? %>
+        <hr>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= bootstrap_col(6) do %>
+    <%= bootstrap_panel("Other Plans", "default") do %>
+      <% current_user.available_plans_to_buy.each do |plan| %>
+        <%= dashboard_panel_row("Name") do %>
+          <%= plan.name %>
+        <% end %>
+        <%= dashboard_panel_row("Amount") do %>
+          <%= plan.currency.upcase %> <%= plan.amount %>
+        <% end %>
+        <%= dashboard_panel_row("Total Tests (in plan)") do %>
+          <% if plan.paper_count.zero? %>
+            <%= current_user.available_tests.count %>
+          <% else %>
+            <%= plan.paper_count %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

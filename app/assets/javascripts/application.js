@@ -51,3 +51,19 @@ $(document).on("ready", function(){
 RegExp.escape= function(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
+
+$(".paypal-form").on("submit", function(){
+  e.preventDefault();
+  var $form = $(this)
+  var payment_id = $form.data("paymentid");
+  $.ajax({
+    url: payment_init_url,
+    type: "post",
+    data: {id: payment_id},
+    success: function(retdata){
+      if(retdata.status == "success"){
+        $form[0].submit();
+      }
+    }
+  })
+});
