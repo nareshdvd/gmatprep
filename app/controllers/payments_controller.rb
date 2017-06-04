@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:paypal_callback]
+  skip_before_action :authenticate_user!, only: [:notification]
   skip_before_action :verify_authenticity_token, only: [:notification]
   def paypal_callback
     respond_to do |format|
