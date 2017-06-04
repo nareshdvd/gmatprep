@@ -31,6 +31,7 @@ class Subscription < ActiveRecord::Base
   }
 
   def create_payment
+    next if self.plan.free_plan?
     self.payments.create(status: Payment::STATUS[:pending], amount: self.plan.amount, currency: self.plan.currency, gm_txn_id: SecureRandom.hex(8))
   end
 
