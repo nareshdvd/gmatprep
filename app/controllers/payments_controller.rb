@@ -35,10 +35,12 @@ class PaymentsController < ApplicationController
               @payment.txn_id = txn_id
               @payment.save
             end
-            format.html {render html: "payments/thankyou" }
+            format.html {render "payments/thankyou" }
           else
             format.html { render text: "Invalid Payment" }
           end
+        else
+          format.html { render text: "Invalid Payment" }
         end
       else
         format.html{ render text: "Invalid Payment" }
