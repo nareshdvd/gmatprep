@@ -17,7 +17,7 @@ class PaymentsController < ApplicationController
       currency = params[:cc]
       encrypted_key = params[:cm]
       begin
-        plain_text = AES.decrype(encrypted_key, Gmatprep::Application.config.secret_for_encryption)
+        plain_text = AES.decrypt(encrypted_key, Gmatprep::Application.config.secret_for_encryption)
         proceed = true
       rescue OpenSSL::Cipher::CipherError => ex
         proceed = false
@@ -54,7 +54,7 @@ class PaymentsController < ApplicationController
     respond_to do |format|
       encrypted_key = params[:cm]
       begin
-        plain_text = AES.decrype(encrypted_key, Gmatprep::Application.config.secret_for_encryption)
+        plain_text = AES.decrypt(encrypted_key, Gmatprep::Application.config.secret_for_encryption)
         proceed = true
       rescue OpenSSL::Cipher::CipherError => ex
         proceed = false
