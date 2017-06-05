@@ -37,7 +37,7 @@ class PapersController < ApplicationController
         @paper_question = last_question
         format.html
       else
-        redirect_to papers_question_path(paper.add_question().question_number)
+        redirect_to papers_question_path(in_progress_paper.add_question().question_number)
       end
     end
   end
@@ -52,14 +52,14 @@ class PapersController < ApplicationController
       @paper_question = last_question
       @paper_question.update_attributes(answer_params)
       if @paper_question.question_number < Paper::QUESTION_COUNT
-        redirect_to papers_question_path(paper.add_question().question_number)
+        redirect_to papers_question_path(in_progress_paper.add_question().question_number)
       else
         redirect_to root_path, notice: "Paper Finished"
       end
     elsif in_progress_paper.papers_questions.last.question_number == Paper::QUESTION_COUNT
       redirect_to root_path, notice: "Paper Finished"
     else
-      redirect_to papers_question_path(paper.add_question().question_number)
+      redirect_to papers_question_path(in_progress_paper.add_question().question_number)
     end
   end
 
