@@ -1,1 +1,1 @@
-<%= plan.button_html.html_safe.gsub("</form>", "<input type='hidden' name='custom' value='#{payment.encrypted_key}'/></form>") %>
+<%= plan.button_html.gsub("</form>", "<input type='hidden' name='custom' value='#{payment.encrypted_key}'/></form>").html_safe %>
