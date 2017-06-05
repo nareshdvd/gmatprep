@@ -12,7 +12,7 @@ class Paper < ActiveRecord::Base
   end
 
   def last_question_unanswered?
-    self.papers_questions.last.option_id.blank?
+    self.papers_questions.last.unanswered?
   end
 
   def add_question(first = false)

@@ -6,4 +6,12 @@ class PapersQuestion < ActiveRecord::Base
   def passage_question?
     question.passage_id.present?
   end
+
+  def unanswered?
+    !answered?
+  end
+
+  def answered?
+    self.option_id.present?
+  end
 end

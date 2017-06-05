@@ -84,4 +84,12 @@ class User < ActiveRecord::Base
     end
     return Passage.select("passages.id as id").joins("INNER JOIN questions ON questions.passage_id=passages.id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id AND users.id=#{self.id}").where(conditions, *values).first.try(:id)
   end
+
+  def in_progress_paper
+    if self.active_subscription.present?
+      return self.active_subscription.in_progress_paper
+    else
+      return nil
+    end
+  end
 end

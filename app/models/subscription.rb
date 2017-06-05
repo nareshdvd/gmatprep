@@ -35,6 +35,17 @@ class Subscription < ActiveRecord::Base
     self.payments.create(status: Payment::STATUS[:pending], amount: self.plan.amount, currency: self.plan.currency, gm_txn_id: SecureRandom.hex(8))
   end
 
+  def elapsed?
+    self.start_date + self.plan.interval_count.send(self.plan.interval.pluralize.downcase) > Date.today
+  end
+
+  def exhausted?
+    if (self.papers.count == self.plan.paper_count) && (self.papers.last.papers_questions.count == self.plan.paper_count) && self.papers.last.papers_questions.last.answered?
+      return true
+    end
+    return false
+  end
+
   def activate_subscription
     self.is_active = true
   end
@@ -44,7 +55,11 @@ class Subscription < ActiveRecord::Base
   end
 
   def in_progress_paper
-    return self.papers.where("start_time IS NULL OR (finish_time IS NULL AND DATE_ADD(start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW())").last
+    if (paper = self.papers.where("start_time IS NULL OR finish_time IS NULL OR (DATE_ADD(start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW())").last).present? && (paper.papers_questions.count.zero? || (paper.papers_questions.count < Paper::QUESTION_COUNT) || (paper.last_question_unanswered?))
+      return paper
+    else
+      return nil
+    end
   end
 
   def remaining_paper_count
