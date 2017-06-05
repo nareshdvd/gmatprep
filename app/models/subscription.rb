@@ -36,7 +36,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def elapsed?
-    self.start_date + self.plan.interval_count.send(self.plan.interval.pluralize.downcase) > Date.today
+    self.start_date + self.plan.interval_count.send(self.plan.interval.pluralize.downcase) < Date.today
   end
 
   def exhausted?
