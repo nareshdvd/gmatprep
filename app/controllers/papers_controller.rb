@@ -29,7 +29,7 @@ class PapersController < ApplicationController
   def question
     respond_to do |format|
       question_number = params[:question_number].to_i
-      if question_number > 41 || question_number < 1
+      if question_number > Paper::QUESTION_COUNT || question_number < 1
         redirect_to root_path, notice: "Question Not found"
       elsif (in_progress_paper = current_user.in_progress_paper).blank?
         redirect_to root_path, notice: "Test Finished"
@@ -43,21 +43,23 @@ class PapersController < ApplicationController
   end
 
   def answer_question
-    respond_to do |format|
-      question_number = params[:question_number].to_i
-      if question_number > 41 || question_number < 1
-        redirect_to root_path, notice: "Question Not found"
-      elsif (in_progress_paper = current_user.in_progress_paper).blank?
-        redirect_to root_path, notice: "Test not found"
-      elsif (last_question = in_progress_paper.papers_questions.last).unanswered?
-        @paper_question = last_question
-        @paper_question.update_attributes(answer_params)
-        format.html
-      elsif in_progress_paper.papers_questions.last.question_number == 41
-        redirect_to root_path, notice: "Paper Finished"
-      else
+    question_number = params[:question_number].to_i
+    if question_number > Paper::QUESTION_COUNT || question_number < 1
+      redirect_to root_path, notice: "Question Not found"
+    elsif (in_progress_paper = current_user.in_progress_paper).blank?
+      redirect_to root_path, notice: "Test not found"
+    elsif (last_question = in_progress_paper.papers_questions.last).unanswered?
+      @paper_question = last_question
+      @paper_question.update_attributes(answer_params)
+      if @paper_question.question_number < Paper::QUESTION_COUNT
         redirect_to papers_question_path(paper.add_question().question_number)
+      else
+        redirect_to root_path, notice: "Paper Finished"
       end
+    elsif in_progress_paper.papers_questions.last.question_number == Paper::QUESTION_COUNT
+      redirect_to root_path, notice: "Paper Finished"
+    else
+      redirect_to papers_question_path(paper.add_question().question_number)
     end
   end
 
