@@ -17,7 +17,7 @@ class PlansController < ApplicationController
         if (pending_subscription = subscriptions.select{|subscription| subscription.plan_id == plan_id && subscription.pending?(true)}.first).present?
           @payment = pending_subscription.payments.detect{|payment| payment.status == Payment::STATUS[:pending]}
         elsif (initiated_subscription = subscriptions.select{|subscription| subscription.plan_id == plan_id && subscription.initiated?(true)}.first).present?
-          initated_payment = initiated_subscription.payments.detect{|payment| payment.status == Payment::STATUS[:initiated]}
+          initiated_payment = initiated_subscription.payments.detect{|payment| payment.status == Payment::STATUS[:initiated]}
           initiated_payment.update_attribute(:status, Payment::STATUS[:canceled])
           @payment = initiated_subscription.create_payment
         else
