@@ -51,7 +51,7 @@ class PapersController < ApplicationController
       @paper_question.update_attributes(answer_params)
       format.html
     elsif in_progress_paper.papers_questions.last.question_number == 41
-      redirect_to root_path, notice: "Paper Finished"}
+      redirect_to root_path, notice: "Paper Finished"
     else
       redirect_to papers_question_path(paper.add_question().question_number)
     end
