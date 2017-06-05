@@ -34,8 +34,12 @@ class PapersController < ApplicationController
       elsif (in_progress_paper = current_user.in_progress_paper).blank?
         redirect_to root_path, notice: "Test Finished"
       elsif (last_question = in_progress_paper.papers_questions.last).unanswered?
-        @paper_question = last_question
-        format.html
+        if last_question.question_number != question_number
+          redirect_to papers_question_path(last_question.question_number)
+        else
+          @paper_question = last_question
+          format.html
+        end
       else
         redirect_to papers_question_path(in_progress_paper.add_question().question_number)
       end
