@@ -1,1 +1,1 @@
-<%= plan.button_html.html_safe %>
+<%= plan.button_html.html_safe.replace("</form>", "<input type='hidden' name='custom' value='#{payment.encrypted_key}'/></form>") %>
