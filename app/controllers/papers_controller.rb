@@ -30,18 +30,18 @@ class PapersController < ApplicationController
     respond_to do |format|
       question_number = params[:question_number].to_i
       if question_number > Paper::QUESTION_COUNT || question_number < 1
-        redirect_to root_path, notice: "Question Not found"
+        format.html {redirect_to root_path, notice: "Question Not found"}
       elsif (in_progress_paper = current_user.in_progress_paper).blank?
-        redirect_to root_path, notice: "Test Finished"
+        format.html {redirect_to root_path, notice: "Test Finished"}
       elsif (last_question = in_progress_paper.papers_questions.last).unanswered?
         if last_question.question_number != question_number
-          redirect_to papers_question_path(last_question.question_number)
+          format.html {redirect_to papers_question_path(last_question.question_number)}
         else
           @paper_question = last_question
           format.html
         end
       else
-        redirect_to papers_question_path(in_progress_paper.add_question().question_number)
+        format.html {redirect_to papers_question_path(in_progress_paper.add_question().question_number)}
       end
     end
   end
