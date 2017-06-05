@@ -1,1 +1,1 @@
-<%= plan.button_html.gsub("___encrypted_key___", payment.encrypted_key).gsub("___payment_id___", payment.id).html_safe %>
+<%= plan.button_html.gsub("___encrypted_key___", payment.encrypted_key).gsub("___payment_id___", payment.id.to_s).html_safe %>
