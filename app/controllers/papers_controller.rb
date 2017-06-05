@@ -4,14 +4,14 @@ class PapersController < ApplicationController
     if (in_progress_paper = current_user.in_progress_paper).blank?
       if (active_subscription = current_user.active_subscription).present?
         if active_subscription.elapsed?
-          format.html { redirect_to root_path, flash: {notice: "Your subscription has been finished"} }
+          redirect_to root_path, notice: "Your subscription has been finished"
         elsif active_subscription.exhausted?
-          format.html { redirect_to root_path, flash: {notice: "You have finished all the tests in your subscription"} }
+          redirect_to root_path, notice: "You have finished all the tests in your subscription"
         else
           in_progress_paper = active_subscription.papers.create(start_time: Time.now)
         end
       else
-        format.html { redirect_to root_path, flash: {notice: "You don't have any active subscriptions"} }
+        redirect_to root_path, notice: "You don't have any active subscriptions"
       end
     end
     if in_progress_paper.present?
@@ -22,38 +22,38 @@ class PapersController < ApplicationController
       else
         question = in_progress_paper.add_question
       end
-      format.html {redirect_to papers_question_path(question.question_number)}
+      redirect_to papers_question_path(question.question_number)
     end
   end
 
   def question
     question_number = params[:question_number].to_i
     if question_number > 41 || question_number < 1
-      format.html { redirect_to root_path, flash: {notice: "Question Not found"} }
+      redirect_to root_path, notice: "Question Not found"
     elsif (in_progress_paper = current_user.in_progress_paper).blank?
-      format.html { redirect_to root_path, flash: {notice: "Test Finished"} }
+      redirect_to root_path, notice: "Test Finished"
     elsif (last_question = in_progress_paper.papers_questions.last).unanswered?
       @paper_question = last_question
       format.html
     else
-      format.html {redirect_to papers_question_path(paper.add_question().question_number)}
+      redirect_to papers_question_path(paper.add_question().question_number)
     end
   end
 
   def answer_question
     question_number = params[:question_number].to_i
     if question_number > 41 || question_number < 1
-      format.html { redirect_to root_path, flash: {notice: "Question Not found"} }
+      redirect_to root_path, notice: "Question Not found"
     elsif (in_progress_paper = current_user.in_progress_paper).blank?
-      format.html { redirect_to root_path, flash: {notice: "Test not found"} }
+      redirect_to root_path, notice: "Test not found"
     elsif (last_question = in_progress_paper.papers_questions.last).unanswered?
       @paper_question = last_question
       @paper_question.update_attributes(answer_params)
       format.html
     elsif in_progress_paper.papers_questions.last.question_number == 41
-      format.html {redirect_to root_path, flash: {notice: "Paper Finished"}}
+      redirect_to root_path, notice: "Paper Finished"}
     else
-      format.html {redirect_to papers_question_path(paper.add_question().question_number)}
+      redirect_to papers_question_path(paper.add_question().question_number)
     end
   end
 
