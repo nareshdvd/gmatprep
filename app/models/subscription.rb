@@ -48,6 +48,7 @@ class Subscription < ActiveRecord::Base
 
   def activate_subscription
     self.is_active = true
+    self.save
   end
 
   def deactivate_users_other_subscriptions
