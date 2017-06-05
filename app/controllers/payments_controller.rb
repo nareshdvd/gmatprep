@@ -69,6 +69,8 @@ class PaymentsController < ApplicationController
             payment.payment_fee = params["payment_fee"]
             payment.txn_notify_data = params.except("controller", "action")
             payment.status = Payment::STATUS[:paid]
+            payment.subscription.start_date = Date.today
+            payment.subscription.save
             payment.save
           end
         end
