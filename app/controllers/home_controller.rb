@@ -34,6 +34,7 @@ class HomeController < ApplicationController
 
   def candidate_dashboard
     @subscription = current_user.subscriptions.with_payments.with_plan.not_free.not_elapsed.not_exhausted.detect{|subscription| subscription.paid?(true) || subscription.success?(true)}
+    @in_progress_paper = current_user.in_progress_paper
     render "candidates/dashboard"
   end
 end

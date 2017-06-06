@@ -58,6 +58,7 @@ class PapersController < ApplicationController
       if @paper_question.question_number < Paper::QUESTION_COUNT
         redirect_to papers_question_path(in_progress_paper.add_question().question_number)
       else
+        in_progress_paper.update_attribute(:finish_time, Time.now)
         redirect_to root_path, notice: "Paper Finished"
       end
     elsif in_progress_paper.papers_questions.last.question_number == Paper::QUESTION_COUNT

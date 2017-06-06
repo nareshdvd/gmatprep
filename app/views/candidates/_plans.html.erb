@@ -36,9 +36,9 @@
       </div>
       <div>
         <% if (@subscription.in_progress_paper).present? %>
-          <%= link_to "Start new test", new_test_url, class: "btn btn-primary" %>
-        <% else %>
           <%= link_to "Resume test", new_test_url, class: "btn btn-primary" %>
+        <% else %>
+          <%= link_to "Start new test", new_test_url, class: "btn btn-primary" %>
         <% end %>
       </div>
     <% end %>

@@ -15,15 +15,24 @@ class Subscription < ActiveRecord::Base
   scope :payment_paid, -> { joins(:payments).where("payments.status = ? ", Payment::STATUS[:paid]) }
   scope :payment_paid_or_success, -> { joins(:payments).where("payments.status IN (?)", [Payment::STATUS[:paid], Payment::STATUS[:success]]) }
   scope :not_elapsed, -> { where("
-    (plans.interval = 0
-        OR
-        ((CASE
-              WHEN plans.interval='MONTH' THEN DATE_ADD(subscriptions.created_at, INTERVAL plans.interval_count MONTH)
-              WHEN plans.interval='WEEK' THEN DATE_ADD(subscriptions.created_at, INTERVAL plans.interval_count WEEK)
-            END) > NOW()))") }
+        (
+          plans.interval_count = 0
+          OR
+          (
+            subscriptions.start_date IS NOT NULL AND
+            (
+              CASE
+              WHEN plans.interval='MONTH' THEN DATE_ADD(subscriptions.start_date, INTERVAL plans.interval_count MONTH)
+              WHEN plans.interval='WEEK' THEN DATE_ADD(subscriptions.start_date, INTERVAL plans.interval_count WEEK)
+              END
+            ) > NOW()
+          )
+        )"
+      )
+    }
 
   scope :not_exhausted, -> {
-    joins("LEFT OUTER JOIN papers ON papers.subscription_id=subscriptions.id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.paper_id=papers.id").where("(papers.start_time IS NULL OR (DATE_ADD(papers.start_time, INTERVAL #{Paper::MINUTES} MINUTE) < NOW()))").select("subscriptions.*, papers_questions.paper_id, COUNT(papers_questions.id) as paper_question_count").group("papers.id").having("paper_question_count < #{Paper::QUESTION_COUNT}")
+    joins("LEFT OUTER JOIN papers ON papers.subscription_id=subscriptions.id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.paper_id=papers.id").where("(papers.start_time IS NULL OR (DATE_ADD(papers.start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW()))").select("subscriptions.*, papers_questions.paper_id, COUNT(papers_questions.id) as paper_question_count").group("papers.id").having("paper_question_count < #{Paper::QUESTION_COUNT}")
   }
 
   scope :with_payments, -> {
