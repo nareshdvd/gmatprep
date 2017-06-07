@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   def get_unseen_question_id(level_id, category_id, only_free_plan_questions = false)
     conditions = "questions.level_id=? AND questions.category_id=?"
     values = [level_id, category_id]
-    conditions = "questions.marked_for_free_plan = ?"
+    conditions = "AND questions.marked_for_free_plan = ?"
     values << (only_free_plan_questions ? true : false)
     user = self
     return Question.select("questions.id as id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("(users.id IS NULL) OR (users.id != ?)", user.id).where(conditions, *values).first.try(:id)
