@@ -32,7 +32,7 @@ class Subscription < ActiveRecord::Base
     }
 
   scope :not_exhausted, -> {
-    joins("LEFT OUTER JOIN papers ON papers.subscription_id=subscriptions.id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.paper_id=papers.id").where("(papers.start_time IS NULL OR (DATE_ADD(papers.start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW()))").select("subscriptions.*, papers_questions.paper_id, COUNT(papers_questions.id) as paper_question_count").group("papers.id").having("paper_question_count < #{Paper::QUESTION_COUNT}")
+    joins("INNER JOIN papers ON papers.subscription_id=subscriptions.id").select("COUNT(papers.id) as p_count, subscriptions.id as sub_id, plans.paper_count as paper_count").where("papers.start_time IS NOT NULL AND DATE_ADD(papers.start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW()").group("subscriptions.id").having("p_count < paper_count")
   }
 
   scope :with_payments, -> {
