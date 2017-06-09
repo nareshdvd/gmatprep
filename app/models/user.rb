@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
     user = self
     used_question_ids = Question.select("questions.id as id").joins("INNER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("INNER JOIN papers ON papers.id=papers_questions.paper_id").joins("INNER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("INNER JOIN users ON users.id=subscriptions.user_id").where("users.id = ?", user.id).where(conditions, *values).collect(&:id)
     if used_question_ids.present?
-      unused_question = Question.where(conditions, *values).where("id NOT IN (?)", used_question_ids).first
+      unused_question = Question.where(conditions, *values).where("questions.id NOT IN (?)", used_question_ids).first
     else
       unused_question = Question.where(conditions, *values).first
     end
@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
     user = self
     used_passage_ids = Passage.select("passages.id").joins("INNER JOIN questions ON questions.passage_id=passages.id").joins("INNER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("INNER JOIN papers ON papers.id=papers_questions.paper_id").joins("INNER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("INNER JOIN users ON users.id=subscriptions.user_id").where("users.id = ?", user.id).where(conditions, *values).collect(&:id)
     if used_passage_ids.present?
-      return Passage.joins(:questions).where(conditions, *values).where("id NOT IN (?)", used_passage_ids).first
+      return Passage.joins(:questions).where(conditions, *values).where("passages.id NOT IN (?)", used_passage_ids).first
     else
       return Passage.joins(:questions).where(conditions, *values).first
     end
