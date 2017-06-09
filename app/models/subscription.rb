@@ -31,8 +31,9 @@ class Subscription < ActiveRecord::Base
       )
     }
 
+  "papers.start_time IS NULL OR DATE_ADD(papers.start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW()"
   scope :not_exhausted, -> {
-    joins("LEFT OUTER JOIN papers ON papers.subscription_id=subscriptions.id").select("COUNT(papers.id) as p_count, subscriptions.id as sub_id, plans.paper_count as paper_count, subscriptions.*").where("papers.id IS NULL OR (papers.start_time IS NOT NULL AND DATE_ADD(papers.start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW())").group("sub_id").having("p_count < paper_count")
+    joins("LEFT OUTER JOIN papers ON papers.subscription_id=subscriptions.id").select("SUM(papers.start_time IS NULL OR DATE_ADD(papers.start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW()) as unfinished_count, COUNT(papers.id) as p_count, subscriptions.id as sub_id, plans.paper_count as paper_count, subscriptions.*").group("sub_id").having("(p_count < paper_count) OR (unfinished_count = 1)")
   }
 
   scope :with_payments, -> {
