@@ -20,24 +20,24 @@ class Paper < ActiveRecord::Base
     if first
       next_level = Level.medium
       next_category = Category.not_passage
-      question_id = paper.subscription.user.get_unseen_question_id(next_level.id, next_category.id, (paper.subscription.plan.name == Plan::FREE_PLAN))
+      question_id = paper.subscription.user.get_unseen_question(next_level.id, next_category.id, (paper.subscription.plan.name == Plan::FREE_PLAN)).id
     else
       if passage_needed?
         # need to fetch a passage
         need_passage_with_four_questions = paper.papers_questions.joins(:question).where("questions.passage_id IS NOT NULL").count == 9
-        passage_id = paper.subscription.user.get_unseen_passage_id(need_passage_with_four_questions)
-        question_id = Passage.find_by_id(passage_id).questions.first.id
+        passage = paper.subscription.user.get_unseen_passage(need_passage_with_four_questions)
+        question_id = passage.questions.first.id
       elsif passage_ends?
         # need to see the next level and next category to determine next question
         next_level = paper.get_next_level
         next_category = paper.get_next_category
-        question_id = paper.subscription.user.get_unseen_question_id(next_level.id, next_category.id, (paper.subscription.plan.name == Plan::FREE_PLAN))
+        question_id = paper.subscription.user.get_unseen_question(next_level.id, next_category.id, (paper.subscription.plan.name == Plan::FREE_PLAN)).id
       elsif inside_passage?
         question_id = paper.papers_questions.last.question.passage.questions[paper.papers_questions.last.question.passage.questions.index(paper.papers_questions.last.question) + 1].id
       else
         next_level = paper.get_next_level
         next_category = paper.get_next_category
-        question_id = paper.subscription.user.get_unseen_question_id(next_level.id, next_category.id, (paper.subscription.plan.name == Plan::FREE_PLAN))
+        question_id = paper.subscription.user.get_unseen_question(next_level.id, next_category.id, (paper.subscription.plan.name == Plan::FREE_PLAN)).id
       end
     end
     question_number = first ? 1 : (paper.papers_questions.last.question_number + 1)

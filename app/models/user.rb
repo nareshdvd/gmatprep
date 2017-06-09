@@ -57,22 +57,33 @@ class User < ActiveRecord::Base
     ")
   end
 
-  def get_unseen_question_id(level_id, category_id, only_free_plan_questions = false)
+  def get_unseen_question(level_id, category_id, only_free_plan_questions = false)
     conditions = "questions.level_id=? AND questions.category_id=? AND questions.marked_for_free_plan = ?"
     values = [level_id, category_id, (only_free_plan_questions ? true : false)]
     user = self
-    return Question.select("questions.id as id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("(users.id IS NULL) OR (users.id != ?)", user.id).where(conditions, *values).first.try(:id)
+    used_question_ids = Question.select("questions.id as id").joins("INNER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("INNER JOIN papers ON papers.id=papers_questions.paper_id").joins("INNER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("INNER JOIN users ON users.id=subscriptions.user_id").where("users.id = ?", user.id).where(conditions, *values).collect(&:id)
+    if used_question_ids.present?
+      unused_question = Question.where("id NOT IN (?)", used_question_ids).first
+    else
+      unused_question = Question.where(conditions, *values).first
+    end
+    return unused_question
   end
 
 
-  def get_unseen_passage_id(need_passage_with_four_questions = false, only_free_plan_questions = false)
+  def get_unseen_passage(need_passage_with_four_questions = false, only_free_plan_questions = false)
     values = []
     conditions = "questions.marked_for_free_plan = ?"
     values << (only_free_plan_questions ? true : false)
     conditions += " #{ (conditions.present? ? 'AND' : '') } passages.question_count = ?"
     values << (need_passage_with_four_questions ? 4 : 3)
     user = self
-    Passage.select("passages.id passage_id, users.id user_id").joins("INNER JOIN questions ON questions.passage_id=passages.id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("(users.id IS NULL) OR (users.id != ?)", user.id).where(conditions, *values).first.try(:id)
+    used_passage_ids = Passage.select("passages.id").joins("INNER JOIN questions ON questions.passage_id=passages.id").joins("INNER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("INNER JOIN papers ON papers.id=papers_questions.paper_id").joins("INNER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("INNER JOIN users ON users.id=subscriptions.user_id").where("users.id = ?", user.id).where(conditions, *values).collect(&:id)
+    if used_passage_ids.present?
+      return Passage.where("id NOT IN (?)", used_passage_ids).first
+    else
+      return Passage.joins(:questions).where(conditions, *values).first
+    end
   end
 
   def in_progress_paper
