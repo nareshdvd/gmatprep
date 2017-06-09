@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
     conditions += " #{ (conditions.present? ? 'AND' : '') } passages.question_count = ?"
     values << (need_passage_with_four_questions ? 4 : 3)
     user = self
-    return Passage.select("passages.id as id").joins("INNER JOIN questions ON questions.passage_id=passages.id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("(users.id IS NULL) OR (users.id != ?)", user.id).where(conditions, *values).first.try(:id)
+    Passage.select("passages.id passage_id, users.id user_id").joins("INNER JOIN questions ON questions.passage_id=passages.id").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("(users.id IS NULL) OR (users.id != ?)", user.id).where(conditions, *values).first.try(:id)
   end
 
   def in_progress_paper
