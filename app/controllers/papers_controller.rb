@@ -1,5 +1,10 @@
 class PapersController < ApplicationController
   load_and_authorize_resource
+  skip_before_action :authenticate_user!, only: [:test]
+  def test
+
+  end
+
   def new
     if (in_progress_paper = current_user.in_progress_paper).blank?
       if (active_subscription = current_user.active_subscription).present?

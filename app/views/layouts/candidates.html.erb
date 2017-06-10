@@ -4,8 +4,8 @@
     <title>Gmatprep</title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <style type="text/css">
-      .candidate-container{
-        margin-top: 20px;
+      .navbar-default {
+        background-color: #fff;
       }
     </style>
     <script>
@@ -14,7 +14,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="">
+  <body class="bg-blue">
     <%= render "shared/navbar" %>
     <div class="container-fluid candidate-container">
       <% if notice || alert %>

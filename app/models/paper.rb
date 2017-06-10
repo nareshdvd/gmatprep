@@ -29,7 +29,7 @@ class Paper < ActiveRecord::Base
     paper = self
     if first
       next_level = Level.medium
-      next_category = Category.not_passage
+      next_category = paper.get_next_category
       question_id = paper.subscription.user.get_unseen_question(next_level.id, next_category.id, (paper.subscription.plan.name == Plan::FREE_PLAN)).id
     else
       if passage_needed?
@@ -113,7 +113,11 @@ class Paper < ActiveRecord::Base
 
   def get_next_category
     # category = Category.where("name != ? AND id != ?", Category::PASSAGE, self.papers_questions.last.question.category_id).first
-    next_question_position = self.papers_questions.joins(:questions).where("questions.passage_id IS NULL AND questions.category_id IN (?)", [1,2]).count
+    next_question_position = self.papers_questions.joins(:question).where("questions.passage_id IS NULL AND questions.category_id IN (?)", [1,2]).count
+    Rails.logger.info "NEXT QUESTION POSITION : #{next_question_position}"
+    category = Category.find_by_id(self.category_scheme[next_question_position])
+    Rails.logger.info "CATEGORY SCHEME : #{self.category_scheme.inspect}"
+    Rails.logger.info "NEXT CATEGORY ID: #{self.category_scheme[next_question_position].inspect}"
     return Category.find_by_id(self.category_scheme[next_question_position])
   end
 

@@ -1,36 +1,67 @@
-<div class="question-box bg-success text-muted padding-20">
+<%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal"} do |f| %>
   <div class="row">
-    <div class="col-sm-12">
-      <b>Level</b> : <b><%= @paper_question.question.level %></b><br/>
+    <div class="col-sm-12 padding-t-5 padding-b-5">
+      <b class="color-white padding-l-5">Test Exam 1</b>
+      <b>Level</b> : <b><%= @paper_question.question.level %></b>
       <b>Category</b> : <b><%= @paper_question.question.category %></b>
     </div>
   </div>
-  <% if @paper_question.passage_question? %>
-    <p>
-      <%= @paper_question.question.passage.description.html_safe %>
-    </p>
-  <% end %>
-  <p>
-    <%= @paper_question.question.question_text.html_safe %>
-  </p>
-  <div class="option-box">
-    <%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal"} do |f| %>
-      <div class="form-group">
-        <div class="col-sm-12">
-          <% @paper_question.question.options.each do |option| %>
-            <div class="row margin-b-10">
-              <div class="col-sm-12">
-                <%= f.radio_button :option_id, option.id %><b class="padding-l-20"><%= option.description.html_safe %></b>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="bg-light-blue padding-5">
+        <a class="btn btn-sm btn-primary" href="#">Check Answer</a>
+        <a class="btn btn-sm btn-primary" href="#">Show Answer</a>
+        <a class="btn btn-sm btn-primary pull-right" href="#">Flag for review</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="bg-white padding-l-10 padding-r-10" style="min-height: 460px;">
+        <div class="row">
+          <div class="col-sm-12">
+            <% if @paper_question.passage_question? %>
+              <p>
+                <%= @paper_question.question.passage.description.html_safe %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <p>
+              <%= @paper_question.question.question_text.html_safe %>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <% @paper_question.question.options.each do |option| %>
+                      <div class="form-group">
+                        <label class="radio">
+                          <%= f.radio_button :option_id, option.id %><%= option.description.html_safe %>
+                        </label>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
               </div>
             </div>
-          <% end %>
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-sm-12">
-          <button type="submit" class="btn btn-sumit">Next</button>
-        </div>
-      </div>
-    <% end %>
+    </div>
   </div>
-</div>
+  <div class="row" style="bottom: 0px;">
+    <div class="col-sm-12">
+      <div class="bg-light-blue padding-5">
+        <a class="btn btn-sm btn-primary" href="#">Help</a>
+        <button type="submit" class="btn btn-sm btn-primary pull-right">Next</button>
+      </div>
+    </div>
+  </div>
+<% end %>
