@@ -1,6 +1,8 @@
 class Category < ActiveRecord::Base
   extend CommonToModel
   has_many :questions
+  SENTENCE_CORRECTION = "Sentence Correction"
+  CRITICAL_REASONING = "Critial Reasoning"
   PASSAGE = "Passage"
   def self.index_columns
     {

@@ -63,10 +63,11 @@ class User < ActiveRecord::Base
     user = self
     used_question_ids = Question.select("questions.id as id").joins("INNER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("INNER JOIN papers ON papers.id=papers_questions.paper_id").joins("INNER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("INNER JOIN users ON users.id=subscriptions.user_id").where("users.id = ?", user.id).where(conditions, *values).collect(&:id)
     if used_question_ids.present?
-      unused_question = Question.where(conditions, *values).where("questions.id NOT IN (?)", used_question_ids).first
+      unused_question = Question.where(conditions, *values).where("questions.id NOT IN (?)", used_question_ids).order("used_in_free_plan DESC").first
     else
-      unused_question = Question.where(conditions, *values).first
+      unused_question = Question.where(conditions, *values).order("used_in_free_plan DESC").first
     end
+    unused_question.set_used_in_free_plan if !unused_question.used_in_free_plan
     return unused_question
   end
 
@@ -80,10 +81,12 @@ class User < ActiveRecord::Base
     user = self
     used_passage_ids = Passage.select("passages.id").joins("INNER JOIN questions ON questions.passage_id=passages.id").joins("INNER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("INNER JOIN papers ON papers.id=papers_questions.paper_id").joins("INNER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("INNER JOIN users ON users.id=subscriptions.user_id").where("users.id = ?", user.id).where(conditions, *values).collect(&:id)
     if used_passage_ids.present?
-      return Passage.joins(:questions).where(conditions, *values).where("passages.id NOT IN (?)", used_passage_ids).first
+      passage = Passage.joins(:questions).where(conditions, *values).where("passages.id NOT IN (?)", used_passage_ids).order("questions.used_in_free_plan DESC").first
     else
-      return Passage.joins(:questions).where(conditions, *values).first
+      passage = Passage.joins(:questions).where(conditions, *values).order("questions.used_in_free_plan DESC").first
     end
+    passage.questions.update_all({used_in_free_plan: true}) if !passage.questions.select("questions.used_in_free_plan").first.used_in_free_plan
+    return passage
   end
 
   def in_progress_paper

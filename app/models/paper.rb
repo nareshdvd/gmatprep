@@ -3,6 +3,16 @@ class Paper < ActiveRecord::Base
   has_many :papers_questions
   MINUTES = 75
   QUESTION_COUNT = 41
+  serialize :category_scheme, JSON
+  before_create :set_category_scheme
+
+
+  def set_category_scheme
+    arr = []
+    14.times{ arr << 1}
+    14.times{ arr << 2}
+    self.category_scheme = arr.shuffle
+  end
 
   def current_question
     if (paper_question = self.papers_questions.last).blank?
@@ -102,7 +112,9 @@ class Paper < ActiveRecord::Base
   end
 
   def get_next_category
-    category = Category.where("name != ? AND id != ?", Category::PASSAGE, self.papers_questions.last.question.category_id).first
+    # category = Category.where("name != ? AND id != ?", Category::PASSAGE, self.papers_questions.last.question.category_id).first
+    next_question_position = self.papers_questions.joins(:questions).where("questions.passage_id IS NULL AND questions.category_id IN (?)", [1,2]).count
+    return Category.find_by_id(self.category_scheme[next_question_position])
   end
 
   def next_question_number

@@ -22,4 +22,9 @@ class Question < ActiveRecord::Base
       'destroy' => ['Destroy', 'question_path', :delete]
     }
   end
+
+  def set_used_in_free_plan
+    self.used_in_free_plan = true
+    self.save
+  end
 end
