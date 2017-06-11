@@ -1,10 +1,27 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+p, span{
+  line-height: 2 !important;
+}
+
+p[style], span[style], ul[style], li[style], div[style]{
+  font-size: 12px !important;
+  font-family: 'Tahoma','sans-serif' !important;
+}
+
 .accordion-control{
   cursor: pointer;
 }
+
+.bold{
+  font-weight: bold;
+}
+
 body, html {
   height: 100%;
+  font-size: 12px !important;
+  font-family: 'Tahoma','sans-serif' !important;
 }
 .unselectable {
   -webkit-touch-callout: none;
@@ -156,4 +173,8 @@ label{
 
 .btn{
   border-radius: 0;
+}
+
+.form-group{
+  margin-bottom: 5px !important;
 }

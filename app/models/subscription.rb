@@ -66,7 +66,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def in_progress_paper
-    if (paper = self.papers.where("start_time IS NULL OR finish_time IS NULL OR (DATE_ADD(start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW())").last).present? && (paper.papers_questions.count.zero? || (paper.papers_questions.count < Paper::QUESTION_COUNT) || (paper.last_question_unanswered?))
+    if (paper = self.papers.where("start_time IS NULL OR finish_time IS NOT NULL OR (DATE_ADD(start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW())").last).present? && (paper.papers_questions.count.zero? || (paper.papers_questions.count < Paper::QUESTION_COUNT) || (paper.last_question_unanswered?))
       return paper
     else
       return nil

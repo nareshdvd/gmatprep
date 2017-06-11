@@ -67,3 +67,24 @@ $(document).on("submit", ".paypal-form", function(e){
     }
   })
 });
+
+function set_time(){
+  var seconds = seconds_elapsed;
+  var minutes = parseInt(seconds / 60);
+  var hours = parseInt(minutes / 60);
+  var sec = 0;
+  if(hours == 0){
+    sec = seconds - (minutes * 60);
+  }else{
+    minutes = minutes - (hours * 60);
+    sec = seconds - (minutes * 60) - (hours * 60 * 60);
+  }
+  var ssec = sec <= 9 ? "0" + sec.toString() : sec.toString();
+  var smin = minutes <= 9 ? "0" + minutes.toString() : minutes.toString();
+  var shour = hours <= 9 ? "0" + hours.toString() : hours.toString();
+  seconds_elapsed = seconds_elapsed - 1;
+  $("#timer").html(shour + ":" + smin + ":" + ssec);
+  if(seconds_elapsed == -1){
+    clearInterval(window.timer_interval)
+  }
+}

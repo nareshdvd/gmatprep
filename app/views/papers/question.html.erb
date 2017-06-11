@@ -1,61 +1,51 @@
-<%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal"} do |f| %>
+<script type="text/javascript">
+  var seconds_elapsed = parseInt("<%= (@paper_question.paper.start_time + (Paper::MINUTES).minutes) - Time.now %>");
+  $(document).on('load turbolinks:load', function(){
+    if($(".candidate-question-form").length != 0){
+      window.timer_interval = setInterval(function(){set_time()}, 1000);
+    }
+  });
+</script>
+<%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form"} do |f| %>
   <div class="row">
-    <div class="col-sm-12 padding-t-5 padding-b-5">
-      <b class="color-white padding-l-5">Test Exam 1</b>
-      <b>Level</b> : <b><%= @paper_question.question.level %></b>
-      <b>Category</b> : <b><%= @paper_question.question.category %></b>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="bg-light-blue padding-5">
-        <a class="btn btn-sm btn-primary" href="#">Check Answer</a>
-        <a class="btn btn-sm btn-primary" href="#">Show Answer</a>
-        <a class="btn btn-sm btn-primary pull-right" href="#">Flag for review</a>
+    <div class="col-sm-12 padding-t-5 padding-b-5 color-white">
+      <b class="color-white padding-l-5 pull-left">Test Exam 1</b>
+      <div class="pull-right">
+        <b>Level</b> : <b><%= @paper_question.question.level %></b>
+        <b>Category</b> : <b><%= @paper_question.question.category %></b>
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row bold color-white">
     <div class="col-sm-12">
-      <div class="bg-white padding-l-10 padding-r-10" style="min-height: 460px;">
+      <div class="bg-light-blue container-fluid">
         <div class="row">
-          <div class="col-sm-12">
-            <% if @paper_question.passage_question? %>
-              <p>
-                <%= @paper_question.question.passage.description.html_safe %>
-              </p>
-            <% end %>
+          <div class="col-sm-6">
+            <div class="pull-left">
+              <span>
+                Question <%= @paper_question.question_number %> of <%= Paper::QUESTION_COUNT%>
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <p>
-              <%= @paper_question.question.question_text.html_safe %>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="form-group">
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <% @paper_question.question.options.each do |option| %>
-                      <div class="form-group">
-                        <label class="radio">
-                          <%= f.radio_button :option_id, option.id %><%= option.description.html_safe %>
-                        </label>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
+          <div class="col-sm-6">
+            <div class="pull-right">
+              <span style="">
+                Time Reamining
+              </span>
+              <span id="timer" style="">
+                <%= @paper_question.paper.formatted_remaining_time %>
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <% if @paper_question.passage_question? %>
+    <%= render partial: "papers/passage_question", locals: {f: f} %>
+  <% else %>
+    <%= render partial: "papers/question", locals: {f: f} %>
+  <% end %>
   <div class="row" style="bottom: 0px;">
     <div class="col-sm-12">
       <div class="bg-light-blue padding-5">

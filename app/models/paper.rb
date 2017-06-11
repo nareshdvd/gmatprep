@@ -128,4 +128,20 @@ class Paper < ActiveRecord::Base
   def questions_finished
     current_question.question_number == QUESTION_COUNT
   end
+
+  def remaining_seconds
+    (self.start_time + (Paper::MINUTES).minutes) - Time.now
+  end
+
+  def formatted_remaining_time
+    minutes = (remaining_seconds / 60).to_i
+    hours = (minutes / 60).to_i
+    if hours == 0
+      seconds = remaining_seconds - (minutes * 60)
+    else
+      minutes = minutes - (hours * 60);
+      seconds = remaining_seconds - (minutes * 60) - (hours * 60 * 60)
+    end
+    "%02d" % hours + ":" + "%02d" % minutes + ":" + "%02d" % seconds
+  end
 end
