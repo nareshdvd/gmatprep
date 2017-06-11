@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   end
 
   def testing
-    render text: "Kar le bhai man ki tu bhi ==> Chor Chor"
+    render text: (Error.first.try(:error_message) || "Kar le bhai man ki tu bhi ==> Chor Chor")
   end
 
   def generate_payment
