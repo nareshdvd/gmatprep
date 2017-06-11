@@ -1,7 +1,12 @@
 class HomeController < ApplicationController
+  skip_before_filter :authenticate_user!, only: [:testing]
   def index
     admin_dashboard if current_user.is_admin?
     candidate_dashboard if current_user.is_candidate?
+  end
+
+  def testing
+    render text: "Kar le bhai man ki tu bhi ==> Chor Chor"
   end
 
   def generate_payment
