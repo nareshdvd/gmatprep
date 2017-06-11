@@ -1,8 +1,8 @@
 class Subscription < ActiveRecord::Base
   belongs_to :plan
   belongs_to :user
-  has_many :papers
-  has_many :payments
+  has_many :papers, dependent: :destroy
+  has_many :payments, dependent: :destroy
   # before_create :activate_subscription
   # after_create :deactivate_users_other_subscriptions
   after_create :create_payment

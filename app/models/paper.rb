@@ -1,6 +1,6 @@
 class Paper < ActiveRecord::Base
   belongs_to :subscription
-  has_many :papers_questions
+  has_many :papers_questions, dependent: :destroy
   MINUTES = 75
   QUESTION_COUNT = 41
   serialize :category_scheme, JSON

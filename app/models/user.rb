@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   has_and_belongs_to_many :roles
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
   after_create :assign_candidate_role_to_user, if: Proc.new{|user| !user.is_admin? }
   after_create :subscribe_for_free_plan, if: Proc.new{|user| !user.is_admin? }
 
