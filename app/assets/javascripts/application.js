@@ -16,6 +16,7 @@
 //= require tinymce
 //= require jquery
 //= require bootstrap-sprockets
+//= require bootbox
 //= require_tree .
 
 $(document).on("ready", function(){
@@ -66,6 +67,20 @@ $(document).on("submit", ".paypal-form", function(e){
       }
     }
   })
+});
+
+$(document).on("submit", ".candidate-question-form", function(e){
+  e.preventDefault();
+  var $form = $(this);
+  if($form.find("input[type='radio']:checked").length != 0){
+    $form[0].submit();
+  }else{
+    bootbox.alert({
+      size: "small",
+      message: "Please select one of the options",
+      className: "alert alert-danger"
+    });
+  }
 });
 
 function set_time(){

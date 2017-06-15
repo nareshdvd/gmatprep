@@ -14,9 +14,9 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="bg-blue">
+  <body class="height-100">
     <%= render "shared/navbar" %>
-    <div class="container-fluid candidate-container">
+    <div class="container-fluid candidate-container height-100" >
       <% if notice || alert %>
         <div class="row">
           <div class="col-sm-12">
@@ -29,11 +29,7 @@
           </div>
         </div>
       <% end %>
-      <div class="row">
-        <div class="col-sm-12">
-          <%= yield %>
-        </div>
-      </div>
+      <%= yield %>
     </div>
   </body>
 </html>

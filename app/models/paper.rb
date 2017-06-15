@@ -51,7 +51,7 @@ class Paper < ActiveRecord::Base
       end
     end
     question_number = first ? 1 : (paper.papers_questions.last.question_number + 1)
-    paper_question = paper.papers_questions.create(question_id: question_id, question_number: question_number)
+    paper_question = paper.papers_questions.create(question_id: question_id, question_number: question_number, start_time: Time.now)
   end
 
   def passage_needed?

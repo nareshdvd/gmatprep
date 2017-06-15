@@ -59,6 +59,7 @@ class PapersController < ApplicationController
       redirect_to root_path, notice: "Test not found"
     elsif (last_question = in_progress_paper.papers_questions.last).unanswered?
       @paper_question = last_question
+      @paper_question.finish_time = Time.now
       @paper_question.update_attributes(answer_params)
       if @paper_question.question_number < Paper::QUESTION_COUNT
         redirect_to papers_question_path(in_progress_paper.add_question().question_number)
