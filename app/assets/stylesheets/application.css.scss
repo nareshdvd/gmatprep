@@ -18,11 +18,11 @@
   width: 100%;
 }
 p, span{
-  line-height: 2 !important;
+  line-height: 1.5 !important;
 }
 
 p[style], span[style], ul[style], li[style], div[style]{
-  font-size: 12px !important;
+  font-size: 13px !important;
   font-family: 'Tahoma','sans-serif' !important;
 }
 
@@ -190,6 +190,19 @@ body, html {
 .border-r-20{
   border-right: 20px solid;
 }
+
+.border-l-40{
+  border-left: 40px solid;
+}
+
+.border-r-40{
+  border-right: 40px solid;
+}
+
+.border-b-60{
+  border-bottom: 60px solid;
+}
+
 .border-color-blue{
   border-color: #07889B;
 }

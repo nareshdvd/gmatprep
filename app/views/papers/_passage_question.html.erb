@@ -1,15 +1,15 @@
-<div class="row height-100" style="padding-top: 61px;">
-  <div class="col-sm-6 height-100" style="border-right: 20px solid #66B9BF; overflow: scroll;">
+<div class="row height-100" style="padding-top: 56px;">
+  <div class="col-sm-6 col-xs-6 col-md-6 height-100" style="border-right: 20px solid #66B9BF; overflow-y: scroll;">
     <%= @paper_question.question.passage.description.html_safe %>
   </div>
-  <div class="col-sm-6 height-100" style="padding-left: 30px; overflow: scroll;">
+  <div class="col-sm-6 col-xs-6 col-md-6 height-100" style="padding-left: 30px; overflow-y: scroll;">
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12 col-xs-12 col-md-12">
         <%= @paper_question.question.question_text.html_safe %>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12 col-xs-12 col-md-12">
         <% @paper_question.question.options.each do |option| %>
           <div class="form-group">
             <label class="radio-inline">

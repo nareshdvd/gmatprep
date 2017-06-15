@@ -8,9 +8,9 @@
 </script>
 <%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
   <div class="row height-100">
-    <div class="col-sm-12 height-100 border-color-blue border-20 padding-t-30">
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 40px;">
-        <div class="col-sm-12 bg-blue color-white padding-5">
+    <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-20 border-l-40 border-r-40 border-b-60 padding-t-30">
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 80px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
           <b class="color-white pull-left">Test Exam 1</b>
           <div class="pull-right">
             <b>Level</b> : <b><%= @paper_question.question.level %></b>
@@ -18,17 +18,17 @@
           </div>
         </div>
       </div>
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 40px; margin-top: 27px;">
-        <div class="col-sm-12 bg-light-blue color-white padding-5">
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 80px; margin-top: 27px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-xs-6 col-md-6">
               <div class="pull-left">
                 <span>
                   Question <%= @paper_question.question_number %> of <%= Paper::QUESTION_COUNT%>
                 </span>
               </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-xs-6 col-md-6">
               <div class="pull-right">
                 <span style="">
                   Time Reamining
@@ -46,8 +46,8 @@
       <% else %>
         <%= render partial: "papers/question", locals: {f: f} %>
       <% end %>
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 40px; margin-top: 27px; bottom: 20px;">
-        <div class="col-sm-12 bg-light-blue color-white padding-5">
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 80px; margin-top: 27px; bottom: 20px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
           <div class="bg-light-blue">
             <button type="submit" class="btn btn-sm btn-primary pull-right">Next</button>
           </div>

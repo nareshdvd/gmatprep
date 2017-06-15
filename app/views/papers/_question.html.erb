@@ -1,13 +1,13 @@
-<div class="row height-100" style="padding-top: 61px;">
-  <div class="col-sm-12 height-100" style="overflow: scroll;">
+<div class="row height-100" style="padding-top: 56px;">
+  <div class="col-sm-12 col-xs-12 col-md-12 height-100" style="overflow-y: scroll;">
     <div class="bg-white">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12">
           <%= @paper_question.question.question_text.html_safe %>
         </div>
       </div>
       <div class="row" style="margin-left: 0px;">
-        <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12">
           <% @paper_question.question.options.each do |option| %>
             <div class="form-group">
               <label class="radio-inline">
