@@ -1,0 +1,40 @@
+<div class="padding-t-50">
+  Your Score is <%= @paper.calculate_score %>
+</div>
+<table width="100%" border="1">
+  <tr>
+    <td>
+      Easy
+    </td>
+    <td>
+      Medium
+    </td>
+    <td>
+      Hard
+    </td>
+  </tr>
+  <tr>
+    <% data = @paper.get_incorrect_answers_count %>
+    <td><%= data[1].present? ? data[1] : 0 %></td>
+    <td><%= data[2].present? ? data[2] : 0 %></td>
+    <td><%= data[3].present? ? data[3] : 0 %></td>
+  </tr>
+</table>
+<table width="100%" border="1">
+  <%  @paper.papers_questions.each do |paper_question| %>
+    <tr>
+      <td border="1">
+        <%= paper_question.question.question_text.html_safe %>
+      </td>
+      <td>
+        <% paper_question.question.options.each do |option| %>
+          <div style="padding-bottom: 4px; border-bottom: 1px solid;">
+            <div><b><%= option.correct ? "Correct" : "" %></b></div>
+            <div><b><%= paper_question.option_id == option.id ? "Your Answer" : "" %></b></div>
+            <div><%= option.description.html_safe %></div>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
