@@ -19,7 +19,13 @@
 //= require bootbox
 //= require_tree .
 
-$(document).on("ready", function(){
+$(document).on('load turbolinks:load', function(){
+  $("p").each(function(){
+    var $p = $(this);
+    if($p.text() == ""){
+      $p.remove();
+    }
+  });
   $(".nested-form-fields").find("input, select, textarea, select").each(function(){
     var name = $(this).attr("name");
     var regexp = /\[\d+\]/;

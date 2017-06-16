@@ -14,6 +14,27 @@ class Paper < ActiveRecord::Base
     self.category_scheme = arr.shuffle
   end
 
+  def get_incorrect_answers_count
+    papers_questions.joins(question: :options).where("papers_questions.option_id=options.id AND options.correct = ?", false).group("questions.level_id").count
+  end
+
+  def get_deductions
+    deductions = 0
+    get_incorrect_answers_count.each do |level, incorrect_count|
+      deductions += (Level::SCORE[level] * incorrect_count).ceil
+    end
+    return deductions
+  end
+
+  def calculate_score
+    deductions = get_deductions
+    if (score_scheme = ScoreScheme.find_by(deduction: deductions)).present?
+      return score_scheme.score
+    else
+      return 5
+    end
+  end
+
   def current_question
     if (paper_question = self.papers_questions.last).blank?
       paper_question = self.add_question(true)

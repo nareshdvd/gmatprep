@@ -22,8 +22,8 @@ p, span{
 }
 
 p[style], span[style], ul[style], li[style], div[style]{
-  font-size: 13px !important;
-  font-family: 'Tahoma','sans-serif' !important;
+  font-size: 15px !important;
+  font-family: Tahoma !important;
 }
 
 .accordion-control{
@@ -34,10 +34,11 @@ p[style], span[style], ul[style], li[style], div[style]{
   font-weight: bold;
 }
 
+
 body, html {
   height: 100%;
-  font-size: 12px !important;
-  font-family: 'Tahoma','sans-serif' !important;
+  font-size: 15px !important;
+  font-family: Tahoma !important;
 }
 .unselectable {
   -webkit-touch-callout: none;
@@ -197,6 +198,14 @@ body, html {
 
 .border-r-40{
   border-right: 40px solid;
+}
+
+.border-l-150{
+  border-left: 150px solid;
+}
+
+.border-r-150{
+  border-right: 150px solid;
 }
 
 .border-b-60{

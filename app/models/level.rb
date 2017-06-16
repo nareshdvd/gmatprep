@@ -8,6 +8,11 @@ class Level < ActiveRecord::Base
     2 => MEDIUM,
     3 => HARD
   }
+  SCORE = {
+    1 => 2,
+    2 => 1.5,
+    3 => 1
+  }
   has_many :questions
   def self.index_columns
     {
