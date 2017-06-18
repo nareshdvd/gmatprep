@@ -1,6 +1,11 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+
+.form-horizontal .radio-inline{
+  padding-top: 0px;
+}
+
 .outline-1{
   outline: 1px solid #fff;
 }
@@ -19,6 +24,7 @@
 }
 p, span{
   line-height: 1.5 !important;
+  margin: 0px;
 }
 
 p[style], span[style], ul[style], li[style], div[style]{
@@ -214,6 +220,14 @@ body, html {
   border-right: 150px solid;
 }
 
+.border-l-100{
+  border-left: 100px solid;
+}
+
+.border-r-100{
+  border-right: 100px solid;
+}
+
 .border-b-60{
   border-bottom: 60px solid;
 }
@@ -235,5 +249,5 @@ label{
 }
 
 .form-group{
-  margin-bottom: 5px !important;
+  margin-bottom: 2px !important;
 }

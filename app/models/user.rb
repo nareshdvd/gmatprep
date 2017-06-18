@@ -5,6 +5,11 @@ class User < ActiveRecord::Base
   after_create :assign_candidate_role_to_user, if: Proc.new{|user| !user.is_admin? }
   after_create :subscribe_for_free_plan, if: Proc.new{|user| !user.is_admin? }
 
+
+  def is_manish?
+    self.email == 'manishtestgmprep@gmp.com'
+  end
+
   def mark_for_admin_role
     @marked_for_admin = true
   end
