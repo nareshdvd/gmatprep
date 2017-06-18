@@ -1,4 +1,5 @@
-class ReportsController < ActionController::Base
+class ReportsController < ApplicationController
+
   def index
     paper_id = params[:paper_id]
     @paper = Paper.find_by(id: paper_id)
@@ -9,5 +10,10 @@ class ReportsController < ActionController::Base
         format.html
       end
     end
+  end
+
+  def charts
+    paper_id = params[:paper_id]
+    @paper = Paper.find_by(id: paper_id)
   end
 end

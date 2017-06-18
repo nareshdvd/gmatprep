@@ -7,6 +7,24 @@ class Paper < ActiveRecord::Base
   before_create :set_category_scheme
 
 
+  def get_chart_data
+    data = {}
+    paper = self
+    paper.papers_questions.preload(question: :level).collect{|pqs| pqs.question.level.id}.each_with_index do |level_id, inx|
+      data[inx] = {level_id: level_id}
+      if inx != 0
+        if level_id < data[inx - 1][:level_id]
+          data[inx][:val] = data[inx - 1][:val] - 0.7
+        else
+          data[inx][:val] = data[inx - 1][:val] + 0.5
+        end
+      else
+        data[inx][:val] = level_id
+      end
+    end
+    return data.collect{|inx, dt| dt[:val]}
+  end
+
   def set_category_scheme
     arr = []
     14.times{ arr << 1}

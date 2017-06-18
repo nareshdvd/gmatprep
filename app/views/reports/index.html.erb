@@ -1,5 +1,6 @@
 <div class="padding-t-50">
   Your Score is <%= @paper.calculate_score %>
+  <%= link_to "Graphs", report_charts_path(@paper.id), target: "_blank" %>
 </div>
 <table width="100%" border="1">
   <tr>
