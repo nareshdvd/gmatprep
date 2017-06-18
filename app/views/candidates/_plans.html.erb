@@ -1,5 +1,5 @@
 <% if @subscription %>
-  <%= bootstrap_row do %>
+  <%= bootstrap_row("padding-t-50") do %>
     <%= bootstrap_col(6) do %>
       <div class="plan-name"><%= current_user.free_subscription.plan.name %></div>
       <div class="plan-description">

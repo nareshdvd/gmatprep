@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   resources :levels
   resources :questions
   resources :passages
-
+  get 'score_schemes' => 'score_schemes#index', as: 'index_score_schemes'
+  post 'score_schemes' => 'score_schemes#update_all', as: 'update_score_schemes'
   get 'papers/new', as: "new_test"
   get 'papers/test', as: "test"
   get '/test/questions/:question_number' => "papers#question", as: "papers_question"

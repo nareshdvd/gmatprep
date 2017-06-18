@@ -1,0 +1,52 @@
+<div class="row padding-t-50">
+  <div class="col-sm-12 padding-t-20">
+    <%= simple_form_for :score_scheme, url: update_score_schemes_path, type: "post" do |f| %>
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="btn btn-success btn-xs" type="button" onclick="$(this).closest('form').find('table').find('tbody').prepend($(this).closest('form').find('table').find('tbody tr.inuse:first').clone()); $(this).closest('form').find('table').find('tbody').find('tr.inuse:first input[type=\'text\']').val(''); $(this).closest('form').find('table').find('tbody').find('tr.inuse:first input[type=\'hidden\']').val('');">
+            Add New
+          </button>
+          <button class="btn btn-success btn-xs" type="submit">
+            Save
+          </button>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped margin-t-10 margin-b-10">
+        <thead>
+          <tr>
+            <td>Deduction</td>
+            <td>Score</td>
+            <td>Delete</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @score_schemes.each_with_index do |score_scheme, inx| %>
+            <tr class="score_scheme_tr inuse">
+              <td>
+                <input type="hidden" name="score_scheme[][id]" value="<%= score_scheme.id %>"/>
+                <input type="text" name="score_scheme[][deduction]" value="<%= score_scheme.deduction %>"/>
+              </td>
+              <td>
+                <input type="text" name="score_scheme[][score]" value="<%= score_scheme.score %>"/>
+              </td>
+              <td>
+                <button class="btn btn-xs btn-danger" onclick="$(this).closest('td').find('input[type=\'checkbox\']').prop('checked', true); $(this).closest('tr').removeClass('inuse').hide();" type="button">Delete</button>
+                <input type="checkbox" name="score_scheme[][_destroy]" value="1" style="display: none;" />
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-success btn-xs" onclick="$(this).closest('form').find('table').find('tbody').prepend($(this).closest('form').find('table').find('tbody tr.inuse:last').clone()); $(this).closest('form').find('table').find('tbody').find('tr.inuse:last input[type=\'text\']').val(''); $(this).closest('form').find('table').find('tbody').find('tr.inuse:last input[type=\'hidden\']').val('');">
+            Add New
+          </button>
+          <button type="submit" class="btn btn-success btn-xs">
+            Save
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -5,8 +5,8 @@ module ApplicationHelper
     return link_to action_info[0], send(object_klass.get_action_url_function(action_name), *url_params), method: (action_info[2].blank? ? :get : action_info[2]), class: html[:class]
   end
 
-  def bootstrap_row
-    content_tag(:div, class: "row") do
+  def bootstrap_row(extra_classes="")
+    content_tag(:div, class: "row #{extra_classes}") do
       yield
     end
   end
