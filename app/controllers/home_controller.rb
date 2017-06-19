@@ -32,6 +32,31 @@ class HomeController < ApplicationController
     # end
   end
 
+  def index_users
+    @users = User.all
+    respond_to do |format|
+      if !current_user.is_admin?
+        format.html {redirect_to root_path}
+      else
+        format.html {render "candidates/index"}
+      end
+    end
+  end
+
+  def destroy_papers
+    respond_to do |format|
+      if !current_user.is_admin?
+        format.html {redirect_to root_path}
+      else
+        user = User.find_by_id(params[:candidate_id])
+        user.subscriptions.each do |sbs|
+          sbs.papers.destroy_all
+        end
+        format.html {redirect_to root_path}
+      end
+    end
+  end
+
   private
   def admin_dashboard
     render "admins/dashboard"
