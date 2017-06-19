@@ -13,7 +13,7 @@ class ScoreSchemesController < ApplicationController
             ScoreScheme.where(id: score_scheme_params[:id]).first.update_attributes(score_scheme_params.except(:id))
           end
         elsif score_scheme_params[:_destroy].blank?
-          ScoreScheme.create(deduction: score_scheme_params[:deduction], score: score_scheme_params[:score])
+          ScoreScheme.create(deduction: score_scheme_params[:deduction], score: score_scheme_params[:score], score_percentile: score_scheme_params[:score_percentile])
         end
       end
       format.html {redirect_to index_score_schemes_path}
@@ -24,6 +24,6 @@ class ScoreSchemesController < ApplicationController
 
   def scheme_update_params
     params.require :score_scheme
-    params.permit score_scheme: [:id, :deduction, :score, :_destroy]
+    params.permit score_scheme: [:id, :deduction, :score, :score_percentile, :_destroy]
   end
 end

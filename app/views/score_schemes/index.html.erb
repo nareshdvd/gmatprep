@@ -16,6 +16,7 @@
           <tr>
             <td>Deduction</td>
             <td>Score</td>
+            <td>Percentile</td>
             <td>Delete</td>
           </tr>
         </thead>
@@ -28,6 +29,9 @@
               </td>
               <td>
                 <input type="text" name="score_scheme[][score]" value="<%= score_scheme.score %>"/>
+              </td>
+              <td>
+                <input type="text" name="score_scheme[][score_percentile]" value="<%= score_scheme.score_percentile %>"/>
               </td>
               <td>
                 <button class="btn btn-xs btn-danger" onclick="$(this).closest('td').find('input[type=\'checkbox\']').prop('checked', true); $(this).closest('tr').removeClass('inuse').hide();" type="button">Delete</button>
