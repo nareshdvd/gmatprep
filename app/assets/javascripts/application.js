@@ -17,6 +17,7 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require bootbox
+//= require moment
 //= require_tree .
 
 $(document).on('load turbolinks:load', function(){

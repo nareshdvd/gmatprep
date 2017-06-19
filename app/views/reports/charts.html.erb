@@ -1,18 +1,149 @@
 <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" %>
+<div class="row border-b-1 border-color-light-gray" style="margin-top: 50px;">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="font-34">Verbal Section Performance</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 padding-t-50">
+        <div>
+          <div class="font-28">Your overall verbal score</div>
+          <div class="font-28 bold">
+            <%= @paper.calculate_score %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <canvas id="bar_chart" width="400" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row border-b-1 border-color-light-gray" style="margin-top: 10px;">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="font-34">Sub-section time management</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 padding-t-20">
+        <div class="font-28">Critical Reasoning</div>
+        <div class="font-28">Reading Comprehension</div>
+        <div class="font-28">Sentence Correction</div>
+      </div>
+      <div class="col-sm-6">
+        <canvas id="sub_section_time_management" width="400" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row border-b-1 border-color-light-gray" style="margin-top: 10px;">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="font-34">Percent Correct</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 padding-t-20">
+        <div class="font-28">Percent of Questions Correct/Incorrect</div>
+      </div>
+      <div class="col-sm-6">
+        <canvas id="percent_correct_incorrect" width="400" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <div class="row padding-t-50">
   <div class="col-sm-12">
-    <canvas id="myChart" width="400" height="100"></canvas>
+    <canvas id="progress_chart" width="400" height="100"></canvas>
   </div>
 </div>
 <script>
-  var ctx = document.getElementById("myChart");
-  var myChart = new Chart(ctx, {
+  var ctx_progress_chart = document.getElementById("progress_chart");
+  var progress_chart = new Chart(ctx_progress_chart, {
     type: 'line',
     data: {
       labels: JSON.parse("<%=raw @paper.papers_questions.collect(&:question_number).to_json %>"),
       datasets: [{
           label: 'Your progress',
           data: JSON.parse("<%=raw @paper.get_chart_data.to_json %>"),
+          backgroundColor: [
+              'rgba(255, 255, 255, 1)',
+              'rgba(255, 255, 255, 1)',
+              'rgba(255, 255, 255, 1)',
+              'rgba(255, 255, 255, 1)',
+              'rgba(255, 255, 255, 1)',
+              'rgba(255, 255, 255, 1)',
+          ],
+          borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1,
+          cubicInterpolationMode: 'monotone',
+          pointRadius: 0
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Progress'
+            },
+            ticks: {
+              beginAtZero: true,
+              display: false
+            }
+          }
+        ],
+        xAxes: [
+          {
+            gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Questions'
+            },
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        ]
+      }
+    }
+  });
+  var ctx_bar_chart = document.getElementById("bar_chart");
+  var bar_chart = new Chart(ctx_bar_chart, {
+    type: 'horizontalBar',
+    data: {
+      labels: [""],
+      datasets: [{
+          label: 'Percentile',
+          data: [<%= @paper.percentile %>, 100],
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -29,43 +160,259 @@
               'rgba(153, 102, 255, 1)',
               'rgba(255, 159, 64, 1)'
           ],
-          borderWidth: 1,
-          cubicInterpolationMode: 'monotone',
-          pointRadius: 0
+          borderWidth: 1
       }]
-  },
-  options: {
-    scales: {
-      yAxes: [
-        {
+    },
+    options: {
+      scales: {
+        yAxes: [{
           gridLines: {
             color: "rgba(0, 0, 0, 0)",
           },
-          scaleLabel: {
-            display: true,
-            labelString: 'Progress'
-          },
-          ticks: {
-            beginAtZero:true,
-            display: false
+          barPercentage : 0.25,
+        }],
+        xAxes: [
+          {
+            gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+            },
+            ticks: {
+              beginAtZero:true
+            }
           }
+        ]
+      },
+      animation: {
+        duration: 6,
+        onComplete: function () {
+          var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+          ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+
+          this.data.datasets.forEach(function (dataset, i) {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            meta.data.forEach(function (bar, index) {
+              var data = dataset.data[index];
+              ctx.fillText(data, bar._model.x + 10, bar._model.y + 7);
+            });
+          });
         }
-      ],
-      xAxes: [
-        {
+      }
+    }
+  });
+
+  var ctx_sub_section_time_management = document.getElementById("sub_section_time_management");
+  var data = JSON.parse('<%= raw @paper.get_time_info.to_json %>');
+  $.each(data, function(inx){
+    data[inx] = moment(data[inx]);
+  });
+  var sub_section_time_management = new Chart(ctx_sub_section_time_management, {
+    type: 'horizontalBar',
+    data: {
+      labels: ["", "", "", ""],
+      datasets: [{
+          label: 'Average Time',
+          data: data,
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+      }]
+    },
+    options: {
+      tooltips: {
+        enabled: false
+      },
+      scales: {
+        yAxes: [{
+          barPercentage : 1,
+          time: {
+            unit: 'minute'
+          },
           gridLines: {
             color: "rgba(0, 0, 0, 0)",
-          },
-          scaleLabel: {
-            display: true,
-            labelString: 'Questions'
-          },
-          ticks: {
-            beginAtZero:true
           }
+        }],
+        xAxes: [
+          {
+            type: 'time',
+            ticks: {
+              callback: function(value) { 
+                return parseInt(value.split(":")[0]) + " Minute";
+              },
+            },
+            time: {
+              unit: 'minute',
+              displayFormats: {
+                minute: 'mm:ss'
+              }
+            },
+            gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+            }
+          }
+        ]
+      },
+      animation: {
+        duration: 6,
+        onComplete: function () {
+          var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+          ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          this.data.datasets.forEach(function (dataset, i) {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            meta.data.forEach(function (bar, index) {
+              var data = dataset.data[index];
+              if(data.format("mm:ss") != "00:00"){
+                ctx.fillText(data.format("mm:ss"), bar._model.x + 20, bar._model.y + 7);
+              }
+            });
+          });
+        }
+      }
+    }
+  });
+
+  var ctx_percent_correct_incorrect = document.getElementById("percent_correct_incorrect");
+  var data1 = JSON.parse('<%= raw @paper.correct_percentage.to_json %>');
+  var data2 = JSON.parse('<%= raw @paper.incorrect_percentage.to_json %>');
+  // $.each(data, function(inx){
+  //   data[inx] = moment(data[inx]);
+  // });
+
+  'rgba(75, 192, 192, 0.2)'
+'rgba(75, 192, 192, 1)'
+  var percent_correct_incorrect = new Chart(ctx_percent_correct_incorrect, {
+    type: 'bar',
+    data: {
+      labels: ["", "", "", ""],
+      datasets: [
+          {
+            label: 'Correct',
+            data: data1,
+            stack: 1,
+            borderWidth: 1,
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(75, 192, 192, 0.2)'
+            ],
+            borderColor: [
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(75, 192, 192, 1)'
+            ]
+        },
+        {
+          label: 'InCorrect',
+          data: data2,
+          stack: 1,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+            'rgba(255,99,132,1)',
+          ],
+          borderWidth: 1
         }
       ]
+    },
+    options: {
+      tooltips: {
+        enabled: false
+      },
+      scales: {
+        yAxes: [{
+          barPercentage : 1,
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)",
+          }
+        }],
+        xAxes: [
+          {
+            barPercentage : 1,
+            stacked: true,
+            ticks: {
+            },
+            gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+            }
+          }
+        ]
+      },
+      animation: {
+        duration: 6,
+        onComplete: function () {
+          var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+          ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          this.data.datasets.forEach(function (dataset, i) {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            meta.data.forEach(function (bar, index) {
+              var data = dataset.data[index];
+              ctx.fillText(data + "%", bar._model.x, bar._model.y + 17);
+            });
+          });
+        }
+      }
     }
-  }
-});
+  });
 </script>

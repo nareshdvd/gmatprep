@@ -3,9 +3,40 @@ class Paper < ActiveRecord::Base
   has_many :papers_questions, dependent: :destroy
   MINUTES = 75
   QUESTION_COUNT = 41
+  MAX_SCORE = 48
   serialize :category_scheme, JSON
   before_create :set_category_scheme
 
+
+  def get_time_info
+    paper = self
+    ["#{Date.today.to_s(:db)} 00:00:00"] + paper.papers_questions.preload(question: :category).group_by{|pq| pq.question.category.id}.collect do |category_id, pqs|
+      total_time = pqs.collect{|pq| pq.finish_time.to_i - pq.start_time.to_i}.sum
+      total_count = pqs.count
+      avg_sec_1 = (total_time * 1.0 / total_count).round
+      "#{Date.today.to_s(:db)} 00:#{Time.at(avg_sec_1).utc.strftime('%M:%S')}"
+    end
+  end
+
+  def correct_percentage
+    paper = self
+    paper.papers_questions.to_a.each_slice(10).collect do |group|
+      (((group.select{|pq| pq.is_correct?}.count * 1.0) / group.size) * 100).round
+    end
+  end
+
+  def incorrect_percentage
+    paper = self
+    paper.papers_questions.each_slice(10).collect do |group|
+      (((group.select{|pq| !pq.is_correct?}.count * 1.0) / group.size) * 100).round
+    end
+  end
+
+
+  def percentile
+    perc = (((calculate_score * 1.0) / MAX_SCORE) * 100).ceil
+    return perc
+  end
 
   def get_chart_data
     data = {}

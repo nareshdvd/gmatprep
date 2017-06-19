@@ -43,4 +43,15 @@ module ApplicationHelper
       end)
     end
   end
+
+  def chart_row(heading)
+  end
+
+  def chart_left()
+    
+  end
+
+  def chart_right()
+
+  end
 end

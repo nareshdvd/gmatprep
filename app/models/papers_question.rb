@@ -14,4 +14,8 @@ class PapersQuestion < ActiveRecord::Base
   def answered?
     self.option_id.present?
   end
+
+  def is_correct?
+    self.option_id == self.question.options.where(correct: true).first.id
+  end
 end
