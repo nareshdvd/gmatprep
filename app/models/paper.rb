@@ -34,8 +34,12 @@ class Paper < ActiveRecord::Base
 
 
   def percentile
-    perc = (((calculate_score * 1.0) / MAX_SCORE) * 100).ceil
-    return perc
+    deductions = get_deductions
+    if (score_scheme = ScoreScheme.find_by(deduction: deductions)).present?
+      return score_scheme.score_percentile.to_i
+    else
+      return 0
+    end
   end
 
   def get_chart_data
