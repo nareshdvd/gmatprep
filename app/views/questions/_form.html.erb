@@ -1,4 +1,6 @@
-<%= f.input :description, input_html: {class: "tinymce"} %>
+<% if @passage.blank? %>
+  <%= f.input :description, input_html: {class: "tinymce"} %>
+<% end %>
 <%= f.input :question_text, input_html: {class: "tinymce"} %>
 <%= f.input :level_id, :collection => Level.all, :label_method => :name, :value_method => :id, :label => "Level" ,:include_blank => true %>
 <% if f.object.category_id.blank? || f.object.category.name != Category::PASSAGE %>
