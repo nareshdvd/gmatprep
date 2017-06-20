@@ -9,13 +9,13 @@ class PassagesController < ApplicationController
 
   def new
     @passage = Passage.new
-    @passage.title = "Testing Passage 1"
-    @passage.description = "Testing Passage Description 1"
+    @passage.title = ""
+    @passage.description = ""
     passage_category = Category.find_by_name(Category::PASSAGE)
     4.times do |i|
       question = @passage.questions.build(category_id: passage_category.id, level_id: Level.first.id)
-      question.description = "question description #{i}"
-      5.times {|j| question.options.build(correct: false, description: "passage 1 question #{i} option #{j}") }
+      question.description = ""
+      5.times {|j| question.options.build(correct: false, description: "") }
     end
   end
 
