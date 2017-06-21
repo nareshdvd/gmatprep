@@ -22,10 +22,18 @@
   </tr>
 </table>
 <table width="100%" border="1">
+  <tr>
+    <td>Quesiton ID</td>
+    <td>Quesiton Number</td>
+    <td>Options</td>
+  </tr>
   <%  @paper.papers_questions.each do |paper_question| %>
     <tr>
-      <td border="1">
-        <%= paper_question.question.question_text.html_safe %>
+      <td>
+        <%= paper_question.question.id %>
+      </td>
+      <td>
+        <%= paper_question.question_number %>
       </td>
       <td>
         <% paper_question.question.options.each do |option| %>

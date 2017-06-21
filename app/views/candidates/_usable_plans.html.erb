@@ -1,0 +1,46 @@
+<div class="row padding-t-30">
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Free Plan
+      </div>
+      <div class="panel-body">
+        <div>
+          Total papers <%= current_user.free_subscription.plan.paper_count %>
+        </div>
+        <div>
+          Papers taken <%= current_user.free_subscription.papers.count %>
+        </div>
+        <% if @in_progress_paper.blank? %>
+          <% if current_user.free_subscription.papers.count != current_user.free_subscription.plan.paper_count %>
+            <%= link_to "Start new test", new_test_url, class: "btn btn-primary" %>
+          <% end %>
+        <% elsif @in_progress_paper.subscription.id == current_user.free_subscription.id %>
+          <%= link_to "Resume test", new_test_url, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= @subscription.plan.name %>
+      </div>
+      <div class="panel-body">
+        <div>
+          Total papers <%= @subscription.plan.paper_count %>
+        </div>
+        <div>
+          Papers taken <%= @subscription.papers.count %>
+        </div>
+        <% if @in_progress_paper.blank? %>
+          <% if @subscription.papers.count != @subscription.plan.paper_count %>
+            <%= link_to "Start new test", new_test_url, class: "btn btn-primary" %>
+          <% end %>
+        <% elsif @in_progress_paper.subscription.id == @subscription.id %>
+          <%= link_to "Resume test", new_test_url, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

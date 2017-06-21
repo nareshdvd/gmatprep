@@ -1,6 +1,7 @@
 @import "bootstrap-sprockets";
+@import "bootswatch/paper/variables";
 @import "bootstrap";
-
+@import "bootswatch/paper/bootswatch";
 
 .form-horizontal .radio-inline{
   padding-top: 0px;
@@ -127,6 +128,14 @@ body, html {
 
 .padding-t-50{
   padding-top: 50px;
+}
+
+.padding-t-60{
+  padding-top: 60px;
+}
+
+.padding-t-64{
+  padding-top: 64px;
 }
 
 .font-18{
