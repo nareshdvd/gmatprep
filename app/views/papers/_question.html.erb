@@ -8,11 +8,13 @@
     <div class="row" style="margin-left: 0px;">
       <div class="col-sm-12 col-xs-12 col-md-12">
         <% @paper_question.question.options.each do |option| %>
-          <div class="form-group">
-            <label class="radio-inline">
+          <div class="width-100 inline-block">
+            <div class="pull-left">
               <%= f.radio_button :option_id, option.id, checked: (option.correct && (Rails.env.development? || current_user.is_manish?)) %>
-              <span style="display: inline-block; margin-top: -1px;"><%= option.description.html_safe %></span>
-            </label>
+            </div>
+            <div class="padding-l-30">
+              <%= option.description.html_safe %>
+            </div>
           </div>
         <% end %>
       </div>

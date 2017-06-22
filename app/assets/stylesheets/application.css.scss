@@ -2,6 +2,10 @@
 @import "bootswatch/paper/variables";
 @import "bootstrap";
 @import "bootswatch/paper/bootswatch";
+
+.width-100{
+  width: 100%;
+}
 .notice{
   padding-top: 4px;
   padding-bottom: 4px;
@@ -85,6 +89,9 @@ body, html {
 }
 .padding-l-20{
   padding-left: 20px;
+}
+.padding-l-30{
+  padding-left: 30px;
 }
 .padding-r-20{
   padding-right: 20px;
