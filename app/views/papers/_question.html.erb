@@ -8,7 +8,7 @@
     <div class="row" style="margin-left: 0px;">
       <div class="col-sm-12 col-xs-12 col-md-12">
         <% @paper_question.question.options.each do |option| %>
-          <div class="width-100 inline-block">
+          <div class="width-100 inline-block" style="margin-top: 8px;">
             <div class="pull-left">
               <%= f.radio_button :option_id, option.id, checked: (option.correct && (Rails.env.development? || current_user.is_manish?)), style: "margin-top: 0px !important; margin-right: 0px !important; vertial-align: 0px !important;" %>
             </div>
