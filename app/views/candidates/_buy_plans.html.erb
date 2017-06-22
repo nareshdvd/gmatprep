@@ -1,0 +1,44 @@
+<div class="row padding-t-30">
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Free Plan
+      </div>
+      <div class="panel-body">
+        <div>
+          Total papers <%= current_user.free_subscription.plan.paper_count %>
+        </div>
+        <div>
+          Papers taken <%= current_user.free_subscription.papers.count %>
+        </div>
+        <% if @in_progress_paper.blank? %>
+          <% if current_user.free_subscription.papers.count != current_user.free_subscription.plan.paper_count %>
+            <%= link_to "Start new test", new_test_url, class: "btn btn-primary" %>
+          <% end %>
+        <% elsif @in_progress_paper.subscription.id == current_user.free_subscription.id %>
+          <%= link_to "Resume test", new_test_url, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% Plan.where("name != ?", Plan::FREE_PLAN).each do |plan| %>
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <%= plan.name %>
+        </div>
+        <div class="panel-body">
+          <div>
+            Total papers <%= plan.paper_count %>
+          </div>
+          <div class="plan-amount">
+            <i class="glyphicon glyphicon-<%= plan.currency.downcase %>"></i> <%= plan.amount %>
+          </div>
+          <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
+            <a class="subscribe-btn btn <% if !plan.free_plan? %>btn-success<% else %>btn-default disabled<% end %>" href="<%= init_subscribe_to_plan_path(plan.id) %>" data-remote="true" data-method="post">Subscribe</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
