@@ -1,6 +1,8 @@
 <script type="text/javascript">
   var seconds_elapsed = parseInt("<%= (@paper_question.paper.start_time + (Paper::MINUTES).minutes) - Time.now %>");
   $(document).on('load turbolinks:load', function(){
+    $(".submit-btn").show();
+    $(".wait-btn").hide();
     if($(".candidate-question-form").length != 0){
       window.timer_interval = setInterval(function(){set_time()}, 1000);
     }
@@ -52,7 +54,8 @@
       <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
         <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
           <div class="bg-light-blue">
-            <button type="submit" class="btn btn-sm btn-primary pull-right">Next</button>
+            <button type="button" class="btn btn-sm btn-primary pull-right wait-btn" style="display: block;">Please wait...</button>
+            <button type="submit" class="btn btn-sm btn-primary pull-right submit-btn" style="display: none;">Next</button>
           </div>
         </div>
       </div>

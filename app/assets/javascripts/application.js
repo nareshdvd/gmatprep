@@ -77,6 +77,8 @@ $(document).on("submit", ".paypal-form", function(e){
 });
 
 $(document).on("submit", ".candidate-question-form", function(e){
+  $(".submit-btn").hide();
+  $(".wait-btn").show();
   e.preventDefault();
   var $form = $(this);
   if($form.find("input[type='radio']:checked").length != 0){
