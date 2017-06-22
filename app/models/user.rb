@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
   def subscribe_for_free_plan
     plan = Plan.where(name: Plan::FREE_PLAN).first
-    self.subscriptions.create(plan_id: plan.id, is_active: true)
+    self.subscriptions.create(plan_id: plan.id, is_active: true, start_date: Date.today, end_date: 1000.days.from_now)
   end
 
   def is_admin?
