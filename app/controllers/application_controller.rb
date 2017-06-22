@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
         return "application"
       end
     else
-      return "application"
+      return "public"
     end
   end
 end

@@ -1,12 +1,19 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!, only: [:testing]
+  skip_before_filter :authenticate_user!, only: [:testing, :index]
   def index
-    admin_dashboard if current_user.is_admin?
-    candidate_dashboard if current_user.is_candidate?
+    if current_user.blank?
+      public_home
+    else
+      admin_dashboard if current_user.is_admin?
+      candidate_dashboard if current_user.is_candidate?
+    end
   end
 
   def testing
-    render text: (Error.first.try(:error_message) || "Kar le bhai man ki tu bhi ==> Chor Chor")
+    respond_to do |format|
+      format.html {render text: (Error.first.try(:error_message) || "404 Not Found")}
+      format.json {render json: {"error" => "404 Not Found"}}
+    end
   end
 
   def generate_payment
@@ -15,21 +22,6 @@ class HomeController < ApplicationController
       else
       end
     end
-    # plan_id = params[:plan_id]
-    # plan = Plan.find_by_id(plan_id)
-    # if (subscription = current_user.subscriptions.where(plan_id: plan_id).first).blank?
-    #   subscription = current_user.subscriptions.build(plan_id: plan_id, is_active: false)
-    #   subscription.save
-    # end
-    # if subscription.time_elapsed? || subscription.all_tests_finished?
-    # elsif subscription.already_paid?
-    # elsif subscription.awaiting_payment_recipt?
-    # elsif subscription.payment_already_generated?
-    # else
-    # end
-    # respond_to do |format|
-    #   format.json {render json: {gm_txn_id: payment.gm_txn_id}}
-    # end
   end
 
   def index_users
@@ -58,6 +50,10 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def public_home
+    render "public/home"
+  end
   def admin_dashboard
     render "admins/dashboard"
   end
