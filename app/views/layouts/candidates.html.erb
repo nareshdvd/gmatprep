@@ -11,7 +11,6 @@
     <script>
       var payment_init_url = "<%= payment_init_url(format: :json) %>";
     </script>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
   <body class="height-100">
@@ -31,5 +30,7 @@
       <% end %>
       <%= yield %>
     </div>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= yield :bottom_js %>
   </body>
 </html>

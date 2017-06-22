@@ -1,13 +1,3 @@
-<script type="text/javascript">
-  var seconds_elapsed = parseInt("<%= (@paper_question.paper.start_time + (Paper::MINUTES).minutes) - Time.now %>");
-  $(document).on('load turbolinks:load', function(){
-    $(".submit-btn").show();
-    $(".wait-btn").hide();
-    if($(".candidate-question-form").length != 0){
-      window.timer_interval = setInterval(function(){set_time()}, 1000);
-    }
-  });
-</script>
 <%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
   <div class="row height-100 border-l-100 border-r-100">
     <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
@@ -61,4 +51,16 @@
       </div>
     </div>
   </div>
+<% end %>
+<%= content_for :bottom_js do %>
+  <script type="text/javascript">
+    var seconds_elapsed = parseInt("<%= (@paper_question.paper.start_time + (Paper::MINUTES).minutes) - Time.now %>");
+    $(document).on('load turbolinks:load', function(){
+      $(".submit-btn").show();
+      $(".wait-btn").hide();
+      if($(".candidate-question-form").length != 0){
+        window.timer_interval = setInterval(function(){set_time()}, 1000);
+      }
+    });
+  </script>
 <% end %>
