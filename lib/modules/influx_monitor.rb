@@ -1,5 +1,9 @@
 class InfluxMonitor
   include Singleton
+  COOKIE_MAPPINGS = {
+     :asynchronous_visitor_monitoring => :inf_avm,
+     :candidate_visitor_monitoring => :inf_cvm
+  }
   @@influx_instances = {}
   TECH_DATABASE = "gmat_tech"
   PRODUCT_DATABASE = "gmat_product"
@@ -33,6 +37,19 @@ class InfluxMonitor
       "measurement" => "payments"
     }
   }
+
+  def self.should_monitor?(cookies, key)
+    monitor = false
+    cookie_key = InfluxMonitor::COOKIE_MAPPINGS[key]
+    if cookies[cookie_key].blank?
+      monitor = true
+      cookies[cookie_key] = {
+        value: 'done',
+        expires: 1.year.from_now
+      }
+    end
+    return monitor
+  end
 
   def initialize
     return if Rails.env.to_s == 'test'

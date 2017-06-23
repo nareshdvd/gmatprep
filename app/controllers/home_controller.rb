@@ -1,14 +1,7 @@
 class HomeController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:testing, :index]
   def index
-    monitor = false
-    if cookies[:influx_monitoring].blank?
-      monitor = true
-      cookies[:influx_monitoring] = {
-        value: 'done',
-        expires: 1.year.from_now
-      }
-    end
+    monitor = InfluxMonitor.should_monitor?(cookies, :asynchronous_visitor_monitoring)
     if current_user.blank?
       InfluxMonitor.push_to_influx("visited", {user: "anonymous"}) if monitor
       public_home
@@ -73,6 +66,7 @@ class HomeController < ApplicationController
   end
 
   def candidate_dashboard
+    InfluxMonitor.push_to_influx("visited", {user: current_user.roles.first.name}) if InfluxMonitor.should_monitor?(cookies, :candidate_visitor_monitoring)
     subscriptions = current_user.subscriptions.with_payments.with_plan.not_free.not_elapsed.not_exhausted
     Rails.logger.info "SUBSCRIPTIONS for User user_id: #{current_user.id}"
     Rails.logger.info subscriptions.collect(&:id).join("------")
