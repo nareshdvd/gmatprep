@@ -6,7 +6,8 @@ class PaymentsController < ApplicationController
     payment_id = params[:id]
     @payment = Payment.find_by_id(payment_id)
     @payment.update_attribute(:status, Payment::STATUS[:initiated])
-    InfluxMonitor.push_to_influx("payment_initiated")
+    plan = @payment.subscription.plan
+    InfluxMonitor.push_to_influx("payment_initiated", {plan_name: plan.name})
     respond_to do |format|
       format.json {render json: {status: "success"}}
     end
@@ -27,6 +28,7 @@ class PaymentsController < ApplicationController
         payment_id, amount, currency, gm_txn_id, created_at, plan_id = plain_text.split("$")
         if plan_id.to_i == params[:item_number].to_i
           plan_id = params[:item_number].to_i
+          plan = Plan.find_by_id(plan_id)
           paypal_txn_id = params[:tx]
           status = params[:st]
           @payment = Payment.find_by_gm_txn_id(gm_txn_id)
@@ -35,7 +37,7 @@ class PaymentsController < ApplicationController
               @payment.status = Payment::STATUS[:success]
               @payment.txn_id = paypal_txn_id
               @payment.save
-              InfluxMonitor.push_to_influx("paid")
+              InfluxMonitor.push_to_influx("paid", {plan_name: plan.name})
             end
             format.html {render "payments/thankyou" }
           else
