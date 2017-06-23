@@ -73,7 +73,11 @@ class HomeController < ApplicationController
   end
 
   def candidate_dashboard
-    @subscription = current_user.subscriptions.with_payments.with_plan.not_free.not_elapsed.not_exhausted.detect{|subscription| subscription.paid?(true) || subscription.success?(true)}
+    subscriptions = current_user.subscriptions.with_payments.with_plan.not_free.not_elapsed.not_exhausted
+    Rails.logger.info "SUBSCRIPTIONS for User user_id: #{current_user.id}"
+    Rails.logger.info subscriptions.collect(&:id).join("------")
+    Rails.logger.info "--------------------------------------------------"
+    @subscription = subscriptions.detect{|subscription| subscription.paid?(true) || subscription.success?(true)}
     @in_progress_paper = current_user.in_progress_paper
     render "candidates/dashboard"
   end
