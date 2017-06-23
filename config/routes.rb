@@ -21,8 +21,8 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks',
   }
   post "/payment/init" => "payments#init_payment", as: :payment_init
-  get "/paypal/return" => "payments#paypal_callback"
-  get "/paypal/cancel" => "payments#paypal_cancel"
+  get "/payment/paypal/success" => "payments#paypal_callback", as: :paypal_success
+  get "/payment/paypal/cancel" => "payments#paypal_cancel", as: :paypal_cancel
   post "/plans/:id/init_subscribe" => "plans#init_subscribe", as: :init_subscribe_to_plan
   post "/paypal/notification" => "payments#notification", as: :payment_notification
   get "/report/:paper_id" => "reports#index", as: :report_index

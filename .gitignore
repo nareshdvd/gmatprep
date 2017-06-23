@@ -19,4 +19,5 @@
 /config/database.yml
 /config/secrets.yml
 /config/influxdb.yml
+/config/paypal.yml
 /db/schema.rb

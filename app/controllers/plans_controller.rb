@@ -24,8 +24,10 @@ class PlansController < ApplicationController
           InfluxMonitor.push_to_influx("clicked_on_subscribe", {plan_name: @plan.name})
           subscription = user.subscriptions.create(plan_id: plan_id)
           @payment = subscription.payments.first
+          @payment.create_paypal_payment(paypal_success_url, paypal_cancel_url)
         end
         format.js { render "plans/init_subscribe" }
+        format.json {render json: {payment_id: @payment.paypal_payment_id}}
       else
         @redirect_to = root_url
         flash[:notice] = "Already subscribed to a plan"

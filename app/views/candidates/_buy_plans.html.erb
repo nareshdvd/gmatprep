@@ -21,7 +21,13 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    var available_plan_ids = [];
+  </script>
   <% Plan.where("name != ?", Plan::FREE_PLAN).each do |plan| %>
+    <script type="text/javascript">
+      available_plan_ids.push(<%= plan.id %>)
+    </script>
     <div class="col-sm-4">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -35,10 +41,41 @@
             <i class="glyphicon glyphicon-<%= plan.currency.downcase %>"></i> <%= plan.amount %>
           </div>
           <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
-            <a class="subscribe-btn btn <% if !plan.free_plan? %>btn-success<% else %>btn-default disabled<% end %>" href="<%= init_subscribe_to_plan_path(plan.id) %>" data-remote="true" data-method="post">Subscribe</a>
+            <div id="paypal-button-<%= plan.id%>"></div>
           </div>
         </div>
       </div>
     </div>
   <% end %>
 </div>
+<% content_for :bottom_js do %>
+  <script type="text/javascript">
+    paypal.request.addHeaderBuilder(function () {
+      return {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      };
+    });
+    $.each(available_plan_ids, function(){
+      var plan_id = this;
+      paypal.Button.render({
+        env: 'sandbox',
+        commit: true,
+        client: {
+          sandbox: "AeUm4BBph_f7umFVHoSzHFw-BLcARaLP2ouWP70jz_tliq6qQS9i_8IMMIAX"
+        },
+        payment: function(data, actions) {
+          var CREATE_URL = "<%= init_subscribe_to_plan_url('___plan_id___', format: :json) %>".replace("___plan_id___", plan_id);
+          return paypal.request.post(CREATE_URL).then(function(res) {
+            return res.payment_id;
+          });
+        },
+        onAuthorize: function(data, actions) {
+          return actions.payment.execute().then(function() {
+            console.log(data.returnUrl);
+            window.location.href = data.returnUrl;
+          });
+        }
+      }, '#paypal-button-' + plan_id);
+    });
+  </script>
+<% end %>

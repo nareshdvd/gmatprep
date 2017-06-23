@@ -4,7 +4,7 @@ class Subscription < ActiveRecord::Base
   has_many :papers, dependent: :destroy
   has_many :payments, dependent: :destroy
   # before_create :activate_subscription
-  # after_create :deactivate_users_other_subscriptions
+  # after_update :deactivate_users_other_subscriptions
   after_create :create_payment
   scope :with_plan, -> { joins(:plan) }
   scope :with_payments, -> { joins(:payments).preload(:payments) }

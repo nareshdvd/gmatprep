@@ -11,6 +11,7 @@
     <script>
       var payment_init_url = "<%= payment_init_url(format: :json) %>";
     </script>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <%= csrf_meta_tags %>
   </head>
   <body class="height-100">
@@ -20,6 +21,13 @@
       <%= yield %>
     </div>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <script type="text/javascript">
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    </script>
     <%= yield :bottom_js %>
   </body>
 </html>

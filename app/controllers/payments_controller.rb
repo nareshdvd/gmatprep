@@ -14,6 +14,33 @@ class PaymentsController < ApplicationController
   end
 
   def paypal_callback
+    payment_id = params[:paymentId]
+    token = params[:token]
+    payer_id = params[:PayerID]
+    @payment = Payment.where(paypal_payment_id: payment_id, payment_token: token).first
+    respond_to do |format|
+      if @payment.present?
+        if ![Payment::STATUS[:paid], Payment::STATUS[:success]].include?(@payment.status)
+          @payment.status = Payment::STATUS[:success]
+          @payment.payer_id = payer_id
+          @payment.save
+          @payment.subscription.is_active = true
+          @payment.subscription.start_date = Date.today
+          if @payment.subscription.plan.interval_count == 0
+            @payment.subscription.end_date = 1000.days.from_now.to_date
+          else
+            @payment.subscription.end_date = @payment.subscription.plan.interval_count.send(@payment.subscription.plan.interval.downcase.pluralize).from_now.to_date
+          end
+          @payment.subscription.save
+        end
+        format.html {render "payments/thankyou" }
+      else
+        format.html {redirect_to root_url }
+      end
+    end
+  end
+
+  def paypal_callback_old
     respond_to do |format|
       amount = params[:amt]
       currency = params[:cc]
