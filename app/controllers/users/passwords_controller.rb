@@ -3,7 +3,13 @@ class Users::PasswordsController < Devise::PasswordsController
   # def new
   #   super
   # end
-
+  protected
+    def after_resetting_password_path_for(resource)
+      signed_in_root_path(resource)
+    end
+    def after_sending_reset_password_instructions_path_for(resource)
+      root_path
+    end
   # POST /resource/password
   # def create
   #   super

@@ -16,18 +16,7 @@
   <body class="height-100">
     <%= render "shared/navbar" %>
     <div class="container-fluid candidate-container height-100 padding-t-64">
-      <% if notice || alert %>
-        <div class="row">
-          <div class="col-sm-12">
-            <% if notice %>
-              <p class="notice alert-success"><%= notice %></p>
-            <% end %>
-            <% if alert %>
-              <p class="alert alert-success"><%= alert %></p>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
+      <%= render "shared/notice" %>
       <%= yield %>
     </div>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>

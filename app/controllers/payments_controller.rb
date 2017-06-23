@@ -6,6 +6,7 @@ class PaymentsController < ApplicationController
     payment_id = params[:id]
     @payment = Payment.find_by_id(payment_id)
     @payment.update_attribute(:status, Payment::STATUS[:initiated])
+    InfluxMonitor.push_to_influx("payment_initiated")
     respond_to do |format|
       format.json {render json: {status: "success"}}
     end
@@ -34,6 +35,7 @@ class PaymentsController < ApplicationController
               @payment.status = Payment::STATUS[:success]
               @payment.txn_id = paypal_txn_id
               @payment.save
+              InfluxMonitor.push_to_influx("paid")
             end
             format.html {render "payments/thankyou" }
           else

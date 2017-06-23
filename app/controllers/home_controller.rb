@@ -1,11 +1,25 @@
 class HomeController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:testing, :index]
   def index
+    monitor = false
+    if cookies[:influx_monitoring].blank?
+      monitor = true
+      cookies[:influx_monitoring] = {
+        value: 'done',
+        expires: 1.year.from_now
+      }
+    end
     if current_user.blank?
+      InfluxMonitor.push_to_influx("visited", {user: "anonymous"}) if monitor
       public_home
     else
-      admin_dashboard if current_user.is_admin?
-      candidate_dashboard if current_user.is_candidate?
+      if current_user.is_admin?
+        InfluxMonitor.push_to_influx("visited", {user: "admin"}) if monitor
+        admin_dashboard
+      else
+        InfluxMonitor.push_to_influx("visited", {user: "candidate"}) if monitor
+        candidate_dashboard if current_user.is_candidate?
+      end
     end
   end
 

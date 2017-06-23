@@ -21,6 +21,7 @@ class PlansController < ApplicationController
           initiated_payment.update_attribute(:status, Payment::STATUS[:canceled])
           @payment = initiated_subscription.create_payment
         else
+          InfluxMonitor.push_to_influx("clicked_on_subscribe")
           subscription = user.subscriptions.create(plan_id: plan_id)
           @payment = subscription.payments.first
         end

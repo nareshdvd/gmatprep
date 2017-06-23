@@ -2,9 +2,14 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   has_and_belongs_to_many :roles
   has_many :subscriptions, dependent: :destroy
+  after_create :add_registration_info_to_influx
   after_create :assign_candidate_role_to_user, if: Proc.new{|user| !user.is_admin? }
   after_create :subscribe_for_free_plan, if: Proc.new{|user| !user.is_admin? }
 
+
+  def add_registration_info_to_influx
+    InfluxMonitor.push_to_influx("registered", {user: self.roles.first.name})
+  end
 
   def is_manish?
     self.email == 'manishtestgmprep@gmp.com'

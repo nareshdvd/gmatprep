@@ -13,6 +13,7 @@ class PapersController < ApplicationController
         elsif active_subscription.exhausted?
           redirect_to root_path, notice: "You have finished all the tests in your subscription"
         else
+          InfluxMonitor.push_to_influx("started_test", {"plan" => active_subscription.plan.name})
           in_progress_paper = active_subscription.papers.create(start_time: Time.now)
         end
       else

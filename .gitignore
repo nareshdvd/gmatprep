@@ -18,4 +18,5 @@
 /Gemfile.lock
 /config/database.yml
 /config/secrets.yml
+/config/influxdb.yml
 /db/schema.rb
