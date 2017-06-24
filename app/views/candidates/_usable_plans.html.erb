@@ -13,10 +13,10 @@
         </div>
         <% if @in_progress_paper.blank? %>
           <% if current_user.free_subscription.papers.count != current_user.free_subscription.plan.paper_count %>
-            <%= link_to "Start new test", new_test_url, class: "btn btn-primary" %>
+            <%= link_to "Start new test", new_test_url(current_user.free_subscription.id), class: "btn btn-primary" %>
           <% end %>
         <% elsif @in_progress_paper.subscription.id == current_user.free_subscription.id %>
-          <%= link_to "Resume test", new_test_url, class: "btn btn-primary" %>
+          <%= link_to "Resume test", new_test_url(current_user.free_subscription.id), class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>
@@ -35,10 +35,10 @@
         </div>
         <% if @in_progress_paper.blank? %>
           <% if @subscription.papers.count != @subscription.plan.paper_count %>
-            <%= link_to "Start new test", new_test_url, class: "btn btn-primary" %>
+            <%= link_to "Start new test", new_test_url(@subscription.id), class: "btn btn-primary" %>
           <% end %>
         <% elsif @in_progress_paper.subscription.id == @subscription.id %>
-          <%= link_to "Resume test", new_test_url, class: "btn btn-primary" %>
+          <%= link_to "Resume test", new_test_url(@subscription.id), class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>

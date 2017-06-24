@@ -5,12 +5,12 @@ Rails.application.routes.draw do
   resources :passages
   get 'score_schemes' => 'score_schemes#index', as: 'index_score_schemes'
   post 'score_schemes' => 'score_schemes#update_all', as: 'update_score_schemes'
-  get 'papers/new', as: "new_test"
+  get 'papers/:subscription_id/new' => 'papers#new', as: :new_test
   get '/users' => "home#index_users", as: :index_users
   delete 'candidates/:candidate_id/papers/destroy' => 'home#destroy_papers', as: :destroy_tests
   get 'papers/test', as: "test"
-  get '/test/questions/:question_number' => "papers#question", as: "papers_question"
-  patch '/test/questions/:question_number' => "papers#answer_question", as: "papers_question_answer"
+  get '/test/:paper_id/questions/:question_number' => "papers#question", as: "papers_question"
+  patch '/test/:paper_id/questions/:question_number' => "papers#answer_question", as: "papers_question_answer"
   get 'home/index'
   devise_for :users, controllers: {
     confirmations: 'users/confirmations',

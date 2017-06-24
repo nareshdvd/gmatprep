@@ -1,4 +1,4 @@
-<%= simple_form_for @paper_question, url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
+<%= simple_form_for [@paper, @paper_question], url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
   <div class="row height-100 border-l-100 border-r-100">
     <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
       <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">

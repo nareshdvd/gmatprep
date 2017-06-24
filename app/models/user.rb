@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   after_create :add_registration_info_to_influx
   after_create :subscribe_for_free_plan, if: Proc.new{|user| !user.is_admin? }
 
-
   def add_registration_info_to_influx
     InfluxMonitor.push_to_influx("registered", {user: self.roles.first.name})
   end
@@ -26,7 +25,7 @@ class User < ActiveRecord::Base
 
   def subscribe_for_free_plan
     plan = Plan.where(name: Plan::FREE_PLAN).first
-    self.subscriptions.create(plan_id: plan.id, is_active: true, start_date: Date.today, end_date: 1000.days.from_now)
+    self.subscriptions.create(plan_id: plan.id, start_date: Date.today, end_date: 1000.days.from_now)
   end
 
   def is_admin?
@@ -54,9 +53,6 @@ class User < ActiveRecord::Base
     Plan.joins("LEFT OUTER JOIN subscriptions ON subscriptions.plan_id=plans.id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("
         ((
            subscriptions.user_id=#{user.id}
-         ) AND
-         (
-          subscriptions.is_active != 0 AND subscriptions.is_active IS NULL
          ) AND
         ((CASE
           WHEN plans.interval='MONTH' THEN DATE_ADD(subscriptions.created_at, INTERVAL plans.interval_count MONTH)
@@ -100,10 +96,21 @@ class User < ActiveRecord::Base
   end
 
   def in_progress_paper
-    if self.active_subscription.present?
-      return self.active_subscription.in_progress_paper
-    else
-      return nil
+    free_plan = Plan.find_by_name(Plan::FREE_PLAN)
+    free_subscription = free_plan.subscriptions.where(user_id: self.id).last
+    if !free_subscription.elapsed? && !free_subscription.exhausted?
+      if free_subscription.current_test_id.present?
+        test = Paper.find_by_id(free_subscription.current_test_id)
+        if !test.finished?
+          return test
+        end
+      end
+    end
+    self.subscriptions.paid_usable.where("subscriptions.current_test_id IS NOT NULL").each do |subscription|
+      test = Paper.find_by_id(subscription.current_test_id)
+      if !test.finished?
+        return test
+      end
     end
   end
 end

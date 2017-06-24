@@ -3,8 +3,6 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   has_many :papers, dependent: :destroy
   has_many :payments, dependent: :destroy
-  # before_create :activate_subscription
-  # after_update :deactivate_users_other_subscriptions
   after_create :create_payment
   scope :with_plan, -> { joins(:plan) }
   scope :with_payments, -> { joins(:payments).preload(:payments) }
@@ -14,6 +12,11 @@ class Subscription < ActiveRecord::Base
   scope :payment_success, -> { joins(:payments).where("payments.status = ? ", Payment::STATUS[:initiated]) }
   scope :payment_paid, -> { joins(:payments).where("payments.status = ? ", Payment::STATUS[:paid]) }
   scope :payment_paid_or_success, -> { joins(:payments).where("payments.status IN (?)", [Payment::STATUS[:paid], Payment::STATUS[:success]]) }
+
+  scope :paid_usable, -> {
+    joins(:payments, :plan).where("payments.status IN (?)", [Payment::STATUS[:success], Payment::STATUS[:paid]]).where("plans.name != ? AND (subscriptions.start_date IS NULL OR plans.interval = 0 OR (( CASE WHEN plans.interval='DAY' THEN DATE_ADD(subscriptions.start_date, INTERVAL plans.interval_count DAY)  WHEN plans.interval='MONTH' THEN DATE_ADD(subscriptions.start_date, INTERVAL plans.interval_count MONTH) WHEN plans.interval='WEEK' THEN DATE_ADD(subscriptions.start_date, INTERVAL plans.interval_count WEEK) END ) > NOW() )) AND subscriptions.finished_test_count < plans.paper_count" , Plan::FREE_PLAN)
+  }
+
   scope :not_elapsed, -> { where("
         (
           plans.interval_count = 0
@@ -46,31 +49,15 @@ class Subscription < ActiveRecord::Base
   end
 
   def elapsed?
+    return false if self.plan.interval_count == 0
     self.start_date + self.plan.interval_count.send(self.plan.interval.pluralize.downcase) < Date.today
   end
 
   def exhausted?
-    if (self.papers.count == self.plan.paper_count) && (self.papers.last.papers_questions.count == self.plan.paper_count) && self.papers.last.papers_questions.last.answered?
-      return true
-    end
-    return false
-  end
-
-  def activate_subscription
-    self.is_active = true
-    self.save
-  end
-
-  def deactivate_users_other_subscriptions
-    self.user.subscriptions.where("id != ? AND is_active = ?", self.id, true).update_all(is_active: false)
+    self.finished_test_count == self.plan.paper_count && (self.current_test_id.blank? || ((current_test = Paper.find_by_id(self.current_test_id)).present? && (current_test.finish_time.present? || (current_test.start_time + (Paper::MINUTES).minutes < Time.now))))
   end
 
   def in_progress_paper
-    if (paper = self.papers.where("start_time IS NULL OR finish_time IS NOT NULL OR (DATE_ADD(start_time, INTERVAL #{Paper::MINUTES} MINUTE) > NOW())").last).present? && (paper.papers_questions.count.zero? || (paper.papers_questions.count < Paper::QUESTION_COUNT) || (paper.last_question_unanswered?))
-      return paper
-    else
-      return nil
-    end
   end
 
   def remaining_paper_count

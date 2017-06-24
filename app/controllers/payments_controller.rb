@@ -24,7 +24,6 @@ class PaymentsController < ApplicationController
           @payment.status = Payment::STATUS[:success]
           @payment.payer_id = payer_id
           @payment.save
-          @payment.subscription.is_active = true
           @payment.subscription.start_date = Date.today
           if @payment.subscription.plan.interval_count == 0
             @payment.subscription.end_date = 1000.days.from_now.to_date

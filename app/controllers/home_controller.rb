@@ -23,14 +23,6 @@ class HomeController < ApplicationController
     end
   end
 
-  def generate_payment
-    if current_user.active_subscription.present?
-      if current_user.active_subscription.plan.free_plan?
-      else
-      end
-    end
-  end
-
   def index_users
     @users = User.all
     respond_to do |format|

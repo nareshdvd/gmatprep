@@ -29,11 +29,6 @@
       <div class="plan-amount">
         <i class="glyphicon glyphicon-<%= @subscription.plan.currency.downcase %>"></i> <%= @subscription.plan.amount %>
       </div>
-      <div class="plan-status">
-        <% if @subscription.is_active %>
-          <i class="glyphicon glyphicon-ok"></i>
-        <% end %>
-      </div>
       <div>
         <% if (@subscription.in_progress_paper).present? %>
           <%= link_to "Resume test", new_test_url, class: "btn btn-primary" %>

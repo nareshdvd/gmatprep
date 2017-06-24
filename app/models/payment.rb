@@ -12,20 +12,6 @@ class Payment < ActiveRecord::Base
     :failed => "5"
   }
 
-  after_update :start_subscription, if: :status_changed_to_paid?
-
-  def status_changed_to_paid?
-    status_was == STATUS[:success] && status == STATUS[:paid]
-  end
-
-  def start_subscription
-    payment = self
-    plan = payment.subscription.plan
-    curr_date = Time.now.to_date
-    payment.subscription.user.subscriptions.where(is_active: true).update_all({is_active: false})
-    payment.subscription.update_attributes(start_date: curr_date, end_date: (curr_date + plan.interval_count.send(plan.interval.pluralize.downcase)), is_active: true)
-  end
-
   def pending?
     self.status == STATUS[:pending]
   end

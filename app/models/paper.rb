@@ -207,6 +207,10 @@ class Paper < ActiveRecord::Base
     (self.start_time + (Paper::MINUTES).minutes) - Time.now
   end
 
+  def finished?
+    self.finish_time.present? || (self.start_time + Paper::MINUTES.minutes < Time.now)
+  end
+
   def formatted_remaining_time
     minutes = (remaining_seconds / 60).to_i
     hours = (minutes / 60).to_i
