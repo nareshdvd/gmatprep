@@ -18,6 +18,8 @@ class PlansController < ApplicationController
         @payment = plan_subscription.payments.detect{|payment| [Payment::STATUS[:pending], Payment::STATUS[:initiated]].include?(payment.status)}
         if @payment.blank?
           @payment = plan_subscription.create_payment
+        end
+        if @payment.paypal_payment_id.blank? || @payment.payment_token.blank?
           @payment.create_paypal_payment(paypal_success_url, paypal_cancel_url)
         end
         format.json {render json: {payment_id: @payment.paypal_payment_id}}
