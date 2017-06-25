@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   post "/paypal/notification" => "payments#notification", as: :payment_notification
   get "/report/:paper_id" => "reports#index", as: :report_index
   get "/report/:paper_id/charts" => "reports#charts", as: :report_charts
+  get "/admins/questions/:id" => "admins#question", as: :admin_question
+  post "/admins/questions/:id" => "admins#question", as: :post_admin_question
   root "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,0 +1,11 @@
+<%= simple_form_for "", url: post_admin_question_path(@paper_question.question_id), html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
+  <%= render "papers/question_inner", {f: f} %>
+<% end %>
+<%= content_for :bottom_js do %>
+  <script type="text/javascript">
+    $(document).on('load turbolinks:load', function(){
+      $(".submit-btn").show();
+      $(".wait-btn").hide();
+    });
+  </script>
+<% end %>
