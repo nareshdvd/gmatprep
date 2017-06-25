@@ -48,7 +48,11 @@
       <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
         <div class="bg-light-blue">
           <button type="button" class="btn btn-sm btn-primary pull-right wait-btn" style="display: block;">Please wait...</button>
-          <button type="submit" class="btn btn-sm btn-primary pull-right submit-btn" style="display: none;">Next</button>
+          <% if @paper_question.question_number.blank? || @paper_question.question_number < 41 %>
+            <button type="submit" class="btn btn-sm btn-primary pull-right submit-btn" style="display: none;">Next</button>
+          <% else %>
+            <button type="submit" class="btn btn-sm btn-primary pull-right submit-btn" style="display: none;">Finish</button>
+          <% end %>
         </div>
       </div>
     </div>
