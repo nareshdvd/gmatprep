@@ -135,7 +135,11 @@
                 }
               }
             ]
-          }
+          },
+          tooltips: {
+            enabled: false
+          },
+          events: ['click']
         }
       });
       var ctx_bar_chart = document.getElementById("bar_chart");
@@ -185,7 +189,7 @@
             ]
           },
           animation: {
-            duration: 6,
+            duration: 0,
             onComplete: function () {
               var chartInstance = this.chart,
               ctx = chartInstance.ctx;
@@ -201,7 +205,11 @@
                 });
               });
             }
-          }
+          },
+          tooltips: {
+            enabled: false
+          },
+          events: ['click']
         }
       });
 
@@ -288,7 +296,11 @@
                 });
               });
             }
-          }
+          },
+          tooltips: {
+            enabled: false
+          },
+          events: ['click']
         }
       });
 
@@ -373,6 +385,7 @@
           tooltips: {
             enabled: false
           },
+          events: ['click'],
           scales: {
             yAxes: [{
               barPercentage : 1,

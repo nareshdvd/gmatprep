@@ -7,6 +7,9 @@ class Paper < ActiveRecord::Base
   serialize :category_scheme, JSON
   before_create :set_category_scheme
 
+  scope :finished, -> {
+    where("finish_time IS NOT NULL OR DATE_ADD(start_time, INTERVAL #{Paper::MINUTES} MINUTE) < NOW()")
+  }
 
   def get_time_info
     paper = self

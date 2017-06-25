@@ -5,12 +5,35 @@
         Free Plan
       </div>
       <div class="panel-body">
-        <div>
-          Total papers <%= current_user.free_subscription.plan.paper_count %>
+        <div class="width-100 inline-block">
+          <div class="pull-left">
+            Total papers <%= current_user.free_subscription.plan.paper_count %>
+          </div>
+          <% finished_tests = current_user.free_subscription.papers.finished %>
+          <div class="pull-right">
+            Papers taken <%= finished_tests.count %>
+          </div>
         </div>
-        <div>
-          Papers taken <%= current_user.free_subscription.papers.count %>
-        </div>
+        <% if finished_tests.present? %>
+          <div>
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Test #</th>
+                  <th>Report</th>
+                  <th>Graphs</th>
+                </tr>
+              </thead>
+              <% finished_tests.each_with_index do |paper, inx| %>
+                <tr>
+                  <td><%= inx + 1 %></td>
+                  <td><%= link_to "Report", report_index_path(paper.id), target: "_blank" %></td>
+                  <td><%= link_to "Graphs", report_charts_path(paper.id), target: "_blank" %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        <% end %>
         <% if @in_progress_paper.blank? %>
           <% if current_user.free_subscription.papers.count != current_user.free_subscription.plan.paper_count %>
             <%= link_to "Start new test", new_test_url(current_user.free_subscription.id), class: "btn btn-primary" %>
@@ -27,12 +50,35 @@
         <%= @subscription.plan.name %>
       </div>
       <div class="panel-body">
-        <div>
-          Total papers <%= @subscription.plan.paper_count %>
+        <div class="width-100 inline-block">
+          <div class="pull-left">
+            Total papers <%= @subscription.plan.paper_count %>
+          </div>
+          <% finished_tests = @subscription.papers.finished %>
+          <div class="pull-right">
+            Papers taken <%= finished_tests.count %>
+          </div>
         </div>
-        <div>
-          Papers taken <%= @subscription.papers.count %>
-        </div>
+        <% if finished_tests.present? %>
+          <div>
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Test #</th>
+                  <th>Report</th>
+                  <th>Graphs</th>
+                </tr>
+              </thead>
+              <% finished_tests.each_with_index do |paper, inx| %>
+                <tr>
+                  <td><%= inx + 1 %></td>
+                  <td><%= link_to "Report", report_index_path(paper.id), target: "_blank" %></td>
+                  <td><%= link_to "Graphs", report_charts_path(paper.id), target: "_blank" %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        <% end %>
         <% if @in_progress_paper.blank? %>
           <% if @subscription.papers.count != @subscription.plan.paper_count %>
             <%= link_to "Start new test", new_test_url(@subscription.id), class: "btn btn-primary" %>

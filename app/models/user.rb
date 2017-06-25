@@ -112,5 +112,6 @@ class User < ActiveRecord::Base
         return test
       end
     end
+    return nil
   end
 end
