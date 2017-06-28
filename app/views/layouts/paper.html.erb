@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gmatprep</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'candidates', media: 'all', 'data-turbolinks-track' => true %>
+    <script>
+      var payment_init_url = "<%= payment_init_url(format: :json) %>";
+    </script>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="height-100 padding-t-80">
+    <%= render "shared/navbar" %>
+    <div class="container candidate-container">
+      <%= render "shared/notice" %>
+      <%= yield %>
+    </div>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <script type="text/javascript">
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    </script>
+    <%= yield :bottom_js %>
+  </body>
+</html>

@@ -59,7 +59,7 @@ class HomeController < ApplicationController
 
   def candidate_dashboard
     InfluxMonitor.push_to_influx("visited", {user: current_user.roles.first.name}) if InfluxMonitor.should_monitor?(cookies, :candidate_visitor_monitoring)
-    subscriptions = current_user.subscriptions.with_payments.with_plan.not_free.not_elapsed.not_exhausted
+    subscriptions = current_user.subscriptions.paid_usable.with_payments.with_plan.not_free.not_elapsed.not_exhausted
     Rails.logger.info "SUBSCRIPTIONS for User user_id: #{current_user.id}"
     Rails.logger.info subscriptions.collect(&:id).join("------")
     Rails.logger.info "--------------------------------------------------"

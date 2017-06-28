@@ -1,6 +1,7 @@
 class PapersController < ApplicationController
   load_and_authorize_resource
   skip_before_action :authenticate_user!, only: [:test]
+  layout :get_layout, only: [:question]
   def test
 
   end
@@ -118,7 +119,9 @@ class PapersController < ApplicationController
 
   
   private
-
+  def get_layout
+    return "paper"
+  end
   def answer_params
     params.require(:papers_question).permit(:option_id)
   end
