@@ -1,3 +1,7 @@
+.justify{
+  text-align: justify;
+}
+
 .box-shadow-none{
   box-shadow: none !important;
 }
@@ -11,7 +15,9 @@
 .bold{
   font-weight: bold;
 }
-
+.color-green{
+  color: #29d42c;
+}
 .unselectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -110,8 +116,15 @@
   padding-top: 70px;
 }
 
+.padding-t-80{
+  padding-top: 80px;
+}
+
 .padding-t-100{
   padding-top: 100px;
+}
+.font-12{
+  font-size: 12px;
 }
 
 .font-18{

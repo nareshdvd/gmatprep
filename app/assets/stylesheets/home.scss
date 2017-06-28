@@ -1,69 +1,23 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-@font-face {
-  font-family: 'lato/LatoWebBlack';
-  src: font-url('lato/Lato-Black.eot');
-  src: font-url('lato/Lato-Black.eot?#iefix') format('embedded-opentype'), font-url('lato/Lato-Black.woff2') format('woff2'), font-url('lato/Lato-Black.woff') format('woff'), font-url('lato/Lato-Black.ttf') format('truetype');
-  font-style: normal;
-  font-weight: normal;
-  text-rendering: optimizeLegibility;
-}
-body{
-  font-family: 'LatoWebBlack', sans-serif;
-  background-color: #eee;
-}
-.navbar{
-  font-family: 'LatoWebBlack', sans-serif;
-  min-height: 80px;
-}
-.navbar-default{
-  background-color: #1b5769;
-  border-bottom: 1px solid #fff;
-  letter-spacing: 1.2px;
-  transition: background 200ms ease-in 0ms, height 200ms ease-in 0ms, top 500ms ease 0ms, box-shadow 200ms ease-in 0ms, border-color 200ms ease-in 0ms;
-  &:hover{
-    background-color: #323232;
-    border-bottom: 1px solid #fff;
-  }
-  .navbar-brand{
-    font-size: 21px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    color: #fff;
-    &:hover{
-      color: #fff;
-    }
-  }
-  ul{
-    li{
-      a{
-        padding-top: 30px;
-        color: #fff !important;
-        font-size: 16px;
-        &:hover{
-          color: #fff !important;
-        }
-      }
-    }
-  }
-}
-
 .left-panel{
   font-family: 'LatoWebBlack', sans-serif;
   margin-top: 83px;
-  color: #000;
+  color: #444;
   .main-text{
+    color: #1b5769;
     font-size: 30px;
     font-weight: 400;
     line-height: 1.2;
-    letter-spacing: 1.5px;
+    letter-spacing: 0.5px;
   }
   ul{
     padding-left: 0px;
     margin-top: 10px;
     list-style-type: none;
     li{
+      font-size: 16px;
       padding-top: 2px;
       padding-bottom: 2px;
       letter-spacing: 2px;
@@ -86,7 +40,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
   padding: 40px;
   padding-top: 40px;
   width: 300px;
-  margin-left: 80px;
+  margin-left: 30px;
   color: #000;
   min-height: 350px;
   a{
@@ -94,6 +48,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
   }
   input[type='submit']{
     min-width: 150px;
+    letter-spacing: 1.2px;
   }
   input[type='text']{
     background-color: #fff !important;

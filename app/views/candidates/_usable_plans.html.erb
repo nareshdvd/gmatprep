@@ -14,26 +14,7 @@
             Papers taken <%= finished_tests.count %>
           </div>
         </div>
-        <% if finished_tests.present? %>
-          <div>
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Test #</th>
-                  <th>Report</th>
-                  <th>Graphs</th>
-                </tr>
-              </thead>
-              <% finished_tests.each_with_index do |paper, inx| %>
-                <tr>
-                  <td><%= inx + 1 %></td>
-                  <td><%= link_to "Report", report_index_path(paper.id), target: "_blank" %></td>
-                  <td><%= link_to "Graphs", report_charts_path(paper.id), target: "_blank" %></td>
-                </tr>
-              <% end %>
-            </table>
-          </div>
-        <% end %>
+        <%= render "candidates/finished_tests", {finished_tests: finished_tests} %>
         <% if @in_progress_paper.blank? %>
           <% if current_user.free_subscription.papers.count != current_user.free_subscription.plan.paper_count %>
             <%= link_to "Start new test", new_test_url(current_user.free_subscription.id), class: "btn btn-primary" %>
@@ -59,26 +40,7 @@
             Papers taken <%= finished_tests.count %>
           </div>
         </div>
-        <% if finished_tests.present? %>
-          <div>
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Test #</th>
-                  <th>Report</th>
-                  <th>Graphs</th>
-                </tr>
-              </thead>
-              <% finished_tests.each_with_index do |paper, inx| %>
-                <tr>
-                  <td><%= inx + 1 %></td>
-                  <td><%= link_to "Report", report_index_path(paper.id), target: "_blank" %></td>
-                  <td><%= link_to "Graphs", report_charts_path(paper.id), target: "_blank" %></td>
-                </tr>
-              <% end %>
-            </table>
-          </div>
-        <% end %>
+        <%= render "candidates/finished_tests", {finished_tests: finished_tests} %>
         <% if @in_progress_paper.blank? %>
           <% if @subscription.papers.count != @subscription.plan.paper_count %>
             <%= link_to "Start new test", new_test_url(@subscription.id), class: "btn btn-primary" %>

@@ -4,20 +4,15 @@
     <title>Gmatprep</title>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= stylesheet_link_tag 'candidates', media: 'all', 'data-turbolinks-track' => true %>
-    <style type="text/css">
-      .navbar-default {
-        background-color: #fff;
-      }
-    </style>
     <script>
       var payment_init_url = "<%= payment_init_url(format: :json) %>";
     </script>
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <%= csrf_meta_tags %>
   </head>
-  <body class="height-100">
+  <body class="height-100 padding-t-80">
     <%= render "shared/navbar" %>
-    <div class="container-fluid candidate-container height-100 padding-t-64">
+    <div class="container candidate-container">
       <%= render "shared/notice" %>
       <%= yield %>
     </div>

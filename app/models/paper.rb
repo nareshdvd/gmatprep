@@ -21,6 +21,52 @@ class Paper < ActiveRecord::Base
     end
   end
 
+  def get_sub_section_time_info
+    paper = self
+    return paper.papers_questions.preload(question: :category).group_by{|pq| pq.question.category.id}.inject(Hash.new) do |hash, (category_id, pqs)|
+      total_time = pqs.collect{|pq| pq.finish_time.to_i - pq.start_time.to_i}.sum
+      total_count = pqs.count
+      avg_sec = (total_time * 1.0 / total_count).round
+      hash[pqs.first.question.category.name] = avg_sec
+      hash
+    end
+  end
+
+  def time_management_x_axis_data
+    paper = self
+    hash = paper.papers_questions.preload(question: :category).group_by{|pq| pq.question.category.id}.inject(Hash.new) do |hash, (category_id, pqs)|
+      total_time = pqs.collect{|pq| pq.finish_time.to_i - pq.start_time.to_i}.sum
+      total_count = pqs.count
+      avg_sec = (total_time * 1.0 / total_count).round
+      hash[pqs.first.question.category.name] = avg_sec
+      hash
+    end
+    max_value = hash.values.max
+    d1 = (max_value / 60).to_i
+    d2 = max_value - (d1 * 60)
+    d3 = 60 - d2
+    d4 = max_value + d3
+    # d5 = d4 / 60
+    # arr = []
+    # d5.times do |t|
+    #   arr << t * 60
+    # end
+    return {
+      max: d4,
+      data: hash.values.collect{ |t| ((Time.now.beginning_of_day + t.seconds).to_s(:db)).split(" ").collect{|dt| (dt.include?(":") ? dt.split(":").collect{|t| t.to_i} : dt.split("-").collect{|t| t.to_i})}.flatten },
+      keys: hash.keys
+    }
+  end
+
+  def bar_colors
+    {
+      1 => ["#DF01D7"],
+      2 => ["#FF4000", "#FFBF00"],
+      3 => ["#FFBF00", "#FF4000", "#DF01D7"],
+      4 => ["#0B3B2E", "#FFBF00", "#FF4000", "#DF01D7"]
+    }
+  end
+
   def correct_percentage
     paper = self
     paper.papers_questions.to_a.each_slice(10).collect do |group|

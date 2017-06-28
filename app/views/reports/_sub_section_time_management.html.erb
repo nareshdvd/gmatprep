@@ -1,0 +1,38 @@
+<% @time_info = @paper.get_sub_section_time_info %>
+<% @dt = @paper.time_management_x_axis_data %>
+<div class="row graph-container">
+  <div class="graph-heading font-22">
+    SUB-SECTION TIME MANAGEMENT
+  </div>
+  <div class="row">
+    <div class="col-sm-3 graph-left">
+      <div class="font-20">Critical Reasoning</div>
+      <div class="bold font-24">
+        <%= @time_info["Critical Reasoning"] %>
+      </div>
+      <div class="font-20">Reading Comprehension</div>
+      <div class="bold font-24">
+        <%= @time_info["Passage"] %>
+      </div>
+      <div class="font-20">Sentence Correction</div>
+      <div class="bold font-24">
+        <%= @time_info["Sentence Correction"] %>
+      </div>
+    </div>
+    <div class="col-sm-6 graph-content">
+      <div id="sub-section-time-management-graph" style="height: 250px; background-color: transparent;"></div>
+    </div>
+    <div class="col-sm-3 graph-right">
+      <div class="justify border-1 border-b-none border-light-dark padding-10">
+        <div class="font-20 bold">MEAN TIME FOR ALL TEST TAKERS:</div>
+        <div class="font-24 bold">1:43 Minutes</div>
+        <div class="font-16">Explanation</div>
+        <div class="font-14">
+          <p>
+            For all GMAT Exam scores recorded in the past three years, the mean time to complete a question in the Verbal section is 1:43 minutes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

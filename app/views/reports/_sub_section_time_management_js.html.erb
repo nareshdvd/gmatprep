@@ -1,0 +1,76 @@
+<script type="text/javascript">
+  var container = $("#sub-section-time-management-graph")[0];
+  var json_data = JSON.parse('<%=raw @dt.to_json.html_safe %>');
+  var data = json_data.data;
+  var max = json_data.max / 60;
+  var times = [];
+  var categories = json_data.keys;
+
+  $.each(data, function(i){
+    // times.push(Date.UTC(1970, 1, 1, this[3], this[4], this[5]))
+    times.push({y: Date.UTC(1970, 1, 1, this[3], this[4], this[5]), color: bar_colors[data.length][i]})
+  });
+  var dataset = [{
+    data: times
+  }]
+  new Highcharts.Chart({
+    chart: {
+        renderTo: container,
+        type: 'bar',
+        marginLeft: 100,
+        backgroundColor: "#f1f1f1"
+    },
+    title: {
+        text: "",
+        align: 'left',
+        x: 90
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    credits: {
+        enabled: false
+    },
+    xAxis: {
+        lineColor: '#000',
+        categories: categories,
+        labels: {
+          style: {
+            color: '#000',
+            font: '11px LatoWebBlack, sans-serif'
+          }
+        }
+    },
+    yAxis: {
+        type: 'datetime',
+        min: Date.UTC(1970, 1, 1, 0, 0, 0),
+        max: Date.UTC(1970, 1, 1, 0, max, 0),
+        dateTimeLabelFormats: {
+            second: '%M:%S',
+            minute: '%M:%S',
+            hour: '%M:%S',
+            day: '%M:%S',
+            week: '%M:%S',
+            month: '%M:%S',
+            year: '%M:%S'
+        },
+        lineColor: '#000',
+        lineWidth: 1,
+        labels: {
+            style: {
+                color: '#000',
+                font: '11px LatoWebBlack, sans-serif'
+            }
+        },
+        gridLineColor: '#b86fc3'
+    },
+    legend: {
+        enabled: false
+    },
+    series: dataset
+  })
+</script>

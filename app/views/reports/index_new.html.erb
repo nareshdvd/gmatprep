@@ -1,0 +1,55 @@
+<style type="text/css">
+  .graph-heading{
+    text-align: center;
+    font-weight: 600;
+  }
+  .font-24{
+    font-size: 22px;
+  }
+  .font-22{
+    font-size: 22px;
+  }
+  .font-20{
+    font-size: 20px;
+  }
+  .font-18{
+    font-size: 18px;
+  }
+  .font-16{
+    font-size: 16px;
+  }
+  .font-14{
+    font-size: 14px;
+  }
+  .graph-container{
+    margin-top: 30px;
+    border-bottom: 1px solid #aeaeae;
+  }
+  .graph-heading{
+    margin-bottom: 60px;
+    border-bottom: 1px solid #aeaeae;
+    padding-bottom: 10px;
+  }
+  .border-light-dark{
+    border-color: #aeaeae;
+  }
+  .border-1{
+    border-width: 1px;
+    border-style: solid;
+  }
+  .border-b-none{
+    border-bottom: 0px;
+  }
+</style>
+<script type="text/javascript">
+  var bar_colors = JSON.parse('<%=raw @paper.bar_colors.to_json.html_safe %>');
+</script>
+<%= render "reports/verbal_section_performance" %>
+<%= render "reports/sub_section_time_management" %>
+<%= content_for :bottom_js do %>
+  <% javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" %>
+  <%= javascript_include_tag "https://code.highcharts.com/highcharts.src.js" %>
+  <% render "reports/verbal_section_performance_js" %>
+  <%= render "reports/verbal_section_performance_js_new" %>
+  <%= render "reports/sub_section_time_management_js" %>
+<% end %>

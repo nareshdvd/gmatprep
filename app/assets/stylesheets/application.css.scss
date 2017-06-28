@@ -5,3 +5,62 @@
 .alert, .notice{
   padding: 4px;
 }
+
+.notice{
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
+}
+
+@font-face {
+  font-family: 'lato/LatoWebBlack';
+  src: font-url('lato/Lato-Black.eot');
+  src: font-url('lato/Lato-Black.eot?#iefix') format('embedded-opentype'), font-url('lato/Lato-Black.woff2') format('woff2'), font-url('lato/Lato-Black.woff') format('woff'), font-url('lato/Lato-Black.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+}
+
+body{
+  font-family: 'LatoWebBlack', sans-serif;
+  background-color: #eee;
+}
+.navbar{
+  font-family: 'LatoWebBlack', sans-serif;
+  min-height: 80px;
+}
+.navbar-default{
+  background-color: #1b5769;
+  border-bottom: 1px solid #fff;
+  letter-spacing: 1.2px;
+  transition: background 200ms ease-in 0ms, height 200ms ease-in 0ms, top 500ms ease 0ms, box-shadow 200ms ease-in 0ms, border-color 200ms ease-in 0ms;
+  &:hover{
+    background-color: #323232;
+    border-bottom: 1px solid #fff;
+  }
+  .navbar-brand{
+    font-size: 21px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: #fff;
+    &:hover{
+      color: #fff;
+    }
+  }
+  ul{
+    li{
+      a{
+        padding-top: 30px;
+        color: #fff !important;
+        font-size: 16px;
+        &:hover{
+          color: #fff !important;
+        }
+      }
+    }
+  }
+}

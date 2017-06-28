@@ -1,17 +1,3 @@
-.notice{
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  display: inline-block;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.alert-success{
-  color: #fff;
-}
-
 .form-horizontal .radio-inline{
   padding-top: 0px;
 }
@@ -27,10 +13,6 @@
 .no-margin-left-right{
   margin-left: 0px;
   margin-right: 0px;
-}
-
-.candidate-container{
-  width: 100%;
 }
 
 p, span{
@@ -49,8 +31,7 @@ p[style], span[style], ul[style], li[style], div[style]{
 
 body, html {
   height: 100%;
-  font-size: 15px !important;
-  font-family: Tahoma !important;
+  font-size: 15px;
   line-height: 1.3;
 }
 

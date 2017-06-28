@@ -11,6 +11,8 @@
         <div>
           Papers taken <%= current_user.free_subscription.papers.count %>
         </div>
+        <% finished_tests = current_user.free_subscription.papers.finished %>
+        <%= render "candidates/finished_tests", {finished_tests: finished_tests} %>
         <% if @in_progress_paper.blank? %>
           <% if current_user.free_subscription.papers.count != current_user.free_subscription.plan.paper_count %>
             <%= link_to "Start new test", new_test_url(current_user.free_subscription.id), class: "btn btn-primary" %>
