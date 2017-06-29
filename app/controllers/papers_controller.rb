@@ -97,6 +97,8 @@ class PapersController < ApplicationController
         if last_question.question_number == question_number
           if last_question.unanswered?
             last_question.update_attributes(answer_params)
+            last_question.finish_time = Time.now
+            last_question.save
           end
           if last_question.question_number == 41
             if paper.finish_time.blank?
