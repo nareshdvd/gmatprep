@@ -27,7 +27,9 @@ class Paper < ActiveRecord::Base
       total_time = pqs.collect{|pq| pq.finish_time.to_i - pq.start_time.to_i}.sum
       total_count = pqs.count
       avg_sec = (total_time * 1.0 / total_count).round
-      hash[pqs.first.question.category.name] = avg_sec
+      minutes = (avg_sec / 60).to_i
+      seconds = avg_sec % 60.to_i
+      hash[pqs.first.question.category.name] = [minutes, seconds]
       hash
     end
   end
@@ -79,6 +81,16 @@ class Paper < ActiveRecord::Base
     paper.papers_questions.each_slice(10).collect do |group|
       (((group.select{|pq| !pq.is_correct?}.count * 1.0) / group.size) * 100).round
     end
+  end
+
+  def correct_incorrect_graph_data
+    data = {
+      series: [
+      ]
+    }
+    data[:series] << {data: correct_percentage, name: "Correct", color: bar_colors[2][0]}
+    data[:series] << {data: incorrect_percentage, name: "Incorrect", color: bar_colors[2][1]}
+    return data.to_json
   end
 
 

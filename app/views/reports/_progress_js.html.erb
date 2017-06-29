@@ -1,0 +1,37 @@
+<script type="text/javascript">
+  var container = $("#progress-graph")[0];
+  Highcharts.chart(container, {
+    chart:{
+      type: 'spline'
+    },
+    rangeSelector: {
+      selected: 1
+    },
+    title: {
+      text: 'Progress chart'
+    },
+    plotOptions: {
+      spline: {
+        lineWidth: 2,
+        states: {
+          hover: {
+            lineWidth: 3
+          }
+        },
+        marker: {
+          enabled: false
+        },
+        pointInterval: 41, // one hour
+        pointStart: 1 
+      }
+    },
+    series: [{
+      name: 'Progress',
+      data: JSON.parse("<%=raw @paper.get_chart_data.to_json %>"),
+      type: 'spline',
+      tooltip: {
+        valueDecimals: 2
+      }
+    }]
+  });
+</script>

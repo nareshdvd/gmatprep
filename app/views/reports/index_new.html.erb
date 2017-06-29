@@ -22,11 +22,12 @@
     font-size: 14px;
   }
   .graph-container{
-    margin-top: 30px;
+    margin-top: 10px;
     border-bottom: 1px solid #aeaeae;
+    margin-bottom: 60px;
   }
   .graph-heading{
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     border-bottom: 1px solid #aeaeae;
     padding-bottom: 10px;
   }
@@ -40,16 +41,23 @@
   .border-b-none{
     border-bottom: 0px;
   }
+  body{
+    padding-bottom: 100px !important;
+  }
 </style>
 <script type="text/javascript">
   var bar_colors = JSON.parse('<%=raw @paper.bar_colors.to_json.html_safe %>');
 </script>
 <%= render "reports/verbal_section_performance" %>
 <%= render "reports/sub_section_time_management" %>
+<%= render "reports/percent_correct_incorrect" %>
+<%= render "reports/progress" %>
 <%= content_for :bottom_js do %>
   <% javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" %>
   <%= javascript_include_tag "https://code.highcharts.com/highcharts.src.js" %>
   <% render "reports/verbal_section_performance_js" %>
   <%= render "reports/verbal_section_performance_js_new" %>
   <%= render "reports/sub_section_time_management_js" %>
+  <%= render "reports/percent_correct_incorrect_js" %>
+  <%= render "reports/progress_js" %>
 <% end %>

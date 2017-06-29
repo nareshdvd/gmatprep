@@ -8,15 +8,15 @@
     <div class="col-sm-3 graph-left">
       <div class="font-20">Critical Reasoning</div>
       <div class="bold font-24">
-        <%= @time_info["Critical Reasoning"] %>
+        <%= @time_info["Critical Reasoning"][0] %>:<%= @time_info["Critical Reasoning"][1] %> Minutes
       </div>
       <div class="font-20">Reading Comprehension</div>
       <div class="bold font-24">
-        <%= @time_info["Passage"] %>
+        <%= @time_info["Passage"][0] %>:<%= @time_info["Passage"][1] %> Minutes
       </div>
       <div class="font-20">Sentence Correction</div>
       <div class="bold font-24">
-        <%= @time_info["Sentence Correction"] %>
+        <%= @time_info["Sentence Correction"][0] %>:<%= @time_info["Sentence Correction"][1] %> Minutes
       </div>
     </div>
     <div class="col-sm-6 graph-content">
