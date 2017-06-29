@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   post "/plans/:id/init_subscribe" => "plans#init_subscribe", as: :init_subscribe_to_plan
   post "/paypal/notification" => "payments#notification", as: :payment_notification
   get "/report/:paper_id" => "reports#index", as: :report_index
-  get "/report/:paper_id/graphs" => "reports#index_new", as: :report_index
+  get "/report/:paper_id/graphs" => "reports#index_new", as: :report_charts
   get "/admins/questions/:id" => "admins#question", as: :admin_question
   post "/admins/questions/:id" => "admins#question", as: :post_admin_question
   root "home#index"
