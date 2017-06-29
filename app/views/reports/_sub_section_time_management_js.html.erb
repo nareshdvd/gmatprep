@@ -1,6 +1,6 @@
 <script type="text/javascript">
   var container = $("#sub-section-time-management-graph")[0];
-  var json_data = JSON.parse('<%=raw @dt.to_json.html_safe %>');
+  var json_data = JSON.parse('<%=raw @dt.to_json.html_safe %>'); 
   var data = json_data.data;
   var max = json_data.max / 60;
   var times = [];
@@ -8,7 +8,7 @@
 
   $.each(data, function(i){
     // times.push(Date.UTC(1970, 1, 1, this[3], this[4], this[5]))
-    times.push({y: Date.UTC(1970, 1, 1, this[3], this[4], this[5]), color: bar_colors[data.length][i]})
+    times.push({y: Date.UTC(1970, 1, 1, this[3], this[4], this[5]), color: bar_colors[data.length][i], name: categories[i]})
   });
   var dataset = [{
     data: times
@@ -45,6 +45,12 @@
           }
         }
     },
+    tooltip: {
+        formatter: function(){
+            data = ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":"))
+            return '<tr><td style="color: ' + this.point.color + '">' + this.point.name + ': </td>' + '<td style="text-align: right"><b>' + data + ' Minutes</b></td></tr>';
+        }
+    },
     yAxis: {
         type: 'datetime',
         min: Date.UTC(1970, 1, 1, 0, 0, 0),
@@ -71,6 +77,19 @@
     legend: {
         enabled: false
     },
-    series: dataset
+    series: dataset,
+    plotOptions: {
+        bar: {
+            color: "#aaa",
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                formatter: function(){
+                    return ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":")) + " Minutes"
+                }
+            }
+        }
+    }
   })
 </script>

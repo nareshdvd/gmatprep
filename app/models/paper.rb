@@ -48,14 +48,10 @@ class Paper < ActiveRecord::Base
     d2 = max_value - (d1 * 60)
     d3 = 60 - d2
     d4 = max_value + d3
-    # d5 = d4 / 60
-    # arr = []
-    # d5.times do |t|
-    #   arr << t * 60
-    # end
+    data = hash.values.collect{ |t| ((Time.now.beginning_of_day + t.seconds).to_s(:db)).split(" ").collect{|dt| (dt.include?(":") ? dt.split(":").collect{|t| t.to_i} : dt.split("-").collect{|t| t.to_i})}.flatten }
     return {
       max: d4,
-      data: hash.values.collect{ |t| ((Time.now.beginning_of_day + t.seconds).to_s(:db)).split(" ").collect{|dt| (dt.include?(":") ? dt.split(":").collect{|t| t.to_i} : dt.split("-").collect{|t| t.to_i})}.flatten },
+      data: data,
       keys: hash.keys
     }
   end
