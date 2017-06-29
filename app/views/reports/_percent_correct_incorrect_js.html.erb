@@ -3,7 +3,8 @@
   var data = JSON.parse('<%= @paper.correct_incorrect_graph_data.html_safe %>');
   Highcharts.chart(container, {
     chart: {
-        type: 'column'
+        type: 'column',
+        backgroundColor: chart_background
     },
     title: {
         text: 'Stacked column chart'

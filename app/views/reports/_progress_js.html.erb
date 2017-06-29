@@ -2,7 +2,8 @@
   var container = $("#progress-graph")[0];
   Highcharts.chart(container, {
     chart:{
-      type: 'spline'
+      type: 'spline',
+      backgroundColor: chart_background
     },
     rangeSelector: {
       selected: 1
@@ -22,7 +23,8 @@
           enabled: false
         },
         pointInterval: 41, // one hour
-        pointStart: 1 
+        pointStart: 1,
+        color: bar_colors[1][0]
       }
     },
     series: [{

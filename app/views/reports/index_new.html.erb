@@ -47,6 +47,7 @@
 </style>
 <script type="text/javascript">
   var bar_colors = JSON.parse('<%=raw @paper.bar_colors.to_json.html_safe %>');
+  var chart_background = 'rgba(255, 255, 255, 0.1)';
 </script>
 <%= render "reports/verbal_section_performance" %>
 <%= render "reports/sub_section_time_management" %>
