@@ -20,7 +20,7 @@ class AdminsController < ApplicationController
       end
     end
   end
-
+  
   private
   def admin_choose_layout
     return "candidates"

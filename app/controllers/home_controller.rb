@@ -54,7 +54,7 @@ class HomeController < ApplicationController
     render "public/home"
   end
   def admin_dashboard
-    render "admins/dashboard"
+    render "admins/summary"
   end
 
   def candidate_dashboard
