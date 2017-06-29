@@ -71,16 +71,20 @@ class Paper < ActiveRecord::Base
 
   def correct_percentage
     paper = self
-    paper.papers_questions.to_a.each_slice(10).collect do |group|
+    data = paper.papers_questions.first(30).each_slice(10).collect do |group|
       (((group.select{|pq| pq.is_correct?}.count * 1.0) / group.size) * 100).round
     end
+    last_group = paper.papers_questions.last(11)
+    data << (((last_group.select{|pq| pq.is_correct?}.count * 1.0) / last_group.size) * 100).round
   end
 
   def incorrect_percentage
     paper = self
-    paper.papers_questions.each_slice(10).collect do |group|
+    data = paper.papers_questions.first(30).each_slice(10).collect do |group|
       (((group.select{|pq| !pq.is_correct?}.count * 1.0) / group.size) * 100).round
     end
+    last_group = paper.papers_questions.last(11)
+    data << (((last_group.select{|pq| !pq.is_correct?}.count * 1.0) / last_group.size) * 100).round
   end
 
   def correct_incorrect_graph_data
@@ -88,8 +92,8 @@ class Paper < ActiveRecord::Base
       series: [
       ]
     }
-    data[:series] << {data: correct_percentage, name: "Correct", color: bar_colors[2][0]}
-    data[:series] << {data: incorrect_percentage, name: "Incorrect", color: bar_colors[2][1]}
+    data[:series] << {data: correct_percentage, name: "Correct", color: "#0DE906"}
+    data[:series] << {data: incorrect_percentage, name: "Incorrect", color: "#FF4000"}
     return data.to_json
   end
 
