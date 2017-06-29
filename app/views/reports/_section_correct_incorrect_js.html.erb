@@ -1,0 +1,36 @@
+<script type="text/javascript">
+  var container = $("#section-correct-incorrect-graph-<%= sec_name_id %>")[0];
+  Highcharts.chart(container, {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',
+        backgroundColor: chart_background
+    },
+    title: {
+        text: '<b><%= sec_name %></b>'
+    },
+    tooltip: {
+        pointFormat: ' <b>{series.name}</b>: <b>{point.percentage:.0f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.0f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [{
+        name: "<%= sec_name %>",
+        colorByPoint: true,
+        data: JSON.parse('<%=raw section_data.to_json %>')
+    }]
+  });
+</script>

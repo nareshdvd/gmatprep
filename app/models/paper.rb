@@ -56,6 +56,59 @@ class Paper < ActiveRecord::Base
     }
   end
 
+  def section_percentage_correct_incorrect_data
+    data = self.papers_questions.preload(question: :category).group_by{|pq| pq.question.category.name}.inject(Hash.new{|h, k| h[k] = {}}) do |hash, (category_name, pqs)|
+      hash[category_name]["correct"] = pqs.select{|pq| pq.is_correct?}.count
+      hash[category_name]["in_correct"] = pqs.select{|pq| !pq.is_correct?}.count
+      hash
+    end
+    data1 = []
+    data1 << {name: "Correct", y: data[data.keys[0]]["correct"], color: "#0DE906"}
+    data1 << {name: "Incorrect", y: data[data.keys[0]]["in_correct"], color: "#FF4000"}
+    data2 = []
+    data2 << {name: "Correct", y: data[data.keys[1]]["correct"], color: "#0DE906"}
+    data2 << {name: "Incorrect", y: data[data.keys[1]]["in_correct"], color: "#FF4000"}
+    data3 = []
+    data3 << {name: "Correct", y: data[data.keys[2]]["correct"], color: "#0DE906"}
+    data3 << {name: "Incorrect", y: data[data.keys[2]]["in_correct"], color: "#FF4000"}
+    data = [
+      {
+        "section_name" => data.keys[0],
+        "data" => data1
+      },
+      {
+        "section_name" => data.keys[1],
+        "data" => data2
+      },
+      {
+        "section_name" => data.keys[2],
+        "data" => data3
+      }
+    ]
+    # [{
+    #     name: 'Microsoft Internet Explorer',
+    #     y: 56.33
+    # }, {
+    #     name: 'Chrome',
+    #     y: 24.03,
+    #     sliced: true,
+    #     selected: true
+    # }, {
+    #     name: 'Firefox',
+    #     y: 10.38
+    # }, {
+    #     name: 'Safari',
+    #     y: 4.77
+    # }, {
+    #     name: 'Opera',
+    #     y: 0.91
+    # }, {
+    #     name: 'Proprietary or Undetectable',
+    #     y: 0.2
+    # }]
+    return data
+  end
+
   def bar_colors
     {
       1 => ["#DF01D7"],

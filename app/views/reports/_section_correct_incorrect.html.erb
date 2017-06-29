@@ -1,0 +1,23 @@
+<% @section_correct_incorrect_data.each do |section_data| %>
+  <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
+  <div class="row graph-container">
+    <div class="graph-heading font-22">
+      <%= section_data["section_name"] %> Correct/Incorrect
+    </div>
+    <div class="row">
+      <div class="col-sm-3 graph-left">
+        <div class="font-20"><%= section_data["section_name"] %> Correct Percentage</div>
+        <div class="bold font-24">
+          <%= ((section_data["data"][0][:y] * 1.0 / (section_data["data"][0][:y] + section_data["data"][1][:y])) * 100).round  %>%
+        </div>
+        <div class="font-20"><%= section_data["section_name"] %> Incorrect Percentage</div>
+        <div class="bold font-24">
+          <%= ((section_data["data"][1][:y]  * 1.0 / (section_data["data"][0][:y] + section_data["data"][1][:y])) * 100).round %>%
+        </div>
+      </div>
+      <div class="col-sm-6 graph-content">
+        <div id="section-correct-incorrect-graph-<%= sec_name_id %>" style="height: 300px; background-color: transparent;"></div>
+      </div>
+    </div>
+  </div>
+<% end %>

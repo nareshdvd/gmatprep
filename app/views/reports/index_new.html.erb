@@ -56,6 +56,8 @@
 <%= render "reports/sub_section_time_management" %>
 <%= render "reports/percent_correct_incorrect" %>
 <%= render "reports/progress" %>
+<% @section_correct_incorrect_data = @paper.section_percentage_correct_incorrect_data %>
+<%= render "reports/section_correct_incorrect" %>
 <%= content_for :bottom_js do %>
   <% javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" %>
   <%= javascript_include_tag "https://code.highcharts.com/highcharts.src.js" %>
@@ -64,4 +66,8 @@
   <%= render "reports/sub_section_time_management_js" %>
   <%= render "reports/percent_correct_incorrect_js" %>
   <%= render "reports/progress_js" %>
+  <% @section_correct_incorrect_data.each do |section_data| %>
+    <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
+    <%= render "reports/section_correct_incorrect_js", {sec_name: section_data["section_name"], sec_name_id: sec_name_id, section_data: section_data["data"]} %>
+  <% end %>
 <% end %>
