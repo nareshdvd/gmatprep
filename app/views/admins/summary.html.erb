@@ -7,8 +7,18 @@
       <div class="panel-body">
         <table class="table table-bordered table-striped">
           <tr>
+            <th colspan="2" class="text-center">
+              Total
+            </th>
+          </tr>
+          <tr>
             <th>Total Questions</th>
             <td><%= Question.count %></td>
+          </tr>
+          <tr>
+            <th colspan="2" class="text-center">
+              Level Questions
+            </th>
           </tr>
           <% Level.all.each do |level| %>
             <tr>
@@ -16,20 +26,43 @@
               <td><%= Question.where("level_id=?", level.id).count %></td>
             </tr>
           <% end %>
+          <tr>
+            <th colspan="2" class="text-center">
+              Category Questions
+            </th>
+          </tr>
           <% Category.all.each do |category| %>
             <tr>
               <th>Total <%= category.name %> Questions</th>
               <td><%= Question.where("category_id=?", category.id).count %></td>
             </tr>
           <% end %>
+          <tr>
+            <th colspan="2" class="text-center">
+              Category Level Questions
+            </th>
+          </tr>
           <% Category.all.each do |category| %>
             <% Level.all.each do |level| %>
               <tr>
-              <th>Total <%= category.name %> <%= level.name %> Questions</th>
-              <td><%= Question.where("category_id=? AND level_id=?", category.id, level.id).count %></td>
-            </tr>
+                <th>Total <%= category.name %> <%= level.name %> Questions</th>
+                <td><%= Question.where("category_id=? AND level_id=?", category.id, level.id).count %></td>
+              </tr>
             <% end %>
           <% end %>
+          <tr>
+            <th colspan="2" class="text-center">
+              Passage Questions
+            </th>
+          </tr>
+          <tr>
+            <th>Total Passages With Three Questions</th>
+            <td><%= Passage.where(question_count: 3).count %></td>
+          </tr>
+          <tr>
+            <th>Total Passages With Four Questions</th>
+            <td><%= Passage.where(question_count: 4).count %></td>
+          </tr>
         </table>
       </div>
     </div>
