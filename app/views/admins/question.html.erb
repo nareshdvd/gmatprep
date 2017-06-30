@@ -3,7 +3,7 @@
 <% end %>
 <%= content_for :bottom_js do %>
   <script type="text/javascript">
-    $(document).on('load turbolinks:load', function(){
+    $(document).on('ready', function(){
       $(".submit-btn").show();
       $(".wait-btn").hide();
     });

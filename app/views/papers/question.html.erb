@@ -4,7 +4,7 @@
 <%= content_for :bottom_js do %>
   <script type="text/javascript">
     var seconds_elapsed = parseInt("<%= (@paper_question.paper.start_time + (Paper::MINUTES).minutes) - Time.now %>");
-    $(document).on('load turbolinks:load', function(){
+    $(document).on('ready', function(){
       $(".submit-btn").show();
       $(".wait-btn").hide();
       if($(".candidate-question-form").length != 0){

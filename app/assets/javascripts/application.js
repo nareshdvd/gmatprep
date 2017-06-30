@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require tinymce
 //= require jquery
 //= require bootstrap-sprockets
@@ -20,7 +19,7 @@
 //= require moment
 //= require_tree .
 
-$(document).on('load turbolinks:load', function(){
+$(document).on('ready', function(){
   $("p").each(function(){
     var $p = $(this);
     if($p.text() == ""){

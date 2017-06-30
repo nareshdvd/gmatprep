@@ -148,8 +148,8 @@ class Paper < ActiveRecord::Base
 
 
   def percentile
-    deductions = get_deductions
-    if (score_scheme = ScoreScheme.find_by(deduction: deductions)).present?
+    score = calculate_score
+    if (score_scheme = ScoreScheme.find_by(score: score)).present?
       return score_scheme.score_percentile.to_i
     else
       return 0
@@ -190,13 +190,18 @@ class Paper < ActiveRecord::Base
     get_incorrect_answers_count.each do |level, incorrect_count|
       deductions += (Level::SCORE[level] * incorrect_count).ceil
     end
+    last_two_questions = papers_questions.where("question_number IN (40, 41)")
+    if last_two_questions.count >= 1
+      deductions -= last_two_questions.select{|pq| !pq.is_correct?}.count
+    end
     return deductions
   end
 
   def calculate_score
     deductions = get_deductions
     if (score_scheme = ScoreScheme.find_by(deduction: deductions)).present?
-      return score_scheme.score
+      pqs = papers_questions.where("question_number IN (?)", (1..10).to_a)
+      return score_scheme.score - pqs.select{|pq| !pq.is_correct?}.count
     else
       return 5
     end

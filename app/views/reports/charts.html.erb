@@ -74,7 +74,7 @@
 </div>
 <%= content_for :bottom_js do %>
   <script>
-    $(document).on('load turbolinks:load', function(){
+    $(document).on('ready', function(){
       var ctx_progress_chart = document.getElementById("progress_chart");
       var progress_chart = new Chart(ctx_progress_chart, {
         type: 'line',
