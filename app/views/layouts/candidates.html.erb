@@ -10,9 +10,9 @@
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <%= csrf_meta_tags %>
   </head>
-  <body class="height-100 padding-t-80">
+  <body class="height-100 padding-t-80 candidates">
     <%= render "shared/navbar" %>
-    <div class="container candidate-container">
+    <div class="container-fluid candidate-container height-100">
       <%= render "shared/notice" %>
       <%= yield %>
     </div>
