@@ -2,7 +2,7 @@ class PlansController < ApplicationController
   def init_subscribe
     plan_id = params[:id].to_i
     user = current_user
-    paid_usable_subscriptions = user.subscriptions.paid_usable.with_payments.with_plan.not_free.not_elapsed.not_exhausted
+    paid_usable_subscriptions = user.usable_subscriptions
     respond_to do |format|
       if paid_usable_subscriptions.present?
         @redirect_to = root_url

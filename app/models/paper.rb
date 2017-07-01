@@ -85,27 +85,6 @@ class Paper < ActiveRecord::Base
         "data" => data3
       }
     ]
-    # [{
-    #     name: 'Microsoft Internet Explorer',
-    #     y: 56.33
-    # }, {
-    #     name: 'Chrome',
-    #     y: 24.03,
-    #     sliced: true,
-    #     selected: true
-    # }, {
-    #     name: 'Firefox',
-    #     y: 10.38
-    # }, {
-    #     name: 'Safari',
-    #     y: 4.77
-    # }, {
-    #     name: 'Opera',
-    #     y: 0.91
-    # }, {
-    #     name: 'Proprietary or Undetectable',
-    #     y: 0.2
-    # }]
     return data
   end
 
@@ -133,30 +112,67 @@ class Paper < ActiveRecord::Base
         "data" => data1
       }
     end
-    # data1 = []
-    # data1 << {name: "Correct", y: data[data.keys[0]]["correct"], color: "#0DE906"}
-    # data1 << {name: "Incorrect", y: data[data.keys[0]]["in_correct"], color: "#FF4000"}
-    # data2 = []
-    # data2 << {name: "Correct", y: data[data.keys[1]]["correct"], color: "#0DE906"}
-    # data2 << {name: "Incorrect", y: data[data.keys[1]]["in_correct"], color: "#FF4000"}
-    # data3 = []
-    # data3 << {name: "Correct", y: data[data.keys[2]]["correct"], color: "#0DE906"}
-    # data3 << {name: "Incorrect", y: data[data.keys[2]]["in_correct"], color: "#FF4000"}
-    # data = [
-    #   {
-    #     "section_name" => data.keys[0],
-    #     "data" => data1
-    #   },
-    #   {
-    #     "section_name" => data.keys[1],
-    #     "data" => data2
-    #   },
-    #   {
-    #     "section_name" => data.keys[2],
-    #     "data" => data3
-    #   }
-    # ]
     return new_data
+  end
+
+  def average_time_correct_incorrect
+    data = papers_questions.joins(question: :options).where("options.id = papers_questions.option_id").select("(CASE WHEN options.correct = 1 THEN 'correct' ELSE 'incorrect' END) as correct_incorrect, SUM(TIMEDIFF(papers_questions.finish_time, papers_questions.start_time)) as total_time, COUNT(papers_questions.id) as pq_count").group("correct_incorrect").as_json
+    if data.size != 2
+      if data[0]["correct_incorrect"] == "correct"
+        data[1] = {
+          "correct_incorrect" => "incorrect",
+          "average_time" => 0,
+          "pq_count" => 0
+        }
+      else
+        data[1] = {
+          "correct_incorrect" => "correct",
+          "average_time" => 0,
+          "pq_count" => 0
+        }
+      end
+    else
+      data.each do |dt|
+        dt["average_time"] = (dt["total_time"] / dt["pq_count"])
+        dt.delete("total_time")
+      end
+    end
+    data = [
+      data.detect{|dt| dt["correct_incorrect"] == "correct"},
+      data.detect{|dt| dt["correct_incorrect"] == "incorrect"}
+    ]
+    max = [data[0]["average_time"], data[1]["average_time"]].max
+    if max % 60 == 0
+      max = max + 60
+    else
+      max = max + (max % 60) + 60
+    end
+    keys = ["Correct", "Incorrect"]
+    data = data.collect{|dt| t = dt["average_time"]; ((Time.now.beginning_of_day + t.seconds).to_s(:db)).split(" ").collect{|dt| (dt.include?(":") ? dt.split(":").collect{|t| t.to_i} : dt.split("-").collect{|t| t.to_i})}.flatten }
+    return {
+      max: max,
+      data: data,
+      keys: keys
+    }
+  end
+
+  def average_difficulty_level
+    data = papers_questions.joins(:question).select("((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, group_concat(questions.level_id) as level_ids").group("id_group").as_json
+    level_score = {
+      "1" => 0.1,
+      "2" => 0.2,
+      "3" => 0.5
+    }
+    hash = data.inject(Hash.new) do |hash, set_data|
+      hash[set_data["id_group"]] = set_data["level_ids"].split(",").collect{|level_id| level_score[level_id]}.sum
+      hash
+    end
+    return [
+      hash["I"],
+      hash["II"],
+      hash["III"],
+      hash["IV"]
+    ]
   end
 
   def bar_colors
@@ -164,7 +180,8 @@ class Paper < ActiveRecord::Base
       1 => ["#DF01D7"],
       2 => ["#FF4000", "#FFBF00"],
       3 => ["#FFBF00", "#FF4000", "#DF01D7"],
-      4 => ["#0B3B2E", "#FFBF00", "#FF4000", "#DF01D7"]
+      4 => ["#0B3B2E", "#FFBF00", "#FF4000", "#DF01D7"],
+      "green-red" => ["#0DE906", "#FF4000"]
     }
   end
 
@@ -377,7 +394,11 @@ class Paper < ActiveRecord::Base
   end
 
   def finished?
-    self.finish_time.present? || (self.start_time + Paper::MINUTES.minutes < Time.now)
+    self.finish_time.present? || (self.start_time + Paper::MINUTES.minutes < Time.now) || (self.papers_questions.last.question_number == 41 && self.papers_questions.last.answered?)
+  end
+
+  def unfinished?
+    !finished?
   end
 
   def formatted_remaining_time

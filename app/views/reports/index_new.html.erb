@@ -60,6 +60,8 @@
 <% @average_time_per_question = @paper.average_time_per_question %>
 <%= render "reports/section_correct_incorrect" %>
 <%= render "reports/average_time_per_question" %>
+<%= render "reports/average_time_correct_incorrect" %>
+<%= render "reports/average_difficulty_level" %>
 <%= content_for :bottom_js do %>
   <% javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" %>
   <%= javascript_include_tag "https://code.highcharts.com/highcharts.src.js" %>
@@ -72,10 +74,12 @@
     <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
     <%= render "reports/section_correct_incorrect_js", {sec_name: section_data["section_name"], sec_name_id: sec_name_id, section_data: section_data["data"]} %>
   <% end %>
-  <% @average_time_per_question.each do |section_data| %>
-    <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
-    <script type="text/javascript">
+  <script type="text/javascript">
+    <% @average_time_per_question.each do |section_data| %>
+      <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
       <%= render partial: 'reports/average_time_per_question', locals: {sec_name: section_data['section_name'], sec_name_id: sec_name_id, section_data: section_data['data']}, formats: [:js] %>
-    </script>
-  <% end %>
+    <% end %>
+    <%= render partial: 'reports/average_time_correct_incorrect', formats: [:js] %>
+    <%= render partial: 'reports/average_difficulty_level', formats: [:js] %>
+  </script>
 <% end %>

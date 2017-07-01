@@ -1,0 +1,92 @@
+var container = $("#avg-time-per-correct-incorrect-graph")[0];
+var json_data = JSON.parse('<%=raw @paper.average_time_correct_incorrect.to_json.html_safe %>'); 
+var data = json_data.data;
+var max = json_data.max / 60;
+var times = [];
+var categories = json_data.keys;
+
+$.each(data, function(i){
+  times.push({y: Date.UTC(1970, 1, 1, this[3], this[4], this[5]), color: bar_colors["green-red"][i], name: categories[i]})
+});
+var dataset = [{
+  data: times
+}]
+new Highcharts.Chart({
+  chart: {
+      renderTo: container,
+      type: 'bar',
+      marginLeft: 100,
+      backgroundColor: chart_background
+  },
+  title: {
+      text: "",
+      align: 'left',
+      x: 90
+  },
+  plotOptions: {
+      line: {
+          dataLabels: {
+              enabled: true
+          }
+      }
+  },
+  credits: {
+      enabled: false
+  },
+  xAxis: {
+      lineColor: '#000',
+      categories: categories,
+      labels: {
+        style: {
+          color: '#000',
+          font: '11px LatoWebBlack, sans-serif'
+        }
+      }
+  },
+  tooltip: {
+      formatter: function(){
+          data = ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":"))
+          return '<tr><td style="color: ' + this.point.color + '">' + this.point.name + ': </td>' + '<td style="text-align: right"><b>' + data + ' Minutes</b></td></tr>';
+      }
+  },
+  yAxis: {
+      type: 'datetime',
+      min: Date.UTC(1970, 1, 1, 0, 0, 0),
+      max: Date.UTC(1970, 1, 1, 0, max, 0),
+      dateTimeLabelFormats: {
+          second: '%M:%S',
+          minute: '%M:%S',
+          hour: '%M:%S',
+          day: '%M:%S',
+          week: '%M:%S',
+          month: '%M:%S',
+          year: '%M:%S'
+      },
+      lineColor: '#000',
+      lineWidth: 1,
+      labels: {
+          style: {
+              color: '#000',
+              font: '11px LatoWebBlack, sans-serif'
+          }
+      },
+      gridLineColor: '#b86fc3'
+  },
+  legend: {
+      enabled: false
+  },
+  series: dataset,
+  plotOptions: {
+      bar: {
+          color: "#aaa",
+          stacking: 'normal',
+          dataLabels: {
+              enabled: true,
+              color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+              formatter: function(){
+                  return ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":")) + " Minutes"
+              }
+          }
+      }
+  }
+})

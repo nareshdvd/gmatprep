@@ -96,18 +96,19 @@ class User < ActiveRecord::Base
   end
 
   def in_progress_paper
-    free_plan = Plan.find_by_name(Plan::FREE_PLAN)
-    free_subscription = free_plan.subscriptions.where(user_id: self.id).last
-    if !free_subscription.elapsed? && !free_subscription.exhausted?
-      if free_subscription.current_test_id.present? && (test = Paper.find_by_id(free_subscription.current_test_id)).present? && !test.finished?
-        return test
-      end
-    end
-    self.subscriptions.paid_usable.where("subscriptions.current_test_id IS NOT NULL").each do |subscription|
-      if subscription.current_test_id.present? && (test = Paper.find_by_id(subscription.current_test_id)).present? && !test.finished?
-        return test
-      end
-    end
+    sub = ([free_subscription] + usable_subscriptions).detect{|subscription| subscription.papers.last.present? && subscription.papers.last.unfinished?}
+    return sub.papers.last if sub.present?
     return nil
+  end
+
+  def paid_subscriptions
+    subs = subscriptions.joins(:plan).where("plans.name != ?", Plan::FREE_PLAN)
+    @paid_ones = subs.select{ |sub| sub.paid? || sub.success? }
+  end
+
+  def usable_subscriptions
+    return @usable_subscriptions if !@usable_subscriptions.nil?
+    paid_subscriptions if @paid_ones.nil?
+    @usable_subscriptions = @paid_ones.select{|sub| sub.not_elapsed? && sub.not_exhausted? }
   end
 end

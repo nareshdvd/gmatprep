@@ -17,7 +17,6 @@ class PapersController < ApplicationController
             elsif question.question_number == 41
               if paper.finish_time.blank?
                 paper.update_attributes({finish_time: Time.now})
-                paper.subscription.update_attributes({current_test_id: nil, finished_test_count: paper.subscription.finished_test_count + 1})
               end
             else
               question = paper.add_question
@@ -39,9 +38,6 @@ class PapersController < ApplicationController
               format.html{ redirect_to root_path, notice: "Your subscription has finished" }
             else
               paper = subscription.papers.create(start_time: Time.now)
-              subscription.current_test_id = paper.id
-              subscription.started_test_count = subscription.started_test_count + 1
-              subscription.save
               InfluxMonitor.push_to_influx("started_test", {"plan" => subscription.plan.name})
               question = paper.add_question(true)
               format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
@@ -75,7 +71,6 @@ class PapersController < ApplicationController
         elsif last_question.question_number == 41
           if @paper.finish_time.blank?
             @paper.update_attributes({finish_time: Time.now})
-            @paper.subscription.update_attributes({current_test_id: nil, finished_test_count: @paper.subscription.finished_test_count + 1})
           end
           format.html{ redirect_to root_path, notice: "Paper finished" }
         else
@@ -103,7 +98,6 @@ class PapersController < ApplicationController
           if last_question.question_number == 41
             if paper.finish_time.blank?
               paper.update_attributes({finish_time: Time.now})
-              paper.subscription.update_attributes({current_test_id: nil, finished_test_count: paper.subscription.finished_test_count + 1})
             end
             format.html{ redirect_to root_path, notice: "Paper finished" }
           else
