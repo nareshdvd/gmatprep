@@ -1,5 +1,5 @@
 var container = $("#avg-time-per-correct-incorrect-graph")[0];
-var json_data = JSON.parse('<%=raw @paper.average_time_correct_incorrect.to_json.html_safe %>'); 
+var json_data = JSON.parse('<%=raw @average_time_correct_incorrect.to_json.html_safe %>'); 
 var data = json_data.data;
 var max = json_data.max / 60;
 var times = [];
@@ -70,7 +70,7 @@ new Highcharts.Chart({
               font: '11px LatoWebBlack, sans-serif'
           }
       },
-      gridLineColor: '#b86fc3'
+      gridLineColor: '#cecece'
   },
   legend: {
       enabled: false
