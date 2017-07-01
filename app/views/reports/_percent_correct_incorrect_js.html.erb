@@ -1,6 +1,6 @@
 <script type="text/javascript">
   var container = $("#percent-correct-incorrect-graph")[0];
-  var data = JSON.parse('<%= @paper.correct_incorrect_graph_data.html_safe %>');
+  var data = JSON.parse('<%= @correct_incorrect_graph_data.to_json.html_safe %>');
   Highcharts.chart(container, {
     chart: {
         type: 'column',
@@ -45,7 +45,10 @@
             stacking: 'normal',
             dataLabels: {
                 enabled: true,
-                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                color: "#000",
+                style:{
+                    fontSize: label_inner_size
+                }
             }
         }
     },

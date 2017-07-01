@@ -6,24 +6,26 @@
   </div>
   <div class="row">
     <div class="col-sm-3 graph-left">
-      <div class="font-20">Critical Reasoning</div>
-      <div class="bold font-24">
-        <%= @time_info["Critical Reasoning"][0] %>:<%= @time_info["Critical Reasoning"][1] %> Minutes
-      </div>
-      <div class="font-20">Sentence Correction</div>
-      <div class="bold font-24">
-        <%= @time_info["Sentence Correction"][0] %>:<%= @time_info["Sentence Correction"][1] %> Minutes
-      </div>
-      <div class="font-20">Reading Comprehension</div>
-      <div class="bold font-24">
-        <%= @time_info["Passage"][0] %>:<%= @time_info["Passage"][1] %> Minutes
+      <div class="content">
+        <div class="font-20">Critical Reasoning</div>
+        <div class="bold font-24">
+          <%= @time_info["Critical Reasoning"][0] %>:<%= @time_info["Critical Reasoning"][1] %> Minutes
+        </div>
+        <div class="font-20">Sentence Correction</div>
+        <div class="bold font-24">
+          <%= @time_info["Sentence Correction"][0] %>:<%= @time_info["Sentence Correction"][1] %> Minutes
+        </div>
+        <div class="font-20">Reading Comprehension</div>
+        <div class="bold font-24">
+          <%= @time_info["Passage"][0] %>:<%= @time_info["Passage"][1] %> Minutes
+        </div>
       </div>
     </div>
     <div class="col-sm-6 graph-content">
       <div id="sub-section-time-management-graph" style="height: 350px; background-color: transparent;"></div>
     </div>
     <div class="col-sm-3 graph-right">
-      <div class="justify border-1 border-b-none border-light-dark padding-10">
+      <div class="content">
         <div class="font-20 bold">MEAN TIME FOR ALL TEST TAKERS:</div>
         <div class="font-24 bold">1:43 Minutes</div>
         <div class="font-16">Explanation</div>

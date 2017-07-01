@@ -1,29 +1,29 @@
 <div class="row graph-container">
   <div class="graph-heading font-22">
-    Section Average Time
+    AVERAGE TIME PER SET
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <div class="font-16">
-        Explanation:
-      </div>
-      <div class="font-14">
-        The average time it took you to respond to the first set of questions presented was 2:13, the average time for the second set of questions was 2:15, the average time for the third set of questions was 1:23 and 1:47 for the final set of questions.
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 graph-content">
+    <div class="col-sm-9 graph-content">
       <div class="row">
         <% @average_time_per_question.each do |section_data| %>
           <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
           <div class="col-sm-3">
-            <div id="avg-time-per-question-graph-<%= sec_name_id %>" style="height: 300px; background-color: transparent;"></div>
+            <div id="avg-time-per-question-graph-<%= sec_name_id %>" style="height: 220px; background-color: transparent;"></div>
             <div class="font-14 text-center bold">
               <%= section_data["data"][0][:avg_time] %>
             </div>
           </div>
         <% end %>
+      </div>
+    </div>
+    <div class="col-sm-3 graph-right">
+      <div class="content">
+        <div class="font-16">
+          Explanation:
+        </div>
+        <div class="font-14">
+          The average time it took you to respond to the first set of questions presented was <%= @average_time_per_question[0]["data"][0][:avg_time] %>, the average time for the second set of questions was <%= @average_time_per_question[1]["data"][0][:avg_time] %>, the average time for the third set of questions was <%= @average_time_per_question[2]["data"][0][:avg_time] %> and <%= @average_time_per_question[3]["data"][0][:avg_time] %> for the final set of questions.
+        </div>
       </div>
     </div>
   </div>

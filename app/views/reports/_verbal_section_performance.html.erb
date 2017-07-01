@@ -4,13 +4,13 @@
   </div>
   <div class="row">
     <div class="col-sm-3 graph-left">
-      <div class="justify padding-10">
+      <div class="content">
         <div class="font-20 bold">YOUR SCORE</div>
         <div class="font-24 bold"><%= verbal_score = @paper.calculate_score %></div>
         <div class="font-18 bold">(<%= @paper.percentile.ordinalize %> Percentile)</div>
         <div class="font-16">Explanation</div>
         <div class="font-14">
-          Your GMAT Verbal score is <%= verbal_score %>. This score is better than X% of GMAT Exam scores recorded in the past three years. (As per GMAT® report)
+          Your GMAT Verbal score is <%= verbal_score %>. This score is better than <%= @paper.percentile.ordinalize %>% of GMAT Exam scores recorded in the past three years. (As per GMAT® report)
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
       <div id="verbal-section-performance-graph" style="height: 300px; background-color: transparent;"></div>
     </div>
     <div class="col-sm-3 graph-right">
-      <div class="justify border-1 border-b-none border-light-dark padding-10">
+      <div class="content">
         <div class="font-20 bold">MEAN SCORE:</div>
         <div class="font-24 bold">26.80</div>
         <div class="font-18 bold">(44th percentile)</div>

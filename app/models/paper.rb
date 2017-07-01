@@ -11,6 +11,19 @@ class Paper < ActiveRecord::Base
     where("finish_time IS NOT NULL OR DATE_ADD(start_time, INTERVAL #{Paper::MINUTES} MINUTE) < NOW()")
   }
 
+  def get_range_text(difficulty)
+    difficulty = difficulty.round(1)
+    if difficulty >= 3 && difficulty <= 3.5
+      "HIGH"
+    elsif difficulty >= 2.5 && difficulty <= 2.9
+      "MEDIUM HIGH"
+    elsif difficulty >= 1.5 && difficulty <= 2.4
+      "MEDIUM"
+    else
+      "LOW"
+    end
+  end
+
   def get_time_info
     paper = self
     ["#{Date.today.to_s(:db)} 00:00:00"] + paper.papers_questions.preload(question: :category).group_by{|pq| pq.question.category.id}.collect do |category_id, pqs|
@@ -93,8 +106,8 @@ class Paper < ActiveRecord::Base
     new_data = []
     data.each do |dt|
       total_time = dt["total_time"] / dt["id_count"]
-      minutes = total_time / 60
-      seconds = total_time % 60
+      minutes = "%02d" % (total_time / 60)
+      seconds = "%02d" % (total_time % 60)
       data1 = []
       if minutes == 1
         if seconds <= 49
@@ -113,6 +126,12 @@ class Paper < ActiveRecord::Base
       }
     end
     return new_data
+  end
+
+  def correct_percent_overall
+    if (data = papers_questions.joins(question: :options).where("options.id = papers_questions.option_id").select("(CASE WHEN options.correct = 1 THEN 'correct' ELSE 'incorrect' END) as correct_incorrect, COUNT(papers_questions.id) as question_count").group("correct_incorrect").as_json.detect{|dt| dt["correct_incorrect"] == "correct"})
+      (((data["question_count"] * 1.0) / 41) * 100).round
+    end
   end
 
   def average_time_correct_incorrect
@@ -210,7 +229,7 @@ class Paper < ActiveRecord::Base
     }
     data[:series] << {data: correct_percentage, name: "Correct", color: "#0DE906"}
     data[:series] << {data: incorrect_percentage, name: "Incorrect", color: "#FF4000"}
-    return data.to_json
+    return data
   end
 
 

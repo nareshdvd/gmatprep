@@ -13,13 +13,6 @@
         align: 'left',
         x: 90
     },
-    plotOptions: {
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        }
-    },
     credits: {
         enabled: false
     },
@@ -56,7 +49,15 @@
             stacking: 'normal',
             dataLabels: {
                 enabled: true,
-                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                color: "#000",
+                style: {
+                    fontSize: label_inner_size
+                }
+            }
+        },
+        line: {
+            dataLabels: {
+                enabled: true
             }
         }
     },

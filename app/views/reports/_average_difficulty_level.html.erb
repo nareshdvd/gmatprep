@@ -1,14 +1,21 @@
+<% @average_difficulty_level = @paper.average_difficulty_level %>
 <div class="row graph-container">
   <div class="graph-heading font-22">
-    AVERAGE DIFFICULTY LEVEL
+    AVERAGE DIFFICULTY LEVEL PER SET
   </div>
   <div class="row">
-    <div class="col-sm-3 graph-left">
-    </div>
-    <div class="col-sm-6 graph-content">
+    <div class="col-sm-7 col-sm-offset-2 graph-content">
       <div id="average-difficulty-level-graph" style="height: 350px; background-color: transparent;"></div>
     </div>
     <div class="col-sm-3 graph-right">
+      <div class="content">
+        <div class="font-16">
+          Explanation
+        </div>
+        <div class="font-14">
+          The average difficulty of questions presented to you in the first set of questions was <%= @paper.get_range_text(@average_difficulty_level[0]) %>, the average for the second set of questions was  <%= @paper.get_range_text(@average_difficulty_level[1]) %> , the average for the third set of questions was  <%= @paper.get_range_text(@average_difficulty_level[2]) %> and was  <%= @paper.get_range_text(@average_difficulty_level[3]) %> for the final set of questions.
+        </div>
+      </div>
     </div>
   </div>
 </div>

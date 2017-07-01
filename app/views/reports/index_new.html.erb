@@ -47,10 +47,25 @@
   .highcharts-credits{
     display: none !important;
   }
+
+  .graph-right .content{
+    min-height: 380px;
+    border: 1px solid #aeaeae;
+    border-bottom: none;
+    padding: 10px;
+  }
+  .graph-left .content{
+    min-height: 380px;
+    border: 1px solid #aeaeae;
+    border-bottom: none;
+    padding: 10px;
+    text-align: justify;
+  }
 </style>
 <script type="text/javascript">
   var bar_colors = JSON.parse('<%=raw @paper.bar_colors.to_json.html_safe %>');
   var chart_background = 'rgba(255, 255, 255, 0.1)';
+  var label_inner_size = "11px";
 </script>
 <%= render "reports/verbal_section_performance" %>
 <%= render "reports/sub_section_time_management" %>

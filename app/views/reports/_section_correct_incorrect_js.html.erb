@@ -19,11 +19,13 @@
             allowPointSelect: true,
             cursor: 'pointer',
             dataLabels: {
-                enabled: false
+                enabled: false,
                 // format: '<b>{point.name}</b>: {point.percentage:.0f} %',
-                // style: {
-                //     color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                // }
+                color: '#000',
+                style: {
+                    color: '#000',
+                    fontSize: label_inner_size
+                }
             }
         }
     },

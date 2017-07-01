@@ -11,6 +11,9 @@
     title: {
       text: 'Progress chart'
     },
+    xAxis: {
+      categories: JSON.parse("<%= (1..41).to_a.to_json %>")
+    },
     plotOptions: {
       spline: {
         lineWidth: 2,
@@ -22,8 +25,6 @@
         marker: {
           enabled: false
         },
-        pointInterval: 41, // one hour
-        pointStart: 1,
         color: bar_colors[1][0]
       }
     },

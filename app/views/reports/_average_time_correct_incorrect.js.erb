@@ -82,9 +82,12 @@ new Highcharts.Chart({
           stacking: 'normal',
           dataLabels: {
               enabled: true,
-              color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+              color: '#000',
               formatter: function(){
-                  return ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":")) + " Minutes"
+                  return ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":"))
+              },
+              style: {
+                  fontSize: label_inner_size
               }
           }
       }
