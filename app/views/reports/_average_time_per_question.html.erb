@@ -9,6 +9,9 @@
           <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
           <div class="col-sm-3">
             <div id="avg-time-per-question-graph-<%= sec_name_id %>" style="height: 300px; background-color: transparent;"></div>
+            <div class="font-14 text-center bold">
+              <%= section_data["data"][0][:avg_time] %>
+            </div>
           </div>
         <% end %>
       </div>
