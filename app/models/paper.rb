@@ -113,19 +113,20 @@ class Paper < ActiveRecord::Base
     data = papers_questions.select("COUNT(id) as id_count, ((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, SUM(TIMEDIFF(finish_time, start_time)) as total_time").group("id_group").as_json
     new_data = []
     data.each do |dt|
-      minutes = dt["total_time"] / 60
-      seconds = dt["total_time"] % 60
+      total_time = dt["total_time"] / dt["id_count"]
+      minutes = total_time / 60
+      seconds = total_time % 60
       data1 = []
       if minutes == 1
         if seconds <= 49
-          data1 << {name: "Average time", color: "#0DE906", y: 100}
+          data1 << {name: "Average time", color: "#0DE906", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
         else
-          data1 << {name: "Average time", color: "#FF4000", y: 100}
+          data1 << {name: "Average time", color: "#FF4000", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
         end
       elsif minutes == 0
-        data1 << {name: "Average time", color: "#0DE906", y: 100}
+        data1 << {name: "Average time", color: "#0DE906", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
       else
-        data1 << {name: "Average time", color: "#FF4000", y: 100}
+        data1 << {name: "Average time", color: "#FF4000", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
       end
       new_data << {
         "section_name" => "Average time #{dt['id_group']}",

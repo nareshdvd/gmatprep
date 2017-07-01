@@ -11,7 +11,9 @@ title: {
     text: '<b><%= sec_name %></b>'
 },
 tooltip: {
-    pointFormat: ' <b>{series.name}</b>: <b>{point.percentage:.0f}%</b>'
+    formatter: function(){
+        return ' <b>' + this.series.name + '</b>: <b>' + this.point.avg_time + '</b>'
+    }
 },
 plotOptions: {
     pie: {
