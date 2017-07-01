@@ -99,16 +99,12 @@ class User < ActiveRecord::Base
     free_plan = Plan.find_by_name(Plan::FREE_PLAN)
     free_subscription = free_plan.subscriptions.where(user_id: self.id).last
     if !free_subscription.elapsed? && !free_subscription.exhausted?
-      if free_subscription.current_test_id.present?
-        test = Paper.find_by_id(free_subscription.current_test_id)
-        if !test.finished?
-          return test
-        end
+      if free_subscription.current_test_id.present? && (test = Paper.find_by_id(free_subscription.current_test_id)).present? && !test.finished?
+        return test
       end
     end
     self.subscriptions.paid_usable.where("subscriptions.current_test_id IS NOT NULL").each do |subscription|
-      test = Paper.find_by_id(subscription.current_test_id)
-      if !test.finished?
+      if subscription.current_test_id.present? && (test = Paper.find_by_id(subscription.current_test_id)).present? && !test.finished?
         return test
       end
     end

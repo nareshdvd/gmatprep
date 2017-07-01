@@ -4,13 +4,14 @@
   </div>
   <div class="row">
     <div class="col-sm-3 graph-left">
-      <div class="font-20">Your overall verbal score</div>
-      <div class="bold font-24">
-        <%= @paper.calculate_score %>
-      </div>
-      <div class="font-20">Percentile Score</div>
-      <div class="bold font-24">
-        <%= @paper.percentile %> %
+      <div class="justify padding-10">
+        <div class="font-20 bold">YOUR SCORE</div>
+        <div class="font-24 bold"><%= verbal_score = @paper.calculate_score %></div>
+        <div class="font-18 bold">(<%= @paper.percentile.ordinalize %> Percentile)</div>
+        <div class="font-16">Explanation</div>
+        <div class="font-14">
+          Your GMAT Verbal score is <%= verbal_score %>. This score is better than X% of GMAT Exam scores recorded in the past three years. (As per GMAT® report)
+        </div>
       </div>
     </div>
     <div class="col-sm-6 graph-content">

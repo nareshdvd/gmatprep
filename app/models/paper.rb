@@ -109,6 +109,55 @@ class Paper < ActiveRecord::Base
     return data
   end
 
+  def average_time_per_question
+    data = papers_questions.select("COUNT(id) as id_count, ((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, SUM(TIMEDIFF(finish_time, start_time)) as total_time").group("id_group").as_json
+    new_data = []
+    data.each do |dt|
+      minutes = dt["total_time"] / 60
+      seconds = dt["total_time"] % 60
+      data1 = []
+      if minutes == 1
+        if seconds <= 49
+          data1 << {name: "Average time", color: "#0DE906", y: 100}
+        else
+          data1 << {name: "Average time", color: "#FF4000", y: 100}
+        end
+      elsif minutes == 0
+        data1 << {name: "Average time", color: "#0DE906", y: 100}
+      else
+        data1 << {name: "Average time", color: "#FF4000", y: 100}
+      end
+      new_data << {
+        "section_name" => "Average time #{dt['id_group']}",
+        "data" => data1
+      }
+    end
+    # data1 = []
+    # data1 << {name: "Correct", y: data[data.keys[0]]["correct"], color: "#0DE906"}
+    # data1 << {name: "Incorrect", y: data[data.keys[0]]["in_correct"], color: "#FF4000"}
+    # data2 = []
+    # data2 << {name: "Correct", y: data[data.keys[1]]["correct"], color: "#0DE906"}
+    # data2 << {name: "Incorrect", y: data[data.keys[1]]["in_correct"], color: "#FF4000"}
+    # data3 = []
+    # data3 << {name: "Correct", y: data[data.keys[2]]["correct"], color: "#0DE906"}
+    # data3 << {name: "Incorrect", y: data[data.keys[2]]["in_correct"], color: "#FF4000"}
+    # data = [
+    #   {
+    #     "section_name" => data.keys[0],
+    #     "data" => data1
+    #   },
+    #   {
+    #     "section_name" => data.keys[1],
+    #     "data" => data2
+    #   },
+    #   {
+    #     "section_name" => data.keys[2],
+    #     "data" => data3
+    #   }
+    # ]
+    return new_data
+  end
+
   def bar_colors
     {
       1 => ["#DF01D7"],
