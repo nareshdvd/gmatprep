@@ -109,13 +109,13 @@ class Paper < ActiveRecord::Base
       minutes = "%02d" % (total_time / 60)
       seconds = "%02d" % (total_time % 60)
       data1 = []
-      if minutes == 1
-        if seconds <= 49
+      if minutes.to_i == 1
+        if seconds.to_i <= 49
           data1 << {name: "Average time", color: "#0DE906", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
         else
           data1 << {name: "Average time", color: "#FF4000", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
         end
-      elsif minutes == 0
+      elsif minutes.to_i == 0
         data1 << {name: "Average time", color: "#0DE906", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
       else
         data1 << {name: "Average time", color: "#FF4000", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
