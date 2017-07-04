@@ -76,17 +76,49 @@ $(document).on("submit", ".paypal-form", function(e){
 });
 
 $(document).on("submit", ".candidate-question-form", function(e){
-  $(".submit-btn").hide();
-  $(".wait-btn").show();
   e.preventDefault();
   var $form = $(this);
   if($form.find("input[type='radio']:checked").length != 0){
-    $form[0].submit();
+    bootbox.confirm({
+      size: "small",
+      message: "Click yes to confirm your answer and continue to the next question.",
+      buttons: {
+        confirm: {
+          label: 'Yes',
+          className: 'btn btn-success'
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn btn-danger'
+        }
+      },
+      callback: function (result) {
+        if(result){
+          $(".submit-btn").hide();
+          $(".wait-btn").show();
+          $form[0].submit();
+        }
+      }
+    }).find('.modal-content').css({
+      'margin-top': function (){
+        var w = $( window ).height();
+        var b = $(".modal-dialog").height();
+        var h = (w-b)/2 - 180;
+        return h+"px";
+      }
+    });
   }else{
     bootbox.alert({
       size: "small",
       message: "Please select one of the options",
-      className: "alert alert-danger"
+      className: ""
+    }).find('.modal-content').css({
+      'margin-top': function (){
+        var w = $( window ).height();
+        var b = $(".modal-dialog").height();
+        var h = (w-b)/2 - 180;
+        return h+"px";
+      }
     });
   }
 });
