@@ -1,0 +1,67 @@
+<form action="<%= new_test_url(@subscription.id) %>" class="form-horizontal height-100">
+  <div class="row height-100 border-l-100 border-r-100">
+    <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
+          <b class="color-white pull-left">Test Exam <%= @subscription.papers.count + 1 %></b>
+          <div class="pull-right">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+          <div class="row">
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="pull-left">
+                <span>
+                  &nbsp;
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="pull-right">
+                &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row height-100" style="padding-top: 67px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 height-100" style="overflow-y: scroll;">
+          <div class="bg-white">
+            <div class="row">
+              <div class="col-sm-12">
+                <div>Verbal Section Instructions</div>
+                <div>41 Questions</div>
+                <div>Time - 75 Minutes</div>
+                <p>
+                  There are three types of questions in the Verbal section: critical reasoning, sentence correction, and reading comprehension.
+                </p>
+                <p>
+                  For each question, select the best answer of the choices given.
+                </p>
+                <p>
+                  Each of the critical reasoning questions is based on a short argument, a set of statements, or a plan of action.
+                </p>
+                <p>
+                  Each of the reading comprehension questions is based on the content of the passage. After reading the passage, answer all questions pertaining to it based on what is stated or implied in the passage.
+                </p>
+                <p>
+                  Each of the sentence correction questions presents a sentence, part or all of which is underlined. Beneath the sentence you will find five ways of phrasing the underlined part. The first of these repeats the original; the other four are different. Follow the requirements of standard written English to choose your answer, paying attention to grammar, word choice, and sentence construction. Select the answer that produces the most effective sentence; your answer should make the sentence clear, exact, and free of grammatical error. It should also minimize awkwardness, ambiguity, and redundancy.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+          <div class="bg-light-blue">
+            Click <button type="submit" class="btn btn-sm btn-primary pull-right" style="display: block;">Next</button> to continue
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

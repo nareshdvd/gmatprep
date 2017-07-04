@@ -6,6 +6,36 @@ class PapersController < ApplicationController
 
   end
 
+  def instructions
+    step_number = params[:step_number]
+    subscription_id = params[:subscription_id]
+    respond_to do |format|
+      if (paper = current_user.in_progress_paper).present?
+        format.html{ redirect_to root_path, notice: "You already have an test in progress" }
+      else
+        if (@subscription = Subscription.find_by_id(subscription_id)).present?
+          if @subscription.plan.free_plan? || @subscription.paid? || @subscription.success?
+            if @subscription.elapsed?
+              format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
+            elsif @subscription.exhausted?
+              format.html{ redirect_to root_path, notice: "Your subscription has finished" }
+            else
+              if ['1', '2'].include?(step_number)
+                format.html{ render "candidates/paper_start_step_#{step_number}" }
+              else
+                format.html{ redirect_to paper_instructions_url(@subscription.id, 1)}
+              end
+            end
+          else
+            format.html{ redirect_to root_path, notice: "Subscription not available" }
+          end
+        else
+          format.html{ redirect_to root_path, notice: "Subscription not available" }
+        end
+      end
+    end
+  end
+
   def new
     subscription_id = params[:subscription_id].to_i
     respond_to do |format|

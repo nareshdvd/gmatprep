@@ -1,0 +1,61 @@
+<form action="<%= paper_instructions_url(@subscription.id, 2) %>" class="form-horizontal height-100">
+  <div class="row height-100 border-l-100 border-r-100">
+    <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
+          <b class="color-white pull-left">Test Exam <%= @subscription.papers.count + 1 %></b>
+          <div class="pull-right">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+          <div class="row">
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="pull-left">
+                <span>
+                  &nbsp;
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="pull-right">
+                &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row height-100" style="padding-top: 67px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 height-100" style="overflow-y: scroll;">
+          <div class="bg-white">
+            <div class="row">
+              <div class="col-sm-12">
+                <div>Welcome</div>
+                <p>Welcome to GMATRIC exam section.</p>
+                <p>You are about to begin your Verbal test.</p>
+                <p>Multiple-choice questions will have five response options, but only one correct answer. You may select the best answer by –</p>
+                <ul>
+                  <li>Clicking anywhere in the response button,</li>
+                  <li>Clicking the circle next to the response button, or</li>
+                  <li>Pressing Tab to move through the options and pressing the spacebar to select an answer.</li>
+                </ul>
+                <p>
+                  You must answer each multiple-choice question before moving to the next section. You will then be prompted to confirm your answer. You may not change your answer after you have confirmed it.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+          <div class="bg-light-blue">
+            Click <button type="submit" class="btn btn-sm btn-primary pull-right" style="display: block;">Next</button> to continue
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
