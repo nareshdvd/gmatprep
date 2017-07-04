@@ -14,14 +14,6 @@ class ApplicationController < ActionController::Base
   end
 
   def choose_layout
-    if current_user
-      if current_user.is_candidate?
-        return "candidates"
-      else
-        return "application"
-      end
-    else
-      return "public"
-    end
+    return "new"
   end
 end

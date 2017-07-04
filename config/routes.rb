@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get "/report/:paper_id/graphs" => "reports#index_new", as: :report_charts
   get "/admins/questions/:id" => "admins#question", as: :admin_question
   post "/admins/questions/:id" => "admins#question", as: :post_admin_question
+  get "/testingnew" => "home#testingnew"
   root "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

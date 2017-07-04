@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!, only: [:testing, :index]
+  skip_before_filter :authenticate_user!, only: [:testing, :index, :testingnew]
   def index
     monitor = InfluxMonitor.should_monitor?(cookies, :asynchronous_visitor_monitoring)
     if current_user.blank?
@@ -21,6 +21,9 @@ class HomeController < ApplicationController
       format.html {render text: (Error.first.try(:error_message) || "404 Not Found")}
       format.json {render json: {"error" => "404 Not Found"}}
     end
+  end
+
+  def testingnew
   end
 
   def index_users

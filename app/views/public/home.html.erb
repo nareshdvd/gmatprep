@@ -1,17 +1,59 @@
 <div class="row">
-  <div class="col-md-6 left-panel col-md-offset-1">
-    <div class="main-text clear">
-      Access the most advanced platform for GMAT verbal test at the price of a cup of coffee. 
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="heading-text">
+          Access the most advanced platform for GMAT Verbal Test at the price of a cup of coffee.
+        </div>
+      </div>
     </div>
-    <div>
+    <div class="heading-points">
       <ul>
-        <li><i class="glyphicon glyphicon-ok color-green padding-r-5"></i>7 computer adaptive verbal tests.</li>
-        <li><i class="glyphicon glyphicon-ok color-green padding-r-5"></i>Accurate score measurement.</li>
-        <li><i class="glyphicon glyphicon-ok color-green padding-r-5"></i>Detailed score report worth $15 free with every test.</li>
+        <li>
+          <!--i class="glyphicon glyphicon-ok color-green padding-r-10"></i-->
+          <div class="circle-with-text">7 Tests</div>
+          <div class="">
+            7 computer adaptive verbal tests.
+          </div>
+        </li>
+        <li>
+          <!--i class="glyphicon glyphicon-ok color-green padding-r-10"></i-->
+          <div class="circle-with-text">Accurate Score</div>
+          <div class="">
+            Accurate score measurement.
+          </div>
+        </li>
+        <li>
+          <!--i class="glyphicon glyphicon-ok color-green padding-r-10"></i-->
+          <div class="circle-with-text"><div>Free</div><div>Report</div></div>
+          <div class="">
+            Detailed score report worth $15 free with every test.
+          </div>
+        </li>
       </ul>
     </div>
   </div>
-  <div class="col-md-4 right-panel">
-    <%= render "users/sessions/new" %>
-  </div>
 </div>
+<%= content_for :footer_content do %>
+  <div class="footer">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-8">
+        <form class="signup-form">
+          <div>
+            <label>Email</label>
+            <input type="text" name="email" placeholder="Email">
+          </div>
+          <div>
+            <label>Create Password</label>
+            <input type="password" name="password" placeholder="Password">
+          </div>
+          <div>
+            <button type="submit" class="btn btn-success">
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<% end %>

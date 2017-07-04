@@ -1,3 +1,12 @@
+.absolute{
+  position: absolute;
+}
+.relative{
+  position: relative;
+}
+.alert{
+  padding: 4px 6px;
+}
 .justify{
   text-align: justify;
 }
@@ -59,7 +68,9 @@
 .padding-20{
   padding: 20px;
 }
-
+.height-200px{
+  height: 200px;
+}
 .padding-10{
   padding: 10px;
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html class="">
+  <head>
+    <title>Gmatric</title>
+    <%= csrf_meta_tags %>
+    <meta/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <%= stylesheet_link_tag 'new', media: 'all' %>
+  </head>
+  <body class="padding-t-50 public">
+    <%= render "shared/new/navbar" %>
+    <div class="container padding-t-30">
+      <%= render "shared/notice" %>
+      <%= yield %>
+    </div>
+    <%= yield :footer_content %>
+    <%= javascript_include_tag 'application' %>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <%= yield :bottom_js %>
+  </body>
+</html>
