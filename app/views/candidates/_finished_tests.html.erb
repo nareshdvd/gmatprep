@@ -4,15 +4,15 @@
       <thead>
         <tr>
           <th>Test #</th>
-          <th>Report</th>
-          <th>Graphs</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
         </tr>
       </thead>
       <% finished_tests.each_with_index do |paper, inx| %>
         <tr>
           <td><%= inx + 1 %></td>
-          <td><%= link_to "Report", report_index_path(paper.id), target: "_blank" %></td>
-          <td><%= link_to "Graphs", report_charts_path(paper.id), target: "_blank" %></td>
+          <td><%= link_to "Result", report_index_path(paper.id), target: "_blank" %></td>
+          <td><%= link_to "Detailed Score Report", report_charts_path(paper.id), target: "_blank" %></td>
         </tr>
       <% end %>
     </table>
