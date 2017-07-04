@@ -176,7 +176,7 @@ class Paper < ActiveRecord::Base
   end
 
   def average_difficulty_level
-    data = papers_questions.joins(:question).select("((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, group_concat(questions.level_id) as level_ids").group("id_group").as_json
+    data = papers_questions.joins(:question).select("((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, group_concat(questions.level_id) as level_ids").where("questions.category_id != ?", 3).group("id_group").as_json
     level_score = {
       "1" => 0.1,
       "2" => 0.2,
