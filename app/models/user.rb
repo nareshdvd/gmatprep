@@ -1,10 +1,29 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  devise :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
   has_and_belongs_to_many :roles
   has_many :subscriptions, dependent: :destroy
+  has_many :identities
   after_create :assign_candidate_role_to_user, if: Proc.new{|user| !user.is_admin? }
   after_create :add_registration_info_to_influx
   after_create :subscribe_for_free_plan, if: Proc.new{|user| !user.is_admin? }
+
+
+  def self.from_omniauth(auth)
+    @identity = Identity.find_with_omniauth(auth)
+    if @identity.nil?
+      @identity = Identity.create_with_omniauth(auth)
+    end
+    if @identity.user.blank?
+      if (user = find_by_email(auth.info.email)).blank?
+        @identity.create_user({email: auth.info.email, password: Devise.friendly_token[0, 20]})
+      else
+        @identity.user_id = user.id
+        @identity.save
+      end
+    end
+    @identity.user
+  end
 
   def add_registration_info_to_influx
     InfluxMonitor.push_to_influx("registered", {user: self.roles.first.name})
