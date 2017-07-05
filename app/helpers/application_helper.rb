@@ -4,7 +4,7 @@ module ApplicationHelper
     if Rails.env.development?
       send("user_omniauth_authorize_path", *[provider])
     else
-      send("user_#{provider}_omniauth_authorize".to_sym)
+      send("user_#{provider}_omniauth_authorize_path".to_sym)
     end
   end
   def render_index_action(action_name, action_info, object_klass, object = nil, html = {})
