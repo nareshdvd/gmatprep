@@ -4,7 +4,6 @@
     <title>Gmatric</title>
     <%= csrf_meta_tags %>
     <meta/>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script>
       var payment_init_url = "<%= payment_init_url(format: :json) %>";
     </script>
@@ -73,6 +72,9 @@
     </div>
     <%= yield :footer_content %>
     <%= javascript_include_tag 'application' %>
+    <% if current_user && current_user.is_admin? %>
+      <%= tinymce %>
+    <% end %>
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script type="text/javascript">
       $.ajaxSetup({
