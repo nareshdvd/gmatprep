@@ -44,19 +44,29 @@
           <div class="col-sm-12">
             <div class="social-login">
               <%= link_to auth_path(:facebook), class: "fb-btn social-btn" do %>
-                <div class="top-text">
-                  Continue with Facebook
-                </div>
-                <div class="bottom-text">
-                  We won’t post without asking
+                <div>
+                  <%= image_tag "icons/fb-icon.png", class: "pull-left social-icon" %>
+                  <div class="text-container">
+                    <div class="top-text">
+                      Continue with Facebook
+                    </div>
+                    <div class="bottom-text">
+                      We won’t post without asking
+                    </div>
+                  </div>
                 </div>
               <% end %>
               <%= link_to auth_path(:google_oauth2), class: "google-btn social-btn" do %>
-                <div class="top-text">
-                  Continue with Google
-                </div>
-                <div class="bottom-text">
-                  We won’t post without asking
+                <div>
+                  <%= image_tag "icons/google-icon.png", class: "pull-left social-icon" %>
+                  <div class="text-container">
+                    <div class="top-text">
+                      Continue with Google
+                    </div>
+                    <div class="bottom-text">
+                      We won’t post without asking
+                    </div>
+                  </div>
                 </div>
               <% end %>
             </div>
