@@ -1,3 +1,9 @@
+<%= content_for :extra_css do %>
+  <%= stylesheet_link_tag "papers" %>
+<% end %>
+<%= content_for :body_classes do %>paper_body<% end %>
+<%= content_for :navbar_classes do %>navbar-fixed-top<% end %>
+<%= content_for :main_container_classes do %>paper_container<% end %>
 <%= simple_form_for [@paper, @paper_question], url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
   <%= render "papers/question_inner", {f: f} %>
 <% end %>

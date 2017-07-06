@@ -2,7 +2,9 @@
   <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
     <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">
       <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
-        <b class="color-white pull-left">Test Exam <%= @paper_question.paper.subscription.papers.count %></b>
+        <% if @paper_question.paper_id.present? %>
+          <b class="color-white pull-left">Test Exam <%= @paper_question.paper.subscription.papers.count %></b>
+        <% end %>
         <div class="pull-right">
           <% if @paper_question.paper.present? %>
             <b>Paper ID</b> : <%= @paper_question.paper.id %>

@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-  layout "report", only: [:index_new]
   def index
     paper_id = params[:paper_id]
     @paper = Paper.find_by(id: paper_id)

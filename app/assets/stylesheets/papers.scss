@@ -1,3 +1,91 @@
 // Place all the styles related to the papers controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@font-face {
+  font-family: 'Tahoma';
+  src: font-url('tahoma/tahoma.eot');
+  src: font-url('tahoma/tahoma.eot?iefix') format('eot'),
+      font-url('tahoma/tahoma.woff') format('woff'),
+      font-url('tahoma/tahoma.ttf') format('truetype');
+}
+
+.paper_body{
+  .paper_container{
+    height: 100%;
+    padding-top: 73px;
+    width: 100%;
+    form{
+      font-family: 'Tahoma';
+    }
+  }
+}
+.form-horizontal .radio-inline{
+  padding-top: 0px;
+}
+
+.outline-1{
+  outline: 1px solid #fff;
+}
+
+.height-100{
+  height: 100%;
+}
+
+.no-margin-left-right{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+p, span{
+  line-height: 1.5 !important;
+  margin: 0px;
+}
+
+p[style], span[style], ul[style], li[style], div[style]{
+  font-size: 15.5px !important;
+  font-family: Tahoma !important;
+}
+
+.accordion-control{
+  cursor: pointer;
+}
+
+body, html {
+  height: 100%;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.margin-b-5{
+  margin-bottom: 5px;
+}
+
+.question-box{
+  height: auto;
+  margin-top: 20px;
+  min-height: 565px;
+}
+
+.option-box{
+}
+
+.navbar{
+  margin-bottom: 0px;
+  border-radius: 0 !important;
+}
+
+.pagination{
+  margin: 10px 0px;
+}
+
+label{
+  font-weight: normal;
+}
+
+.btn{
+  border-radius: 0;
+}
+
+.form-group{
+  margin-bottom: 2px !important;
+}

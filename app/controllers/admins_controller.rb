@@ -1,5 +1,4 @@
 class AdminsController < ApplicationController
-  layout :admin_choose_layout, only: [:question]
   def question
     respond_to do |format|
       if current_user.roles.where(name: 'admin').blank?
@@ -19,10 +18,5 @@ class AdminsController < ApplicationController
         end
       end
     end
-  end
-  
-  private
-  def admin_choose_layout
-    return "candidates"
   end
 end
