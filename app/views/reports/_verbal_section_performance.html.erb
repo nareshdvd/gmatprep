@@ -1,35 +1,50 @@
-<div class="row graph-container">
-  <div class="graph-heading font-22">
-    VERBAL SECTION PERFORMANCE
-  </div>
-  <div class="row">
-    <div class="col-sm-3 graph-left">
-      <div class="content">
-        <div class="font-20 bold">YOUR SCORE</div>
-        <div class="font-24 bold"><%= verbal_score = @paper.calculate_score %></div>
-        <div class="font-18 bold">(<%= @paper.percentile.ordinalize %> Percentile)</div>
-        <div class="font-16">Explanation</div>
-        <div class="font-14">
-          Your GMAT Verbal score is <%= verbal_score %>. This score is better than <%= @paper.percentile.ordinalize %>% of GMAT Exam scores recorded in the past three years. (As per GMAT® report)
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 graph-content">
-      <div id="verbal-section-performance-graph" style="height: 300px; background-color: transparent;"></div>
-    </div>
-    <div class="col-sm-3 graph-right">
-      <div class="content">
-        <div class="font-20 bold">MEAN SCORE:</div>
-        <div class="font-24 bold">26.80</div>
-        <div class="font-18 bold">(44th percentile)</div>
-        <div class="font-16">Explanation</div>
-        <div class="font-14">
-          <p>
-            The three year mean GMAT Verbal score is 26.8. This score is better than 44% of GMAT Exam scores recorded in the past three years.
-          </p>
-          <p>
-            Note: GMAT scores are valid for five years. Even though your score won't change, your percentile ranking may change when compared with a newer when compared with a newer pool of applicants. Shifts tend to be gradual over long periods of time.
-          </p>
+<div class="row report-section-container">
+  <div class="col-sm-12">
+    <div class="report-section-container-inner">
+      <div class="report-section-heading">verbal section performance</div>
+      <div class="report-section-content">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="box-1">
+              <div>
+                your score
+              </div>
+              <div>
+                <%= verbal_score = @paper.calculate_score %>
+              </div>
+            </div>
+            <div class="box-2">
+              88th Percentile
+            </div>
+            <div class="explanation-head">
+              Explanation
+            </div>
+            <div class="explanation-text">
+              Your GMAT Verbal score is <%= verbal_score %>. This score is better than <%= @paper.percentile.ordinalize %>% of GMAT Exam scores recorded in the past three years. (As per GMAT® report)
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="col-sm-12 graph-content">
+              <div id="verbal-section-performance-graph" style="height: 320px; background-color: transparent;"></div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="content">
+              <div class="font-18 bold">MEAN SCORE : 26.80</div>
+              <div class="font-16 bold color-green">44th percentile</div>
+              <div class="explanation-head">
+                Explanation
+              </div>
+              <div class="explanation-text">
+                <p>
+                  The three year mean GMAT Verbal score is 26.8. This score is better than 44% of GMAT Exam scores recorded in the past three years.
+                </p>
+                <p>
+                  <span class="note">Note:</span> GMAT scores are valid for five years. Even though your score won't change, your percentile ranking may change when compared with a newer when compared with a newer pool of applicants. Shifts tend to be gradual over long periods of time.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,131 @@
+<style type="text/css">
+  .report-container{
+    font-family: 'LatoRegular';;
+  }
+  .report-section-container .report-section-container-inner{
+    border-bottom: 1px solid #2196f3;
+    margin-bottom: 30px;
+  }
+  .report-section-heading{
+    text-transform: uppercase;
+    color: #2196f3;
+    font-size: 26px;
+    border-bottom: 1px solid #2196f3;
+    margin-bottom: 20px;
+  }
+  .box-1{
+    display: inline-block;
+  }
+  .box-1 div:first-child{
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+    width: 59px;
+    height: 35px;
+    line-height: 1.08;
+    color: #3e3e3e;
+    float: left;
+  }
+  .box-1 div:last-child{
+    margin-left: 7px;
+    width: 52px;
+    height: 35px;
+    font-size: 45.9px;
+    float: left;
+    line-height: 0.8;
+  }
+  .box-2{
+    width: 170px;
+    height: 38px;
+    background-color: #2196f3;
+    font-size: 23px;
+    text-align: center;
+    color: #fff;
+    line-height: 1.7;
+    font-weight: 600;
+    padding-left: 0px;
+  }
+
+  .box-3{
+    display: inline-block;
+    width: 100%;
+    background-color: #eee;
+    padding: 10px;
+  }
+
+  .box-3 > div:first-child{
+    width: 140px;
+    height: 35px;
+    font-size: 18px;
+    float: left;
+    line-height: 18px;
+    letter-spacing: 1px;
+  }
+
+  .box-3 > div:last-child{
+    float: right;
+  }
+
+  .text-s-1{
+    font-size: 11px;
+  }
+  .text-s-5{
+    font-size: 25px;
+    color: #2196f3;
+  }
+
+  .box-3 .text-s-5{
+    height: 20px;
+    line-height: 23px;
+  }
+
+  .box-3 .text-s-1{
+    text-align: right;
+    letter-spacing: 2px;
+  }
+
+  .explanation-head{
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 700;
+  }
+  .explanation-text{
+    max-width: 250px;
+    text-align: justify;
+  }
+  .color-green{
+    color: #56a062;
+  }
+  .note{
+    color: #ff0000;
+  }
+</style>
+<%= content_for :main_container_classes do%>report-container<% end %>
+<script type="text/javascript">
+  var bar_colors = JSON.parse('<%=raw @paper.bar_colors.to_json.html_safe %>');
+  var chart_background = 'rgba(255, 255, 255, 0.1)';
+  var label_inner_size = "11px";
+</script>
+<%= render "reports/verbal_section_performance" %>
+<%= render "reports/sub_section_time_management" %>
+<%= content_for :bottom_js do %>
+  <% javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" %>
+  <%= javascript_include_tag "https://code.highcharts.com/highcharts.src.js" %>
+  <%= render "reports/verbal_section_performance_js_new" %>
+  <%= render "reports/sub_section_time_management_js" %>
+<% end %>
+<!-- <div class="row">
+  <div class="col-sm-12">
+    <div class="report-section-heading">verbal section performance</div>
+    <div class="report-section-content">
+      <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
