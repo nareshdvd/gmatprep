@@ -1,19 +1,55 @@
 <% @average_difficulty_level = @paper.average_difficulty_level %>
-<div class="row graph-container">
-  <div class="graph-heading font-22">
-    AVERAGE DIFFICULTY LEVEL PER SET
-  </div>
-  <div class="row">
-    <div class="col-sm-7 col-sm-offset-2 graph-content">
-      <div id="average-difficulty-level-graph" style="height: 350px; background-color: transparent;"></div>
-    </div>
-    <div class="col-sm-3 graph-right">
-      <div class="content">
-        <div class="font-16">
-          Explanation
-        </div>
-        <div class="font-14">
-          The average difficulty of questions presented to you in the first set of questions was <%= @paper.get_range_text(@average_difficulty_level[0]) %>, the average for the second set of questions was  <%= @paper.get_range_text(@average_difficulty_level[1]) %> , the average for the third set of questions was  <%= @paper.get_range_text(@average_difficulty_level[2]) %> and was  <%= @paper.get_range_text(@average_difficulty_level[3]) %> for the final set of questions.
+<div class="row report-section-container avg-difficulty-per-set">
+  <div class="col-sm-12">
+    <div class="report-section-container-inner">
+      <div class="report-section-heading">average difficulty level per set</div>
+      <div class="report-section-content">
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="col-sm-12 graph-content">
+              <div id="average-difficulty-level-graph" style="height: 350px; background-color: transparent;"></div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="content">
+              <div class="box-3">
+                <div>Set I</div>
+                <div>
+                  <% range_text = @paper.get_range_text(@average_difficulty_level[0]) %>
+                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                    <%= range_text %>
+                  </div>
+                </div>
+              </div>
+              <div class="box-3">
+                <div>Set II</div>
+                <div>
+                  <% range_text = @paper.get_range_text(@average_difficulty_level[1]) %>
+                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                    <%= range_text %>
+                  </div>
+                </div>
+              </div>
+              <div class="box-3">
+                <div>Set III</div>
+                <div>
+                  <% range_text = @paper.get_range_text(@average_difficulty_level[2]) %>
+                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                    <%= range_text %>
+                  </div>
+                </div>
+              </div>
+              <div class="box-3">
+                <div>Set VI</div>
+                <div>
+                  <% range_text = @paper.get_range_text(@average_difficulty_level[3]) %>
+                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                    <%= range_text %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

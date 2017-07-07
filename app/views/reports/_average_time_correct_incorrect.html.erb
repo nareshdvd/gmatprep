@@ -1,20 +1,61 @@
 <% @average_time_correct_incorrect = @paper.average_time_correct_incorrect %>
-<div class="row graph-container">
-  <div class="graph-heading font-22">
-    AVERAGE TIME PER CORRECT/INCORRECT RESPONSE
-  </div>
-  <div class="row">
-    <div class="col-sm-3 graph-left">
-    </div>
-    <div class="col-sm-6 graph-content">
-      <div id="avg-time-per-correct-incorrect-graph" style="height: 350px; background-color: transparent;"></div>
-    </div>
-    <div class="col-sm-3 graph-right">
-      <div class="font-20 bold">AVERAGE TIME PER CORRECT RESPONSE:</div>
-      <div class="font-24 bold"><%= avg_time_correct = ("%02d" % @average_time_correct_incorrect[:data][0][4]) + ":" + ("%02d" % @average_time_correct_incorrect[:data][0][5]) %> Minutes</div>
-      <div class="font-16">Explanation:</div>
-      <div class="font-14">
-        The average time it took you to mark the correct answer was <%= avg_time_correct %> Minutes and the average time to mark an incorrect answer was <%= ("%02d" % @average_time_correct_incorrect[:data][1][4]) + ":" + ("%02d" % @average_time_correct_incorrect[:data][1][5]) %> Minutes.
+<div class="row report-section-container avg-time-correct-incorrect">
+  <div class="col-sm-12">
+    <div class="report-section-container-inner">
+      <div class="report-section-heading">average time per correct/incorrect response</div>
+      <div class="report-section-content">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="box-1">
+              <div>
+                correct response
+              </div>
+              <div class="color-green">
+                <div class="text-s-5">
+                  <%= avg_time_correct = ("%02d" % @average_time_correct_incorrect[:data][0][4]) + ":" + ("%02d" % @average_time_correct_incorrect[:data][0][5]) %>
+                </div>
+                <div class="text-s-1">
+                  Mins
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="col-sm-12 graph-content">
+              <div id="avg-time-per-correct-incorrect-graph" style="height: 350px; background-color: transparent;"></div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="content">
+              <div class="box-3">
+                <div>Correct Response</div>
+                <div>
+                  <div class="color-green">
+                    <div class="text-s-5">
+                      <%= avg_time_correct %>
+                    </div>
+                    <div class="text-s-1">
+                      Mins
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="box-3">
+                <div>Incorrect Response</div>
+                <div>
+                  <div class="color-g-orange">
+                    <div class="text-s-5">
+                      <%= ("%02d" % @average_time_correct_incorrect[:data][1][4]) + ":" + ("%02d" % @average_time_correct_incorrect[:data][1][5]) %>
+                    </div>
+                    <div class="text-s-1">
+                      Mins
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

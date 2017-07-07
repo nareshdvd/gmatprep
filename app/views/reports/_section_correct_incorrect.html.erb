@@ -1,36 +1,37 @@
-<div class="row graph-container">
-  <div class="graph-heading font-22">
-    SUB-SECTION PERFORMANCE
-  </div>
-  <div class="row">
-    <div class="col-sm-9 graph-content">
-      <div class="row">
-        <% @section_correct_incorrect_data.each do |section_data| %>
-          <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
-          <div class="col-sm-4">
-            <div id="section-correct-incorrect-graph-<%= sec_name_id %>" style="height: 220px; background-color: transparent;"></div>
+<div class="row report-section-container section-correct-incorrect">
+  <div class="col-sm-12">
+    <div class="report-section-container-inner">
+      <div class="report-section-heading">sub-section performance</div>
+      <div class="report-section-content">
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="row">
+              <% @section_correct_incorrect_data.each do |section_data| %>
+                <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
+                <div class="col-sm-4">
+                  <div id="section-correct-incorrect-graph-<%= sec_name_id %>" style="height: 220px; background-color: transparent;"></div>
+                </div>
+              <% end %>
+            </div>
           </div>
-        <% end %>
-      </div>
-    </div>
-    <div class="col-sm-3 graph-right">
-      <div class="content">
-        <div class="font-20 bold">
-          SUB-SECTION PERCENT CORRECT: 
-        </div>
-        <div class="font-16">
-          Explanation
-        </div>
-        <div class="font-14">
-          <% text = "You responded correctly to" %>
-          <% text_arr = [] %>
-          <% @section_correct_incorrect_data.each do |dt| %>
-            <% sec_name = dt["section_name"] %>
-            <% sec_correct_data = ( 
-              ((dt["data"].detect{|dt| dt[:name] == "Correct"}[:y] * 1.0) / (sec_name == Category::PASSAGE ? 13 : 14)) * 100) %>
-            <% text_arr << " #{sec_correct_data.round}% of the total #{sec_name} questions, "%>
-          <% end %>
-          <%= text + text_arr.join(", ") %>
+          <div class="col-sm-3">
+            <div class="content">
+              <% text_arr = [] %>
+              <% @section_correct_incorrect_data.each do |dt| %>
+                <% sec_name = dt["section_name"] %>
+                <% sec_correct_data = ( 
+                  ((dt["data"].detect{|dt| dt[:name] == "Correct"}[:y] * 1.0) / (sec_name == Category::PASSAGE ? 13 : 14)) * 100) %>
+                <div class="box-3">
+                  <div><%= sec_name %></div>
+                  <div>
+                    <div class="text-s-5">
+                      <%= sec_correct_data.round %><span class="percent-text">%</span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
     </div>

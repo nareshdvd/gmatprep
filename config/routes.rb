@@ -28,7 +28,6 @@ Rails.application.routes.draw do
   post "/paypal/notification" => "payments#notification", as: :payment_notification
   get "/report/:paper_id" => "reports#index", as: :report_index
   get "/report/:paper_id/performance-charts" => "reports#charts", as: :report_charts
-  get "/report/:paper_id/performance-charts/new" => "reports#new_charts", as: :new_report_charts
   get "/admins/questions/:id" => "admins#question", as: :admin_question
   post "/admins/questions/:id" => "admins#question", as: :post_admin_question
   get "/testingnew" => "home#testingnew"

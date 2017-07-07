@@ -4,16 +4,19 @@
   Highcharts.chart(container, {
     chart: {
         type: 'column',
+        marginLeft: 32,
         backgroundColor: chart_background
     },
     title: {
-        text: 'Percentage correct/incorrect'
+        text: ''
     },
     xAxis: {
         categories: ['I Set', 'II Set', 'III Set', 'IV Set']
     },
     yAxis: {
         min: 0,
+        max: 100,
+        tickInterval: 20,
         title: {
             text: ''
         },

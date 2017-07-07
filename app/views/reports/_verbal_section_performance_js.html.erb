@@ -1,72 +1,69 @@
 <script type="text/javascript">
-  var ctx_verbal_section_performance = document.getElementById("verbal-section-performance");
-  var bar_chart = new Chart(ctx_verbal_section_performance, {
-    type: 'horizontalBar',
-    data: {
-      labels: [""],
-      datasets: [{
-          label: 'Percentile',
-          data: [<%= @paper.percentile %>, 100],
-          backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-      }]
+  var container = $("#verbal-section-performance-graph")[0];
+  var dataset = [{name: "Percentile", data: [{y: <%= @paper.percentile %>, color: bar_colors[1][0]}], pointWidth: 40, color: "#800d92"}];
+  new Highcharts.Chart({
+    chart: {
+        renderTo: container,
+        type: 'bar',
+        marginLeft: 100,
+        backgroundColor: chart_background
     },
-    options: {
-      scales: {
-        yAxes: [{
-          gridLines: {
-            color: "rgba(0, 0, 0, 0)",
-          },
-          barPercentage : 0.25,
-        }],
-        xAxes: [
-          {
-            gridLines: {
-              color: "rgba(0, 0, 0, 0)",
-            },
-            ticks: {
-              beginAtZero:true
-            }
-          }
-        ]
-      },
-      animation: {
-        duration: 0,
-        onComplete: function () {
-          var chartInstance = this.chart,
-          ctx = chartInstance.ctx;
-          ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'bottom';
-
-          this.data.datasets.forEach(function (dataset, i) {
-            var meta = chartInstance.controller.getDatasetMeta(i);
-            meta.data.forEach(function (bar, index) {
-              var data = dataset.data[index];
-              ctx.fillText(data, bar._model.x + 10, bar._model.y + 7);
-            });
-          });
-        }
-      },
-      tooltips: {
+    title: {
+        text: "",
+        align: 'left',
+        x: 90
+    },
+    credits: {
         enabled: false
-      },
-      events: ['click']
-    }
-  });
+    },
+    xAxis: {
+        lineColor: '#cecece',
+        categories: ['Scaled Score'],
+        labels: {
+          style: {
+            color: '#000',
+            font: '11px LatoWebBlack, sans-serif'
+          }
+        }
+    },
+    yAxis: {
+        lineColor: '#cecece',
+        lineWidth: 1,
+        allowDecimals: false,
+        labels: {
+          style: {
+            color: '#000',
+            font: '11px LatoWebBlack, sans-serif'
+          }
+        },
+        title: {
+            text: null
+        },
+        gridLineColor: '#cecece',
+        min: 0,
+        max: 100
+    },
+    plotOptions: {
+        bar: {
+            color: "#aaa",
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color: "#000",
+                style: {
+                    fontSize: label_inner_size
+                }
+            }
+        },
+        line: {
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    series: dataset
+  })
 </script>

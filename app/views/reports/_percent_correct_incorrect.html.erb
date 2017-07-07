@@ -1,30 +1,80 @@
 <% @correct_incorrect_graph_data = @paper.correct_incorrect_graph_data %>
 <% @correct_group = @correct_incorrect_graph_data[:series].detect{|grp| grp[:name] == "Correct"} %>
 <% if @correct_group.blank? %>
-  @correct_group = [0 , 0, 0, 0]
+  @correct_group = [0, 0, 0, 0]
 <% end %>
-<div class="row graph-container">
-  <div class="graph-heading font-22">
-    PERCENT CORRECT
-  </div>
-  <div class="row">
-    <div class="col-sm-3 graph-left">
-      <div class="content">
-        <div class="font-20 bold text-left">PERCENT CORRECT OVERALL</div>
-        <div class="bold font-24">
-          <%= percent_correct_overall = @paper.correct_percent_overall %> %
+<div class="row report-section-container percent-correct-incorrect">
+  <div class="col-sm-12">
+    <div class="report-section-container-inner">
+      <div class="report-section-heading">performance in percentage</div>
+      <div class="report-section-content">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="box-1">
+              <div>
+                correct answers
+              </div>
+              <div class="color-green">
+                <%= percent_correct_overall = @paper.correct_percent_overall %><span class="percent-text">%</span>
+              </div>
+            </div>
+            <div class="box-1">
+              <div>
+                incorrect answers
+              </div>
+              <div class="color-g-orange">
+                <%= 100 - percent_correct_overall %><span class="percent-text">%</span>
+              </div>
+            </div>
+            <div class="explanation-head">
+              Explanation
+            </div>
+            <div class="explanation-text">
+              You correctly answered <%= percent_correct_overall %>% of the total set of questions. 
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="col-sm-12 graph-content">
+              <div id="percent-correct-incorrect-graph" style="height: 300px; background-color: transparent;"></div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="content">
+              <div class="box-3">
+                <div>Set I</div>
+                <div>
+                  <div class="text-s-5">
+                    <%= @correct_group[:data][0] %><span class="percent-text">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="box-3">
+                <div>Set II</div>
+                <div>
+                  <div class="text-s-5">
+                    <%= @correct_group[:data][1] %><span class="percent-text">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="box-3">
+                <div>Set III</div>
+                <div>
+                  <div class="text-s-5">
+                    <%= @correct_group[:data][2] %><span class="percent-text">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="box-3">
+                <div>Set IV</div>
+                <div>
+                  <div class="text-s-5">
+                    <%= @correct_group[:data][3] %><span class="percent-text">%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="font-14">
-          You correctly answered <%= percent_correct_overall %>% of the total set of questions. 
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 graph-content">
-      <div id="percent-correct-incorrect-graph" style="height: 380px; background-color: transparent;"></div>
-    </div>
-    <div class="col-sm-3 graph-left">
-      <div class="content">
-        You responded correctly to <%= @correct_group[:data][0] %>% of the first set of questions, <%= @correct_group[:data][1] %>% of the second set of questions, <%= @correct_group[:data][2] %>% of the third set of questions and <%= @correct_group[:data][3] %>% of the final set of questions.
       </div>
     </div>
   </div>
