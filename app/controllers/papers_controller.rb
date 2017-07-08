@@ -5,6 +5,45 @@ class PapersController < ApplicationController
 
   end
 
+  def test_finish
+    @paper = Paper.find_by_id(params[:paper_id])
+    respond_to do |format|
+      binding.pry
+      if @paper.present? && @paper.unfinished?
+        binding.pry
+        if @paper.finish_time.blank?
+          @paper.update_attributes({finish_time: Time.now})
+        end
+        format.html{ render "candidates/paper_finish" }
+      else
+        format.html { redirect_to root_path }
+      end
+    end
+  end
+
+  def finish_test
+    @paper = Paper.find_by_id(params[:paper_id])
+    respond_to do |format|
+      if @paper.present?
+        sleep(5)
+        format.html{ redirect_to paper_score_path(@paper) }
+      else
+        format.html{ redirect_to root_path }
+      end
+    end
+  end
+
+  def show_score
+    @paper = Paper.find_by_id(params[:paper_id])
+    respond_to do |format|
+      if @paper.present?
+        format.html{ render "candidates/score" }
+      else
+        format.html{ redirect_to root_path }
+      end
+    end
+  end
+
   def instructions
     step_number = params[:step_number]
     subscription_id = params[:subscription_id]
@@ -44,9 +83,7 @@ class PapersController < ApplicationController
             if question.unanswered?
               format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
             elsif question.question_number == 41
-              if paper.finish_time.blank?
-                paper.update_attributes({finish_time: Time.now})
-              end
+              format.html{ redirect_to paper_finish_path(paper.id) }
             else
               question = paper.add_question
               format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
@@ -67,6 +104,7 @@ class PapersController < ApplicationController
               format.html{ redirect_to root_path, notice: "Your subscription has finished" }
             else
               paper = subscription.papers.create(start_time: Time.now)
+              FinishPaperWorker.perform_in(10.seconds, paper.id)
               InfluxMonitor.push_to_influx("started_test", {"plan" => subscription.plan.name})
               question = paper.add_question(true)
               format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
@@ -98,10 +136,7 @@ class PapersController < ApplicationController
             format.html{ redirect_to papers_question_path(paper_id, last_question.question_number) }
           end
         elsif last_question.question_number == 41
-          if @paper.finish_time.blank?
-            @paper.update_attributes({finish_time: Time.now})
-          end
-          format.html{ redirect_to root_path, notice: "Paper finished" }
+          format.html{ redirect_to paper_finish_path(paper.id) }
         else
           @paper_question = @paper.add_question
           format.html
@@ -125,10 +160,7 @@ class PapersController < ApplicationController
             last_question.save
           end
           if last_question.question_number == 41
-            if paper.finish_time.blank?
-              paper.update_attributes({finish_time: Time.now})
-            end
-            format.html{ redirect_to root_path, notice: "Paper finished" }
+            format.html{ redirect_to paper_finish_path(paper.id) }
           else
             next_question = paper.add_question
             format.html {redirect_to papers_question_path(paper.id, next_question.question_number)}

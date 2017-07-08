@@ -27,4 +27,8 @@ class Question < ActiveRecord::Base
     self.used_in_free_plan = true
     self.save
   end
+
+  def correct_option
+    options.find_by(correct: true)
+  end
 end

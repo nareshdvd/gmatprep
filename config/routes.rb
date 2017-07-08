@@ -1,12 +1,17 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   resources :categories
   resources :levels
   resources :questions
   resources :passages
+  mount Sidekiq::Web => '/sidekiq'
   get 'score_schemes' => 'score_schemes#index', as: 'index_score_schemes'
   post 'score_schemes' => 'score_schemes#update_all', as: 'update_score_schemes'
   get 'papers/:subscription_id/new' => 'papers#new', as: :new_test
   get 'papers/:subscription_id/instructions/:step_number' => "papers#instructions", as: :paper_instructions
+  get 'papers/:paper_id/finish' => "papers#test_finish", as: :paper_finish
+  get 'papers/:paper_id/score' => "papers#show_score", as: :paper_score
+  post 'papers/:paper_id/finish' => "papers#finish_test", as: :finish_paper
   get '/users' => "home#index_users", as: :index_users
   delete 'candidates/:candidate_id/papers/destroy' => 'home#destroy_papers', as: :destroy_tests
   get 'papers/test', as: "test"

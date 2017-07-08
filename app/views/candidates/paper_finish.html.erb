@@ -1,0 +1,164 @@
+<%= content_for :extra_css do %>
+  <%= stylesheet_link_tag "papers" %>
+  <style type="text/css">
+    .glyphicon.fast-right-spinner {
+      -webkit-animation: glyphicon-spin-r 1s infinite linear;
+      animation: glyphicon-spin-r 1s infinite linear;
+    }
+
+    .glyphicon.normal-right-spinner {
+      -webkit-animation: glyphicon-spin-r 2s infinite linear;
+      animation: glyphicon-spin-r 2s infinite linear;
+    }
+
+    .glyphicon.slow-right-spinner {
+      -webkit-animation: glyphicon-spin-r 3s infinite linear;
+      animation: glyphicon-spin-r 3s infinite linear;
+    }
+
+    .glyphicon.fast-left-spinner {
+      -webkit-animation: glyphicon-spin-l 1s infinite linear;
+      animation: glyphicon-spin-l 1s infinite linear;
+    }
+
+    .glyphicon.normal-left-spinner {
+      -webkit-animation: glyphicon-spin-l 2s infinite linear;
+      animation: glyphicon-spin-l 2s infinite linear;
+    }
+
+    .glyphicon.slow-left-spinner {
+      -webkit-animation: glyphicon-spin-l 3s infinite linear;
+      animation: glyphicon-spin-l 3s infinite linear;
+    }
+
+    @-webkit-keyframes glyphicon-spin-r {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+    }
+
+    @keyframes glyphicon-spin-r {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+    }
+
+    @-webkit-keyframes glyphicon-spin-l {
+      0% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+    }
+
+    @keyframes glyphicon-spin-l {
+      0% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+    }
+  </style>
+<% end %>
+<%= content_for :body_classes do %>paper_body<% end %>
+<%= content_for :navbar_classes do %>navbar-fixed-top<% end %>
+<%= content_for :main_container_classes do %>paper_container<% end %>
+<%= simple_form_for :paper, url: finish_paper_path(@paper.id), html: {class: "form-horizontal finish-test height-100"} do |f| %>
+  <div class="row height-100 border-l-100 border-r-100">
+    <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
+          <b class="color-white pull-left"></b>
+          <div class="pull-right">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+          <div class="row">
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="pull-left">
+                <span>
+                  &nbsp;
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="pull-right">
+                &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row height-100" style="padding-top: 67px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 height-100" style="overflow-y: scroll;">
+          <div class="bg-white">
+            <div class="row">
+              <div class="col-sm-12">
+                <div>Welcome</div>
+                <p>Welcome to GMATRIC exam section.</p>
+                <p>You are about to begin your Verbal test.</p>
+                <p>Multiple-choice questions will have five response options, but only one correct answer. You may select the best answer by –</p>
+                <ul>
+                  <li>Clicking anywhere in the response button,</li>
+                  <li>Clicking the circle next to the response button, or</li>
+                  <li>Pressing Tab to move through the options and pressing the spacebar to select an answer.</li>
+                </ul>
+                <p>
+                  You must answer each multiple-choice question before moving to the next section. You will then be prompted to confirm your answer. You may not change your answer after you have confirmed it.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+          <div class="bg-light-blue">
+            <button type="submit" class="btn btn-sm btn-primary pull-right show-score" style="display: block;">Show Result</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= content_for :bottom_js do %>
+  <script type="text/javascript">
+    $(document).on("submit", ".finish-test", function(){
+      bootbox.dialog({
+        closeButton: false,
+        message: '<div class="text-center"><i class="glyphicon glyphicon-repeat normal-right-spinner"></i> Please wait while we calculate your score</div>',
+        className: "medium"
+      }).find('.modal-content').css({
+        'margin-top': function (){
+          var w = $( window ).height();
+          var b = $(".modal-dialog").height();
+          var h = (w-b)/2 - 180;
+          return h+"px";
+        }
+      });
+    });
+  </script>
+<% end %>

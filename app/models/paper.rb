@@ -30,6 +30,10 @@ class Paper < ActiveRecord::Base
     end
   end
 
+  def finished_questions
+    return papers_questions.where("option_id IS NOT NULL")
+  end
+
   def get_time_info
     paper = self
     ["#{Date.today.to_s(:db)} 00:00:00"] + paper.papers_questions.preload(question: :category).group_by{|pq| pq.question.category.id}.collect do |category_id, pqs|
@@ -137,6 +141,8 @@ class Paper < ActiveRecord::Base
   def correct_percent_overall
     if (data = papers_questions.joins(question: :options).where("options.id = papers_questions.option_id").select("(CASE WHEN options.correct = 1 THEN 'correct' ELSE 'incorrect' END) as correct_incorrect, COUNT(papers_questions.id) as question_count").group("correct_incorrect").as_json.detect{|dt| dt["correct_incorrect"] == "correct"})
       (((data["question_count"] * 1.0) / 41) * 100).round
+    else
+      0
     end
   end
 
@@ -147,20 +153,25 @@ class Paper < ActiveRecord::Base
         data[1] = {
           "correct_incorrect" => "incorrect",
           "average_time" => 0,
-          "pq_count" => 0
+          "pq_count" => 0,
+          "total_time" => 0
         }
       else
         data[1] = {
           "correct_incorrect" => "correct",
           "average_time" => 0,
-          "pq_count" => 0
+          "pq_count" => 0,
+          "total_time" => 0
         }
       end
-    else
-      data.each do |dt|
-        dt["average_time"] = (dt["total_time"] / dt["pq_count"])
-        dt.delete("total_time")
+    end
+    data.each do |dt|
+      if dt["total_time"] == 0 && dt["pq_count"] == 0
+        dt["average_time"] = 0
+      else
+        dt["average_time"] = ((dt["total_time"] * 1.0) / dt["pq_count"])
       end
+      dt.delete("total_time")
     end
     data = [
       data.detect{|dt| dt["correct_incorrect"] == "correct"},
@@ -267,6 +278,12 @@ class Paper < ActiveRecord::Base
       if inx != 0
         if level_id < data[inx - 1][:level_id]
           data[inx][:val] = data[inx - 1][:val] - 0.7
+        elsif (level_id == data[inx - 1][:level_id]) && data[inx-2].present? && (level_id == data[inx - 2][:level_id])
+          if level_id == 1
+            data[inx][:val] = data[inx - 1][:val] - 0.7
+          else level_id == 3
+            data[inx][:val] = data[inx - 1][:val] + 0.5
+          end
         else
           data[inx][:val] = data[inx - 1][:val] + 0.5
         end
@@ -430,7 +447,11 @@ class Paper < ActiveRecord::Base
   end
 
   def finished?
-    self.finish_time.present? || (self.start_time + Paper::MINUTES.minutes < Time.now) || (self.papers_questions.last.question_number == 41 && self.papers_questions.last.answered?)
+    self.finish_time.present? || (self.start_time + Paper::MINUTES.minutes < Time.now)
+  end
+
+  def all_answered?
+    self.papers_questions.last.question_number == 41 && self.papers_questions.last.answered?
   end
 
   def unfinished?
