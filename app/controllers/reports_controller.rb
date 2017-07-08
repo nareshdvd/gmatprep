@@ -26,6 +26,27 @@ class ReportsController < ApplicationController
           format.html{redirect_to root_path, notice: "Report Not Found"}
         else
           format.html
+          format.pdf do
+            render pdf: 'file_name.pdf',
+            template: 'reports/charts.html.erb',
+            layout: 'pdf',
+            orientation: 'Landscape',
+            page_size: nil,
+            page_width: '25in',
+            show_as_html: params.key?('debug'),
+            javascript_delay: 10000
+            # pdf = WickedPdf.new.pdf_from_string(
+            #   render_to_string('reports/charts.html.erb',
+            #     :layout => 'layouts/application.html',
+            #     :javascript_delay => 5000,
+            #     :page_size => nil,
+            #     :page_width => '30in'
+            #   )
+            # )
+            # send_data pdf, filename: "paper-#{@paper.id}.pdf",
+            #       type: 'application/pdf',
+            #       disposition: 'inline'
+          end
         end
       end
     end

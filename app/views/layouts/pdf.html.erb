@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="">
+  <head>
+    <title>Gmatric</title>
+    <%= csrf_meta_tags %>
+    <meta/>
+    <script>
+      var payment_init_url = "<%= payment_init_url(format: :json) %>";
+    </script>
+    <%= wicked_pdf_stylesheet_link_tag 'pdf', media: 'all' %>
+    <%= yield :extra_css %>
+    <style type="text/css">
+      body{
+        letter-spacing: 1 !important;
+      }
+      div.alwaysbreak { page-break-before: always; }
+      div.nobreak:before { clear:both; }
+      div.nobreak { page-break-inside: avoid; }
+    </style>
+  </head>
+  <body class="new <%= yield :body_classes %>">
+    <div class="container <%= yield :main_container_classes %>">
+      <%= yield %>
+    </div>
+    <%= yield :footer_content %>
+    <%= wicked_pdf_javascript_include_tag 'application' %>
+    <% if current_user && current_user.is_admin? %>
+      <%= tinymce %>
+    <% end %>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script type="text/javascript">
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    </script>
+    <%= yield :bottom_js %>
+  </body>
+</html>

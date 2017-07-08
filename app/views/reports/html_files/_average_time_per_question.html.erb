@@ -1,10 +1,10 @@
 <div class="row report-section-container avg-time-per-set">
-  <div class="col-sm-12">
+  <div class="col-sm-12 col-xs-12">
     <div class="report-section-container-inner">
       <div class="report-section-heading">average time per question (set-wise)</div>
       <div class="report-section-content">
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3 col-xs-3">
             <div class="content">
               <% section_name = ["I", "II", "III", "IV"] %>
               <% @average_time_per_question.each_with_index do |dt, inx| %>
@@ -26,13 +26,14 @@
               <% end %>
             </div>
           </div>
-          <div class="col-sm-9">
+          <% css = params[:format] == "pdf" ? " width: 290px;" : "" %>
+          <div class="col-sm-9 col-xs-9">
             <div class="graph-content">
               <div class="row">
                 <% @average_time_per_question.each do |section_data| %>
                   <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
-                  <div class="col-sm-3">
-                    <div id="avg-time-per-question-graph-<%= sec_name_id %>" style="height: 220px; background-color: transparent;"></div>
+                  <div class="col-sm-3 col-xs-3">
+                    <div id="avg-time-per-question-graph-<%= sec_name_id %>" style="height: 220px;<%= css %> background-color: transparent;"></div>
                     <div class="font-14 text-center bold">
                       <%= section_data["data"][0][:avg_time] %>
                     </div>

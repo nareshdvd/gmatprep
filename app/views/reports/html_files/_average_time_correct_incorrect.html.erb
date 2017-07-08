@@ -1,12 +1,13 @@
 <% @average_time_correct_incorrect = @paper.average_time_correct_incorrect %>
+<div class="alwaysbreak"></div>
 <div class="row report-section-container avg-time-correct-incorrect">
-  <div class="col-sm-12">
+  <div class="col-sm-12 col-xs-12">
     <div class="report-section-container-inner">
       <div class="report-section-heading">average time per correct/incorrect response</div>
       <div class="report-section-content">
         <div class="row">
           <% avg_time_correct = ("%02d" % @average_time_correct_incorrect[:data][0][4]) + ":" + ("%02d" % @average_time_correct_incorrect[:data][0][5]) %>
-          <div class="col-sm-3">
+          <div class="col-sm-3 col-xs-3">
             <div class="content">
               <div class="box-3">
                 <div>Correct Response</div>
@@ -36,7 +37,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-9">
+          <div class="col-sm-9 col-xs-9">
             <div class="graph-content">
               <div id="avg-time-per-correct-incorrect-graph" style="height: 350px; background-color: transparent;"></div>
             </div>

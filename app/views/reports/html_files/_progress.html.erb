@@ -1,12 +1,13 @@
 <div class="row report-section-container progress-container">
-  <div class="col-sm-12">
+  <div class="col-sm-12 col-xs-12 col-md-12">
     <div class="report-section-container-inner">
       <div class="report-section-heading">Progress chart</div>
       <div class="report-section-content">
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-12 col-md-12">
             <div class="graph-content">
-              <div id="progress-graph" style="height: 350px; background-color: transparent;"></div>
+              <% css = params[:format] == "pdf" ? " width: 1450px;" : "" %>
+              <div id="progress-graph" style="height: 350px;<%= css %> background-color: transparent;"></div>
             </div>
           </div>
         </div>
