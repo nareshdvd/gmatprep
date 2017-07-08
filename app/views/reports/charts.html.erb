@@ -24,8 +24,8 @@
     font-size: 18px;
     font-weight: bold;
     width: 59px;
-    height: 35px;
-    line-height: 1.08;
+    height: 37px;
+    line-height: 1.28;
     color: #3e3e3e;
     float: left;
   }
@@ -38,7 +38,6 @@
     line-height: 0.8;
   }
   .box-2{
-    width: 170px;
     height: 38px;
     background-color: #2196f3;
     font-size: 23px;
@@ -46,7 +45,8 @@
     color: #fff;
     line-height: 1.7;
     font-weight: 600;
-    padding-left: 0px;
+    padding: 0px 16px;
+    display: inline-block;
   }
 
   .box-3{
@@ -83,7 +83,6 @@
 
   .box-3 .text-s-1{
     text-align: right;
-    letter-spacing: 2px;
   }
 
   .explanation-head{
@@ -121,7 +120,6 @@
   }
   .percent-correct-incorrect .box-3 .percent-text{
     font-size: 16px;
-    font-weight: 900;
   }
   .section-correct-incorrect .box-3 > div:first-child {
     height: 36px;
@@ -132,8 +130,9 @@
   .section-correct-incorrect .box-3:last-child .text-s-5{
     margin-top: 0px;
   }
-  .section-correct-incorrect .box-3:last-child > div:first-child{
-    height: 21px;
+
+  .section-correct-incorrect .box-3 .percent-text {
+    font-size: 16px;
   }
 
   .avg-time-per-set .box-3 > div:first-child{
@@ -141,16 +140,18 @@
   }
 
   .avg-time-correct-incorrect .text-s-5{
-    width: 65px;
-    height: 19px;
-    line-height: 22px;
+    width: 71px;
+    height: 24px;
+    line-height: 28px;
     font-size: 28px;
   }
   .avg-time-correct-incorrect .text-s-1{
     font-size: 13px;
-    margin-top: 6px;
-    width: 62px;
+    margin-top: 3px;
+    width: 71px;
     text-align: right;
+    height: 15px;
+    line-height: 17px;
   }
   .avg-time-correct-incorrect .box-1 > div:first-child{
     width: 93px;
@@ -172,6 +173,7 @@
   var bar_colors = JSON.parse('<%=raw @paper.bar_colors.to_json.html_safe %>');
   var chart_background = 'rgba(255, 255, 255, 0.1)';
   var label_inner_size = "11px";
+  var bar_width = 40;
 </script>
 <%= render "reports/verbal_section_performance" %>
 <%= render "reports/sub_section_time_management" %>

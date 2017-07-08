@@ -25,13 +25,6 @@
         align: 'left',
         x: 90
     },
-    plotOptions: {
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        }
-    },
     credits: {
         enabled: false
     },
@@ -72,13 +65,24 @@
                 font: '11px LatoWebBlack, sans-serif'
             }
         },
-        gridLineColor: '#ccd6eb'
+        gridLineColor: '#ccd6eb',
+        title: {
+            text: "Time (in minutes)"
+        }
     },
     legend: {
         enabled: false
     },
     series: dataset,
     plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            }
+        },
+        series: {
+            pointWidth: bar_width
+        },
         bar: {
             color: "#aaa",
             stacking: 'normal',

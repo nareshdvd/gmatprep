@@ -1,11 +1,11 @@
 <script type="text/javascript">
   var container = $("#verbal-section-performance-graph")[0];
-  var dataset = [{name: "Percentile", data: [{y: <%= @paper.percentile %>, color: bar_colors[1][0]}], pointWidth: 40, color: "#800d92"}];
+  var dataset = [{name: "Percentile", data: [{y: <%= @paper.percentile %>, color: bar_colors[1][0]}], pointWidth: bar_width, color: "#800d92"}];
   new Highcharts.Chart({
     chart: {
         renderTo: container,
         type: 'bar',
-        marginLeft: 100,
+        marginLeft: 10,
         backgroundColor: chart_background
     },
     title: {
@@ -18,7 +18,7 @@
     },
     xAxis: {
         lineColor: '#cecece',
-        categories: ['Scaled Score'],
+        categories: [''],
         labels: {
           style: {
             color: '#000',
@@ -37,13 +37,16 @@
           }
         },
         title: {
-            text: null
+            text: "Percentile"
         },
         gridLineColor: '#cecece',
         min: 0,
         max: 100
     },
     plotOptions: {
+        series: {
+            pointWidth: bar_width
+        },
         bar: {
             color: "#aaa",
             stacking: 'normal',

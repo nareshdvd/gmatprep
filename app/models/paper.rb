@@ -4,6 +4,11 @@ class Paper < ActiveRecord::Base
   MINUTES = 75
   QUESTION_COUNT = 41
   MAX_SCORE = 48
+  DARK_ORANGE   = "#f48041"
+  DARK_YELLOW   = "#f6ce44"
+  DARK_PURPLE   = "#8e60ec"
+  DARK_GREEN    = "#54e193"
+  DARK_RED      = "#fb5d6a"
   serialize :category_scheme, JSON
   before_create :set_category_scheme
 
@@ -12,7 +17,7 @@ class Paper < ActiveRecord::Base
   }
 
   def get_range_text(difficulty)
-    difficulty = difficulty.round(1)
+    difficulty = difficulty["y"].round(1)
     if difficulty >= 3 && difficulty <= 3.5
       "HIGH"
     elsif difficulty >= 2.5 && difficulty <= 2.9
@@ -76,14 +81,14 @@ class Paper < ActiveRecord::Base
       hash
     end
     data1 = []
-    data1 << {name: "Correct", y: data[data.keys[0]]["correct"], color: "#0DE906"}
-    data1 << {name: "Incorrect", y: data[data.keys[0]]["in_correct"], color: "#FF4000"}
+    data1 << {name: "Correct", y: data[data.keys[0]]["correct"], color: DARK_GREEN}
+    data1 << {name: "Incorrect", y: data[data.keys[0]]["in_correct"], color: DARK_RED}
     data2 = []
-    data2 << {name: "Correct", y: data[data.keys[1]]["correct"], color: "#0DE906"}
-    data2 << {name: "Incorrect", y: data[data.keys[1]]["in_correct"], color: "#FF4000"}
+    data2 << {name: "Correct", y: data[data.keys[1]]["correct"], color: DARK_GREEN}
+    data2 << {name: "Incorrect", y: data[data.keys[1]]["in_correct"], color: DARK_RED}
     data3 = []
-    data3 << {name: "Correct", y: data[data.keys[2]]["correct"], color: "#0DE906"}
-    data3 << {name: "Incorrect", y: data[data.keys[2]]["in_correct"], color: "#FF4000"}
+    data3 << {name: "Correct", y: data[data.keys[2]]["correct"], color: DARK_GREEN}
+    data3 << {name: "Incorrect", y: data[data.keys[2]]["in_correct"], color: DARK_RED}
     data = [
       {
         "section_name" => data.keys[0],
@@ -111,17 +116,17 @@ class Paper < ActiveRecord::Base
       data1 = []
       if minutes.to_i == 1
         if seconds.to_i <= 49
-          data1 << {name: "Average time", color: "#0DE906", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
+          data1 << {name: "Average time", color: DARK_GREEN, y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
         else
-          data1 << {name: "Average time", color: "#FF4000", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
+          data1 << {name: "Average time", color: DARK_RED, y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
         end
       elsif minutes.to_i == 0
-        data1 << {name: "Average time", color: "#0DE906", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
+        data1 << {name: "Average time", color: DARK_GREEN, y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
       else
-        data1 << {name: "Average time", color: "#FF4000", y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
+        data1 << {name: "Average time", color: DARK_RED, y: 100, avg_time: "#{minutes}:#{seconds} Minutes"}
       end
       new_data << {
-        "section_name" => "Average time #{dt['id_group']}",
+        "section_name" => "Set #{dt['id_group']}",
         "data" => data1
       }
     end
@@ -182,8 +187,12 @@ class Paper < ActiveRecord::Base
       "2" => 0.2,
       "3" => 0.5
     }
-    hash = data.inject(Hash.new) do |hash, set_data|
-      hash[set_data["id_group"]] = set_data["level_ids"].split(",").collect{|level_id| level_score[level_id]}.sum
+    inx = 0
+    colors = [DARK_ORANGE, DARK_PURPLE, DARK_RED, DARK_GREEN]
+    hash = data.inject(Hash.new{|h, k| h[k] = {}}) do |hash, set_data|
+      hash[set_data["id_group"]]["y"] = set_data["level_ids"].split(",").collect{|level_id| level_score[level_id]}.sum
+      hash[set_data["id_group"]]["color"] = colors[inx]
+      inx += 1
       hash
     end
     return [
@@ -196,11 +205,11 @@ class Paper < ActiveRecord::Base
 
   def bar_colors
     {
-      1 => ["#DF01D7"],
-      2 => ["#FF4000", "#FFBF00"],
-      3 => ["#FFBF00", "#FF4000", "#DF01D7"],
-      4 => ["#0B3B2E", "#FFBF00", "#FF4000", "#DF01D7"],
-      "green-red" => ["#0DE906", "#FF4000"]
+      1 => [DARK_ORANGE],
+      2 => [DARK_YELLOW, DARK_PURPLE],
+      3 => [DARK_ORANGE, DARK_YELLOW, DARK_PURPLE],
+      4 => [DARK_ORANGE, DARK_YELLOW, DARK_PURPLE, DARK_GREEN],
+      "green-red" => [DARK_GREEN, DARK_RED]
     }
   end
 
@@ -227,8 +236,8 @@ class Paper < ActiveRecord::Base
       series: [
       ]
     }
-    data[:series] << {data: correct_percentage, name: "Correct", color: "#0DE906"}
-    data[:series] << {data: incorrect_percentage, name: "Incorrect", color: "#FF4000"}
+    data[:series] << {data: correct_percentage, name: "Correct", color: DARK_GREEN}
+    data[:series] << {data: incorrect_percentage, name: "Incorrect", color: DARK_RED}
     return data
   end
 

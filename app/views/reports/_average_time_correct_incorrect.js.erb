@@ -23,13 +23,6 @@ new Highcharts.Chart({
       align: 'left',
       x: 90
   },
-  plotOptions: {
-      line: {
-          dataLabels: {
-              enabled: true
-          }
-      }
-  },
   credits: {
       enabled: false
   },
@@ -70,26 +63,37 @@ new Highcharts.Chart({
               font: '11px LatoWebBlack, sans-serif'
           }
       },
-      gridLineColor: '#cecece'
+      gridLineColor: '#cecece',
+      title: {
+        text: "Time (in minutes)"
+      }
   },
   legend: {
       enabled: false
   },
   series: dataset,
   plotOptions: {
-      bar: {
-          color: "#aaa",
-          stacking: 'normal',
-          dataLabels: {
-              enabled: true,
-              color: '#000',
-              formatter: function(){
-                  return ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":"))
-              },
-              style: {
-                  fontSize: label_inner_size
-              }
-          }
+    line: {
+      dataLabels: {
+        enabled: true
       }
+    },
+    series: {
+        pointWidth: bar_width
+    },
+    bar: {
+      color: "#aaa",
+      stacking: 'normal',
+      dataLabels: {
+        enabled: true,
+        color: '#000',
+        formatter: function(){
+          return ((a = (new Date(this.y - 19800000)).toString().split(" ")[4].split(":")).shift() && a.join(":"))
+        },
+        style: {
+          fontSize: label_inner_size
+        }
+      }
+    }
   }
 });
