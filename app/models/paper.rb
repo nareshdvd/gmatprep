@@ -4,11 +4,11 @@ class Paper < ActiveRecord::Base
   MINUTES = 75
   QUESTION_COUNT = 41
   MAX_SCORE = 48
-  DARK_ORANGE   = "#f48041"
-  DARK_YELLOW   = "#ebc844"
-  DARK_PURPLE   = "#8e60ec"
-  DARK_GREEN    = "#5cb85c"
-  DARK_RED      = "#ff3300"
+  DARK_ORANGE   = "#ff9800"
+  DARK_YELLOW   = "#ffeb3b"
+  DARK_PURPLE   = "#7e57c2"
+  DARK_GREEN    = "#4caf50"
+  DARK_RED      = "#f44336"
   DARK_YELLOWISH_GREEN = "#ef8b2c"
   serialize :category_scheme, JSON
   before_create :set_category_scheme
