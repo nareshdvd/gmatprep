@@ -7,8 +7,8 @@ class Paper < ActiveRecord::Base
   DARK_ORANGE   = "#ff9800"
   DARK_YELLOW   = "#ffeb3b"
   DARK_PURPLE   = "#7e57c2"
-  DARK_GREEN    = "#4caf50"
-  DARK_RED      = "#f44336"
+  DARK_GREEN    = "#0099FF"
+  DARK_RED      = "#FF0000"
   DARK_YELLOWISH_GREEN = "#ef8b2c"
   serialize :category_scheme, JSON
   before_create :set_category_scheme
