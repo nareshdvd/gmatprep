@@ -3,7 +3,7 @@ class Category < ActiveRecord::Base
   has_many :questions
   SENTENCE_CORRECTION = "Sentence Correction"
   CRITICAL_REASONING = "Critial Reasoning"
-  PASSAGE = "Passage"
+  PASSAGE = "Reading Comprehension"
   def self.index_columns
     {
       'name' => 'Name',
