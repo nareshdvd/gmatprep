@@ -1,0 +1,81 @@
+function difficulty_text(difficulty){
+  difficulty = parseFloat(difficulty.toFixed(1))
+  if(difficulty >= 3 && difficulty <= 3.5){
+    return "HIGH"
+  }
+  else if(difficulty >= 2.5 && difficulty <= 2.9){
+    return "MEDIUM HIGH"
+  }
+  else if(difficulty >= 1.5 && difficulty <= 2.4){
+    return "MEDIUM"
+  }
+  else{
+    return "LOW"
+  }
+}
+var container = $("#average-difficulty-level-graph")[0];
+Highcharts.chart(container, {
+  chart: {
+    type: 'column',
+    backgroundColor: chart_background
+  },
+  title: {
+    text: ''
+  },
+  subtitle: {
+    text: ''
+  },
+  xAxis: {
+    categories: [
+      'I Set',
+      'II Set',
+      'III Set',
+      'IV Set'
+    ],
+    crosshair: true,
+    lineColor: line_color,
+    lineWidth: 1,
+    gridLineColor: '#eee'
+  },
+  yAxis: {
+    min: 0,
+    step: 0.5,
+    title: {
+      text: 'Difficulty Level'
+    },
+    lineColor: line_color,
+    lineWidth: 1,
+    gridLineColor: '#eee'
+  },
+  tooltip: {
+    shared: true,
+    formatter: function(){
+      return "Level: " + difficulty_text(this.y)
+    }
+  },
+  plotOptions: {
+    series: {
+      pointWidth: bar_width
+    },
+    column: {
+      pointPadding: 0.2,
+      borderWidth: 0,
+      dataLabels: {
+        enabled: false,
+        color: '#000',
+        formatter: function(){
+        return this.y.toFixed(1)
+        },
+        style: {
+          fontSize: label_inner_size
+        }
+      }
+
+    }
+  },
+  series: [{
+    name: 'Average Difficulty',
+    data: JSON.parse('<%= @average_difficulty_level.to_json.html_safe %>')
+
+  }]
+});

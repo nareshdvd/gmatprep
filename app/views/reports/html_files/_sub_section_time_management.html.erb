@@ -1,6 +1,6 @@
 <% @time_info = @paper.get_sub_section_time_info %>
 <% @dt = @paper.time_management_x_axis_data %>
-<div class="row report-section-container">
+<div class="row report-section-container sub-section-time-management">
   <div class="col-sm-12">
     <div class="report-section-container-inner">
       <div class="report-section-heading">sub-section time management</div>
@@ -48,7 +48,9 @@
             </div>
           </div>
           <div class="col-sm-6">
-            <div id="sub-section-time-management-graph" style="height: 300px; background-color: transparent;"></div>
+            <div class="graph-content">
+              <div id="sub-section-time-management-graph" style="height: 300px; background-color: transparent;"></div>
+            </div>
           </div>
           <div class="col-sm-3">
             <div class="content">

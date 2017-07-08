@@ -1,4 +1,7 @@
-<% @average_difficulty_level = @paper.average_difficulty_level %>
+<% @average_difficulty_level, level_colors = @paper.average_difficulty_level %>
+<script type="text/javascript">
+  var level_colors = JSON.parse("<%=raw escape_javascript(level_colors.to_json) %>");
+</script>
 <div class="row report-section-container avg-difficulty-per-set">
   <div class="col-sm-12">
     <div class="report-section-container-inner">
@@ -6,7 +9,7 @@
       <div class="report-section-content">
         <div class="row">
           <div class="col-sm-9">
-            <div class="col-sm-12 graph-content">
+            <div class="graph-content">
               <div id="average-difficulty-level-graph" style="height: 350px; background-color: transparent;"></div>
             </div>
           </div>
@@ -16,7 +19,7 @@
                 <div>Set I</div>
                 <div>
                   <% range_text = @paper.get_range_text(@average_difficulty_level[0]) %>
-                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                  <div class="<%= range_text.split(" ").join("-").downcase %>" style="color: <%= @average_difficulty_level[0]['color'] %>; font-weight: 900;">
                     <%= range_text %>
                   </div>
                 </div>
@@ -25,7 +28,7 @@
                 <div>Set II</div>
                 <div>
                   <% range_text = @paper.get_range_text(@average_difficulty_level[1]) %>
-                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                  <div class="<%= range_text.split(" ").join("-").downcase %>" style="color: <%= @average_difficulty_level[1]['color'] %>; font-weight: 900;">
                     <%= range_text %>
                   </div>
                 </div>
@@ -34,7 +37,7 @@
                 <div>Set III</div>
                 <div>
                   <% range_text = @paper.get_range_text(@average_difficulty_level[2]) %>
-                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                  <div class="<%= range_text.split(" ").join("-").downcase %>" style="color: <%= @average_difficulty_level[2]['color'] %>; font-weight: 900;">
                     <%= range_text %>
                   </div>
                 </div>
@@ -43,7 +46,7 @@
                 <div>Set VI</div>
                 <div>
                   <% range_text = @paper.get_range_text(@average_difficulty_level[3]) %>
-                  <div class="<%= range_text.split(" ").join("-").downcase %>">
+                  <div class="<%= range_text.split(" ").join("-").downcase %>" style="color: <%= @average_difficulty_level[3]['color'] %>; font-weight: 900;">
                     <%= range_text %>
                   </div>
                 </div>

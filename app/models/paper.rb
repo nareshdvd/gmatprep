@@ -5,10 +5,11 @@ class Paper < ActiveRecord::Base
   QUESTION_COUNT = 41
   MAX_SCORE = 48
   DARK_ORANGE   = "#f48041"
-  DARK_YELLOW   = "#f6ce44"
+  DARK_YELLOW   = "#ebc844"
   DARK_PURPLE   = "#8e60ec"
-  DARK_GREEN    = "#54e193"
-  DARK_RED      = "#fb5d6a"
+  DARK_GREEN    = "#5cb85c"
+  DARK_RED      = "#ff3300"
+  DARK_YELLOWISH_GREEN = "#ef8b2c"
   serialize :category_scheme, JSON
   before_create :set_category_scheme
 
@@ -188,10 +189,17 @@ class Paper < ActiveRecord::Base
       "3" => 0.5
     }
     inx = 0
-    colors = [DARK_ORANGE, DARK_PURPLE, DARK_RED, DARK_GREEN]
+    colors = {
+      'LOW' => DARK_RED,
+      'MEDIUM' => DARK_YELLOW,
+      "MEDIUM HIGH" => DARK_YELLOWISH_GREEN,
+      "HIGH" => DARK_GREEN
+    }
     hash = data.inject(Hash.new{|h, k| h[k] = {}}) do |hash, set_data|
-      hash[set_data["id_group"]]["y"] = set_data["level_ids"].split(",").collect{|level_id| level_score[level_id]}.sum
-      hash[set_data["id_group"]]["color"] = colors[inx]
+      difficulty = set_data["level_ids"].split(",").collect{|level_id| level_score[level_id]}.sum
+      hash[set_data["id_group"]]["y"] = difficulty
+      difficulty_level = get_range_text(hash[set_data["id_group"]])
+      hash[set_data["id_group"]]["color"] = colors[difficulty_level]
       inx += 1
       hash
     end
@@ -200,7 +208,7 @@ class Paper < ActiveRecord::Base
       hash["II"],
       hash["III"],
       hash["IV"]
-    ]
+    ], colors
   end
 
   def bar_colors

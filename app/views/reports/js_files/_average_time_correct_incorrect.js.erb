@@ -27,14 +27,15 @@ new Highcharts.Chart({
       enabled: false
   },
   xAxis: {
-      lineColor: '#000',
+      lineColor: line_color,
       categories: categories,
       labels: {
         style: {
           color: '#000',
-          font: '11px LatoWebBlack, sans-serif'
+          font: bar_font_style
         }
-      }
+      },
+      gridLineColor: '#eee'
   },
   tooltip: {
       formatter: function(){
@@ -55,15 +56,15 @@ new Highcharts.Chart({
           month: '%M:%S',
           year: '%M:%S'
       },
-      lineColor: '#000',
+      lineColor: line_color,
       lineWidth: 1,
       labels: {
           style: {
               color: '#000',
-              font: '11px LatoWebBlack, sans-serif'
+              font: bar_font_style
           }
       },
-      gridLineColor: '#cecece',
+      gridLineColor: '#eee',
       title: {
         text: "Time (in minutes)"
       }

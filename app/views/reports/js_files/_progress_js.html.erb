@@ -3,7 +3,8 @@
   Highcharts.chart(container, {
     chart:{
       type: 'spline',
-      backgroundColor: chart_background
+      backgroundColor: chart_background,
+      margin: 1
     },
     rangeSelector: {
       selected: 1
@@ -12,7 +13,14 @@
       text: 'Progress chart'
     },
     xAxis: {
-      categories: JSON.parse("<%= (1..41).to_a.to_json %>")
+      categories: JSON.parse("<%= (1..41).to_a.to_json %>"),
+      lineColor: line_color,
+      lineWidth: 1,
+    },
+    yAxis: {
+      gridLineColor: '#eee',
+      lineColor: line_color,
+      lineWidth: 1,
     },
     plotOptions: {
       spline: {

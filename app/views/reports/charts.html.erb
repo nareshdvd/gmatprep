@@ -1,4 +1,8 @@
 <style type="text/css">
+  .graph-content{
+    outline: 1px solid #eee;
+    padding: 10px;
+  }
   .highcharts-credits{
     display: none;
   }
@@ -15,6 +19,9 @@
     font-size: 26px;
     border-bottom: 1px solid #efefef;
     margin-bottom: 20px;
+  }
+  .note-p{
+    line-height: 15px;
   }
   .box-1{
     display: inline-block;
@@ -33,9 +40,9 @@
     margin-left: 7px;
     width: 52px;
     height: 35px;
-    font-size: 45.9px;
+    font-size: 50.9px;
     float: left;
-    line-height: 0.8;
+    line-height: 0.9;
   }
   .box-2{
     height: 38px;
@@ -47,6 +54,7 @@
     font-weight: 600;
     padding: 0px 16px;
     display: inline-block;
+    margin-top: 10px;
   }
 
   .box-3{
@@ -105,6 +113,12 @@
   }
   .note{
     color: #ff0000;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .note-text{
+    font-size: 12px;
+    line-height: 1;
   }
   .percent-correct-incorrect .box-1:first-child{
     margin-bottom: 10px;
@@ -167,41 +181,67 @@
   .avg-difficulty-per-set .low, .avg-difficulty-per-set .medium, .avg-difficulty-per-set .high{
     padding-top: 10px;
   }
+  .verbal-section-performance .highcharts-text-outline{
+    fill: <%= Paper::DARK_ORANGE %>;
+    stroke: <%= Paper::DARK_ORANGE %>;
+  }
+  .sub-section-time-management .highcharts-data-labels .highcharts-data-label:first-child .highcharts-text-outline{
+    fill: <%= Paper::DARK_ORANGE %>;
+    stroke: <%= Paper::DARK_ORANGE %>;
+  }
+  .sub-section-time-management .highcharts-data-labels .highcharts-data-label:nth-child(2) .highcharts-text-outline{
+    fill: <%= Paper::DARK_YELLOW %>;
+    stroke: <%= Paper::DARK_YELLOW %>;
+  }
+  .sub-section-time-management .highcharts-data-labels .highcharts-data-label:last-child .highcharts-text-outline{
+    fill: <%= Paper::DARK_PURPLE %>;
+    stroke: <%= Paper::DARK_PURPLE %>;
+  }
 </style>
 <%= content_for :main_container_classes do%>report-container<% end %>
 <script type="text/javascript">
   var bar_colors = JSON.parse('<%=raw @paper.bar_colors.to_json.html_safe %>');
-  var chart_background = 'rgba(255, 255, 255, 0.1)';
-  var label_inner_size = "11px";
+  var chart_background = '#ffffff';
+  var label_inner_size = "13px";
   var bar_width = 40;
+  var line_color = "#aeaeae";
+  var bar_font_style = '13px LatoWebBlack';
 </script>
-<%= render "reports/verbal_section_performance" %>
-<%= render "reports/sub_section_time_management" %>
-<%= render "reports/percent_correct_incorrect" %>
-<%= render "reports/progress" %>
+<%= render "reports/html_files/verbal_section_performance" %>
+<%= render "reports/html_files/sub_section_time_management" %>
+<%= render "reports/html_files/percent_correct_incorrect" %>
+<%= render "reports/html_files/progress" %>
 <% @section_correct_incorrect_data = @paper.section_percentage_correct_incorrect_data %>
 <% @average_time_per_question = @paper.average_time_per_question %>
-<%= render "reports/section_correct_incorrect" %>
-<%= render "reports/average_time_per_question" %>
-<%= render "reports/average_time_correct_incorrect" %>
-<%= render "reports/average_difficulty_level" %>
+<%= render "reports/html_files/section_correct_incorrect" %>
+<%= render "reports/html_files/average_time_per_question" %>
+<%= render "reports/html_files/average_time_correct_incorrect" %>
+<%= render "reports/html_files/average_difficulty_level" %>
 <%= content_for :bottom_js do %>
   <% javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" %>
   <%= javascript_include_tag "https://code.highcharts.com/highcharts.src.js" %>
-  <%= render "reports/verbal_section_performance_js" %>
-  <%= render "reports/sub_section_time_management_js" %>
-  <%= render "reports/percent_correct_incorrect_js" %>
-  <%= render "reports/progress_js" %>
+  <%= render "reports/js_files/verbal_section_performance_js" %>
+  <%= render "reports/js_files/sub_section_time_management_js" %>
+  <%= render "reports/js_files/percent_correct_incorrect_js" %>
+  <%= render "reports/js_files/progress_js" %>
   <% @section_correct_incorrect_data.each do |section_data| %>
     <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
-    <%= render "reports/section_correct_incorrect_js", {sec_name: section_data["section_name"], sec_name_id: sec_name_id, section_data: section_data["data"]} %>
+    <%= render "reports/js_files/section_correct_incorrect_js", {sec_name: section_data["section_name"], sec_name_id: sec_name_id, section_data: section_data["data"]} %>
   <% end %>
   <script type="text/javascript">
     <% @average_time_per_question.each do |section_data| %>
       <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
-      <%= render partial: 'reports/average_time_per_question', locals: {sec_name: section_data['section_name'], sec_name_id: sec_name_id, section_data: section_data['data']}, formats: [:js] %>
+      <%= render partial: 'reports/js_files/average_time_per_question', locals: {sec_name: section_data['section_name'], sec_name_id: sec_name_id, section_data: section_data['data']}, formats: [:js] %>
     <% end %>
-    <%= render partial: 'reports/average_time_correct_incorrect', formats: [:js] %>
-    <%= render partial: 'reports/average_difficulty_level', formats: [:js] %>
+    <%= render partial: 'reports/js_files/average_time_correct_incorrect', formats: [:js] %>
+    <%= render partial: 'reports/js_files/average_difficulty_level', formats: [:js] %>
+  </script>
+  <script type="text/javascript">
+    $(document).on("ready", function(){
+      $(".percent-correct-incorrect g.highcharts-data-labels:first .highcharts-data-label .highcharts-text-outline").attr("stroke", "<%= Paper::DARK_GREEN %>");
+      $(".percent-correct-incorrect g.highcharts-data-labels:last .highcharts-data-label .highcharts-text-outline").attr("stroke", "<%= Paper::DARK_RED %>");
+      $(".avg-time-correct-incorrect .highcharts-data-labels .highcharts-data-label:first .highcharts-text-outline").attr("stroke", "<%= Paper::DARK_GREEN %>");
+      $(".avg-time-correct-incorrect .highcharts-data-labels .highcharts-data-label:last .highcharts-text-outline").attr("stroke", "<%= Paper::DARK_RED %>");
+    });
   </script>
 <% end %>

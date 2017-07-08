@@ -5,13 +5,15 @@
       <div class="report-section-content">
         <div class="row">
           <div class="col-sm-9">
-            <div class="row">
-              <% @section_correct_incorrect_data.each do |section_data| %>
-                <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
-                <div class="col-sm-4">
-                  <div id="section-correct-incorrect-graph-<%= sec_name_id %>" style="height: 220px; background-color: transparent;"></div>
-                </div>
-              <% end %>
+            <div class="graph-content">
+              <div class="row">
+                <% @section_correct_incorrect_data.each do |section_data| %>
+                  <% sec_name_id = section_data["section_name"].split(" ").join("-") %>
+                  <div class="col-sm-4">
+                    <div id="section-correct-incorrect-graph-<%= sec_name_id %>" style="height: 220px; background-color: transparent;"></div>
+                  </div>
+                <% end %>
+              </div>
             </div>
           </div>
           <div class="col-sm-3">

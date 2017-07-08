@@ -4,14 +4,17 @@
   Highcharts.chart(container, {
     chart: {
         type: 'column',
-        marginLeft: 32,
-        backgroundColor: chart_background
+        backgroundColor: chart_background,
+        margin: 1,
     },
     title: {
         text: ''
     },
     xAxis: {
-        categories: ['I Set', 'II Set', 'III Set', 'IV Set']
+        categories: ['I Set', 'II Set', 'III Set', 'IV Set'],
+        gridLineColor: '#eee',
+        lineColor: line_color,
+        lineWidth: 1,
     },
     yAxis: {
         min: 0,
@@ -26,7 +29,10 @@
                 fontWeight: 'bold',
                 color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
             }
-        }
+        },
+        gridLineColor: '#eee',
+        lineColor: line_color,
+        lineWidth: 1,
     },
     legend: {
         align: 'right',
