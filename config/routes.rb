@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   resources :levels
   resources :questions
   resources :passages
-  mount Sidekiq::Web => '/sidekiq'
+  authenticate :user, lambda { |u| u.has_role? :admin } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
   get 'score_schemes' => 'score_schemes#index', as: 'index_score_schemes'
   post 'score_schemes' => 'score_schemes#update_all', as: 'update_score_schemes'
   get 'papers/:subscription_id/new' => 'papers#new', as: :new_test
