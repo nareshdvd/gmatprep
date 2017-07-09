@@ -8,9 +8,7 @@ class PapersController < ApplicationController
   def test_finish
     @paper = Paper.find_by_id(params[:paper_id])
     respond_to do |format|
-      binding.pry
       if @paper.present? && @paper.unfinished?
-        binding.pry
         if @paper.finish_time.blank?
           @paper.update_attributes({finish_time: Time.now})
         end
@@ -104,7 +102,7 @@ class PapersController < ApplicationController
               format.html{ redirect_to root_path, notice: "Your subscription has finished" }
             else
               paper = subscription.papers.create(start_time: Time.now)
-              FinishPaperWorker.perform_in(10.seconds, paper.id)
+              FinishPaperWorker.perform_in(Paper::MINUTES.minutes + 2.seconds, paper.id)
               InfluxMonitor.push_to_influx("started_test", {"plan" => subscription.plan.name})
               question = paper.add_question(true)
               format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
