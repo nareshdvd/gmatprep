@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :levels
   resources :questions
   resources :passages
-  authenticate :user, lambda { |u| u.has_role? :admin } do
+  authenticate :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
   get 'score_schemes' => 'score_schemes#index', as: 'index_score_schemes'
