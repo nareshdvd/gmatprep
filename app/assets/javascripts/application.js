@@ -138,8 +138,24 @@ function set_time(){
   var smin = minutes <= 9 ? "0" + minutes.toString() : minutes.toString();
   var shour = hours <= 9 ? "0" + hours.toString() : hours.toString();
   seconds_elapsed = seconds_elapsed - 1;
-  $("#timer").html(shour + ":" + smin + ":" + ssec);
   if(seconds_elapsed == -1){
-    clearInterval(window.timer_interval)
+    bootbox.alert({
+      size: "small",
+      message: "Your time is finished, click OK to proceed",
+      className: "",
+      callback: function () {
+        $(".test-finish")[0].submit();
+      }
+    }).find('.modal-content').css({
+      'margin-top': function (){
+        var w = $( window ).height();
+        var b = $(".modal-dialog").height();
+        var h = (w-b)/2 - 180;
+        return h+"px";
+      }
+    });
+    clearInterval(window.timer_interval);
+  }else{
+    $("#timer").html(shour + ":" + smin + ":" + ssec);
   }
 }

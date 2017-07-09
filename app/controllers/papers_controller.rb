@@ -8,11 +8,16 @@ class PapersController < ApplicationController
   def test_finish
     @paper = Paper.find_by_id(params[:paper_id])
     respond_to do |format|
-      if @paper.present? && @paper.unfinished?
+      if @paper.present?
         if @paper.finish_time.blank?
           @paper.update_attributes({finish_time: Time.now})
         end
-        format.html{ render "candidates/paper_finish" }
+        if @paper.paper_finish_displayed
+          format.html{ redirect_to paper_score_path(@paper) }
+        else
+          @paper.update_attribute(:paper_finish_displayed, true)
+          format.html{ render "candidates/paper_finish" }
+        end
       else
         format.html { redirect_to root_path }
       end
