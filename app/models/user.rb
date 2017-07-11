@@ -170,9 +170,9 @@ class User < ActiveRecord::Base
         questions.passage_id
     END) as question_type"
     if !overall
-      min_questions_info = Question.select("COUNT(DISTINCT questions.id) as question_count, #{question_type}").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("(subscriptions.user_id IS NULL OR subscriptions.user_id != ?)", user.id).group("question_type")
+      min_questions_info = Question.select("COUNT(DISTINCT questions.id) as question_count, #{question_type}").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("questions.marked_for_free_plan = ?", false).where("(subscriptions.user_id IS NULL OR subscriptions.user_id != ?)", user.id).group("question_type")
     else
-      min_questions_info = Question.select("COUNT(DISTINCT questions.id) as question_count, #{question_type}").group("question_type")
+      min_questions_info = Question.select("COUNT(DISTINCT questions.id) as question_count, #{question_type}").where("questions.marked_for_free_plan = ?", false).group("question_type")
     end
     passage_3_count = 0
     passage_4_count = 0
@@ -192,9 +192,6 @@ class User < ActiveRecord::Base
       passage_3_count: passage_3_count,
       passage_4_count: passage_4_count
     }
-    # other_category_questions.each do |question_info|
-    #   data['category_' + question_info.question_type.split("-").join("_level_")] = question_info.question_count
-    # end
     available_paper_count = [(passage_3_count / 3), other_category_questions.min_by{|ca_q| ca_q.question_count}.question_count].min
     plans = {
       7 => [1, 3, 5],
@@ -207,5 +204,29 @@ class User < ActiveRecord::Base
     }
     available_plans = Plan.where(paper_count: plans[available_paper_count]).where("name != ?", Plan::FREE_PLAN)
     return available_plans
+  end
+
+  def test_script(subscription_id, correct_info = "all_correct")
+    user = self
+    subscription = user.subscriptions.find_by_id(subscription_id)
+    subscription.plan.paper_count.times do
+      paper = subscription.papers.create(start_time: Time.now)
+      question = paper.add_question(true)
+      while question.question_number <= 41 do
+        if correct_info == "all_correct"
+          question.mark_correct
+        else
+          question.mark_incorrect
+        end
+        if question.question_number < 41
+          question = paper.add_question
+        else
+          paper.paper_finish_displayed = true
+          paper.finish_time = Time.now
+          paper.save
+          break
+        end
+      end
+    end
   end
 end

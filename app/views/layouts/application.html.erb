@@ -58,7 +58,7 @@
             <ul class="nav navbar-nav navbar-right">
               <% if current_user && current_user.is_candidate? && current_user.current_paid_subscription.blank? %>
                 <li>
-                  <%= link_to plans_to_buy_path, class: "btn btn-default upgrade-btn" do %>
+                  <%= link_to buy_new_path, class: "btn btn-default upgrade-btn" do %>
                     Upgrade for more tests
                   <% end %>
                 </li>
