@@ -52,7 +52,9 @@
       font-url('lato/bold/Lato.ttf') format('truetype');
 }
 
-
+body, html{
+  font-family: 'LatoRegular';
+}
 .login-form{
   font-family: 'LatoRegular';
   padding-top: 16px;
@@ -157,6 +159,7 @@
     font-family: 'LatoLight';
     color: #4e4e4e;
     margin-bottom: 16px;
+    font-size: 12px;
   }
   .social-login{
     .social-icon{
@@ -206,163 +209,5 @@
         text-decoration: none;
       }
     }
-  }
-}
-
-@media (max-width: 991px){
-  .home-container{
-    .heading-text{
-      font-size: 23px;
-      width: auto;
-    }
-    .social-btn{
-      &.fb-btn{
-        height: 40px;
-      }
-      &.google-btn{
-        height: 40px;
-      }
-      .top-text{
-        font-size: 14px;
-        line-height: 14px;
-        padding-top: 7px;
-        padding-left: 40px;
-        letter-spacing: 1px;
-      }
-      .bottom-text{
-        padding-top: 2px;
-        font-size: 10px;
-        line-height: 10px;
-        padding-left: 41px;
-        letter-spacing: 1px;
-      }
-    }
-  }
-}
-@media (max-width: 767px){
-  .navbar-default .navbar-nav > li:first-child > a{
-    margin-left: 0px;
-    padding-right: 0px;
-  }
-  .navbar-default .navbar-nav > li > a{
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  .nav > li{
-    border-bottom: 1px solid #dedede;
-  }
-  .nav > li > a{
-    padding: 10px 20px !important;
-    font-size: 13px;
-  }
-  .login-form .form-group{
-    float: left;
-  }
-  .navbar-default .navbar-form{
-    border: none;
-  }
-  .furious-text.above{
-    display: none;
-  }
-  .home-container .heading-text{
-    text-align: center;
-    width: 500px;
-    margin: 0 auto;
-  }
-  .home-container .heading-points ul li{
-    text-align: center;
-    width: 100%;
-  }
-  .home-container .left-box{
-    min-height: 190px;
-    margin-bottom: 30px;
-    border-right: none;
-    margin-bottom: 10px;
-    .inner{
-      border-bottom: solid 1px #b2b2b2;
-      padding-bottom: 15px;
-    }
-  }
-  .right-box .inner{
-    width: 400px;
-    margin: 0 auto;
-  }
-  .furious-text.below{
-    margin-bottom: 5px;
-    line-height: 14px;
-    font-size: 11px;
-  }
-  .home-container{
-    margin-top: 15px;
-  }
-  .home-container .heading-points ul li{
-    margin-bottom: 8px;
-    font-size: 16px;
-  }
-}
-@media (min-width: 768px){
-  .container {
-    width: 760px;
-  }
-  .navbar-default .navbar-nav > li:first-child > a {
-    margin-left: 0px;
-    padding-right: 6px;
-  }
-  .navbar-default .navbar-nav > li > a{
-    padding-left: 4px;
-    padding-right: 4px;
-  }
-  .login-form input{
-    width: 147px !important;
-  }
-  .navbar-default .navbar-nav > li > a{
-    padding-top: 29px;
-    padding-bottom: 25px;
-    padding-left: 10px;
-    font-family: 'LatoRegular';
-    font-weight: bold;
-    letter-spacing: 1px;
-    line-height: 18px;
-    font-size: 14px;
-    color: #4e4e4e;
-  }
-  .navbar-default .navbar-nav > li:first-child > a{
-    margin-left: 5px;
-    padding-right: 10px;
-  }
-}
-@media (min-width: 900px){
-  .container {
-    width: 900px;
-  }
-}
-
-@media (min-width: 950px){
-  .container {
-    width: 900px;
-  }
-}
-@media (min-width: 768px) and (max-width: 1140px){
-  .right-box{
-    width: 40.66666667% !important;
-    margin-left: 0px !important;
-  }
-}
-
-@media (min-width: 1050px){
-  .container {
-    width: 950px;
-  }
-}
-
-@media (min-width: 1150px){
-  .container {
-    width: 1050px;
-  }
-}
-
-@media (min-width: 1200px){
-  .container {
-    width: 1150px;
   }
 }

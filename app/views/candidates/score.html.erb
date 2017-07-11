@@ -38,18 +38,7 @@
           <div class="bg-white">
             <div class="row">
               <div class="col-sm-12">
-                <div>Welcome</div>
-                <p>Welcome to GMATRIC exam section.</p>
-                <p>You are about to begin your Verbal test.</p>
-                <p>Multiple-choice questions will have five response options, but only one correct answer. You may select the best answer by –</p>
-                <ul>
-                  <li>Clicking anywhere in the response button,</li>
-                  <li>Clicking the circle next to the response button, or</li>
-                  <li>Pressing Tab to move through the options and pressing the spacebar to select an answer.</li>
-                </ul>
-                <p>
-                  You must answer each multiple-choice question before moving to the next section. You will then be prompted to confirm your answer. You may not change your answer after you have confirmed it.
-                </p>
+                Your Score : <%= @paper.calculate_score %>
               </div>
             </div>
           </div>
@@ -58,7 +47,7 @@
       <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
         <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
           <div class="bg-light-blue">
-            <button type="button" class="btn btn-sm btn-primary pull-right show-score" style="display: block;">Next</button>
+            <a type="button" class="btn btn-sm btn-primary pull-right show-score" style="display: block;" href="<%= root_path %>">Go to home page</a>
           </div>
         </div>
       </div>

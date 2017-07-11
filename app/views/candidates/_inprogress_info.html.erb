@@ -1,0 +1,24 @@
+<% percent_complete = current_test.percent_complete %>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="<%= percent_complete %>"
+      aria-valuemin="0" aria-valuemax="100" style="width: <%= percent_complete %>%">
+        <span class=""><%= percent_complete.floor %>% Complete</span>
+      </div>
+    </div>
+    <div class="text-center">
+      You have completed about <%= percent_complete.floor %> of your test, hurry up as you only have approximately <%= (((current_test.start_time + Paper::MINUTES.minutes) - Time.now) / 60).round %> minutes left.
+    </div>
+  </div>
+</div>
+<div class="row margin-t-30">
+  <div class="col-sm-12">
+    <div class="start-test-btn">
+      <% free_plan = current_test.subscription.plan.free_plan? %>
+      <%= link_to start_test_path("resume", (free_plan ? "free" : "paid")) do %>
+        Resume your <% current_test.subscription.plan.free_plan? ? "free " : "" %>test
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,4 @@
 class PapersController < ApplicationController
-  load_and_authorize_resource
   skip_before_action :authenticate_user!, only: [:test]
   def test
 
@@ -52,7 +51,7 @@ class PapersController < ApplicationController
     subscription_id = params[:subscription_id]
     respond_to do |format|
       if (paper = current_user.in_progress_paper).present?
-        format.html{ redirect_to root_path, notice: "You already have an test in progress" }
+        format.html{ redirect_to root_path, notice: "You already have an test in progress 1" }
       else
         if (@subscription = Subscription.find_by_id(subscription_id)).present?
           if @subscription.plan.free_plan? || @subscription.paid? || @subscription.success?
@@ -96,7 +95,7 @@ class PapersController < ApplicationController
             format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
           end
         else
-          format.html{ redirect_to root_path, notice: "You already have an test in progress" }
+          format.html{ redirect_to root_path, notice: "You already have an test in progress 2" }
         end
       else
         if (subscription = Subscription.find_by_id(subscription_id)).present?
@@ -139,7 +138,7 @@ class PapersController < ApplicationController
             format.html{ redirect_to papers_question_path(paper_id, last_question.question_number) }
           end
         elsif last_question.question_number == 41
-          format.html{ redirect_to paper_finish_path(paper.id) }
+          format.html{ redirect_to paper_finish_path(@paper.id) }
         else
           @paper_question = @paper.add_question
           format.html

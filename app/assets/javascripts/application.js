@@ -79,34 +79,38 @@ $(document).on("submit", ".candidate-question-form", function(e){
   e.preventDefault();
   var $form = $(this);
   if($form.find("input[type='radio']:checked").length != 0){
-    bootbox.confirm({
-      size: "small",
-      message: "Click yes to confirm your answer and continue to the next question.",
-      buttons: {
-        confirm: {
-          label: 'Yes',
-          className: 'btn btn-success'
+    if(false){
+      bootbox.confirm({
+        size: "small",
+        message: "Click yes to confirm your answer and continue to the next question.",
+        buttons: {
+          confirm: {
+            label: 'Yes',
+            className: 'btn btn-success'
+          },
+          cancel: {
+            label: 'No',
+            className: 'btn btn-danger'
+          }
         },
-        cancel: {
-          label: 'No',
-          className: 'btn btn-danger'
+        callback: function (result) {
+          if(result){
+            $(".submit-btn").hide();
+            $(".wait-btn").show();
+            $form[0].submit();
+          }
         }
-      },
-      callback: function (result) {
-        if(result){
-          $(".submit-btn").hide();
-          $(".wait-btn").show();
-          $form[0].submit();
+      }).find('.modal-content').css({
+        'margin-top': function (){
+          var w = $( window ).height();
+          var b = $(".modal-dialog").height();
+          var h = (w-b)/2 - 180;
+          return h+"px";
         }
-      }
-    }).find('.modal-content').css({
-      'margin-top': function (){
-        var w = $( window ).height();
-        var b = $(".modal-dialog").height();
-        var h = (w-b)/2 - 180;
-        return h+"px";
-      }
-    });
+      });
+    }else{
+      $form[0].submit();
+    }
   }else{
     bootbox.alert({
       size: "small",

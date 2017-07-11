@@ -1,0 +1,72 @@
+<div class="row">
+  <%= render "candidates/sidebar", {active: "remaining-tests"} %>
+  <div class="col-sm-8">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="candidate-content">
+          <div class="row">
+            <% @plans.each do |plan| %>
+              <div class="col-sm-4">
+                <div class="plan-box" data-planid="<%= plan.id %>">
+                  <div class="head"><%= plan.name %></div>
+                  <div class="plan-content">
+                    <div class="plan-row">
+                      <span class="plan-label">
+                        Total Papers:
+                      </span>
+                      <span class="plan-value">
+                        <%= plan.paper_count %>
+                      </span>
+                    </div>
+
+                    <div class="plan-row">
+                      <span class="plan-label">
+                        Plan period:
+                      </span>
+                      <span class="plan-value">
+                        <%= plan.interval_count == 0 ? 'Unlimited' : "#{plan.interval_count} #{plan.interval.downcase.pluralize}" %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
+                    <div id="paypal-button-<%= plan.id%>"></div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :bottom_js do %>
+  <script type="text/javascript">
+    paypal.request.addHeaderBuilder(function () {
+      return {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      };
+    });
+    $(".plan-box").each(function(){
+      var plan_id = $(this).data("planid");
+      paypal.Button.render({
+        env: 'sandbox',
+        commit: true,
+        client: {
+          sandbox: "AeUm4BBph_f7umFVHoSzHFw-BLcARaLP2ouWP70jz_tliq6qQS9i_8IMMIAX"
+        },
+        payment: function(data, actions) {
+          var CREATE_URL = "<%= init_subscribe_to_plan_url('___plan_id___', format: :json) %>".replace("___plan_id___", plan_id);
+          return paypal.request.post(CREATE_URL).then(function(res) {
+            return res.payment_id;
+          });
+        },
+        onAuthorize: function(data, actions) {
+          return actions.payment.execute().then(function() {
+            window.location.href = data.returnUrl;
+          });
+        }
+      }, '#paypal-button-' + plan_id);
+    });
+  </script>
+<% end %>

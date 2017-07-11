@@ -7,7 +7,9 @@
     <script>
       var payment_init_url = "<%= payment_init_url(format: :json) %>";
     </script>
+    <%= stylesheet_link_tag 'candidates', media: 'all' if current_user && current_user.is_candidate? %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
+    
     <%= yield :extra_css %>
   </head>
   <body class="new <%= yield :body_classes %>">
@@ -54,6 +56,13 @@
             <% end %>
           <% else %>
             <ul class="nav navbar-nav navbar-right">
+              <% if current_user && current_user.is_candidate? && current_user.current_paid_subscription.blank? %>
+                <li>
+                  <%= link_to plans_to_buy_path, class: "btn btn-default upgrade-btn" do %>
+                    Upgrade for more tests
+                  <% end %>
+                </li>
+              <% end %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.email %> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -68,6 +77,11 @@
       </div><!-- /.container-fluid -->
     </nav>
     <div class="container <%= yield :main_container_classes %>">
+      <% if notice %>
+        <div class="alert alert-danger">
+          <%= notice %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
     <%= yield :footer_content %>

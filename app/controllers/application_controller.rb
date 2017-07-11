@@ -11,4 +11,17 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     root_url
   end
+
+  private
+  def is_candidate?
+    if !current_user.is_candidate?
+      redirect_to root_path, "Please register"
+    end
+  end
+
+  def in_progress_paper?
+    if current_user.current_test.present?
+      redirect_to papers_question_path(current_user.current_test.id, current_user.current_test.papers_questions.last.id)
+    end
+  end
 end

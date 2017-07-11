@@ -1,0 +1,5 @@
+<% if (free_paper = current_user.free_subscription.papers.last).blank? %>
+  <%= render "candidates/welcome" %>
+<% else %>
+  <%= render "candidates/home" %>
+<% end %>

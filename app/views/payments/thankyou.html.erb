@@ -1,8 +1,14 @@
-<div class="row" style="margin-top: 50px;">
-  <div class="col-sm-8 col-sm-offset-2">
-    <div class="well">
-      Thank you for your payment. Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.
-      <%= link_to "Start your subscription", root_url %>
+<div class="row">
+  <%= render "candidates/sidebar", {active: ""} %>
+  <div class="col-sm-8">
+    <div class="candidate-content">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="welcome-msg width-100 font-18">
+            Thank you for your payment. Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

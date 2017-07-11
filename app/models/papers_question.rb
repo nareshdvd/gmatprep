@@ -18,4 +18,13 @@ class PapersQuestion < ActiveRecord::Base
   def is_correct?
     self.option_id == self.question.options.where(correct: true).first.id
   end
+
+  # Test functions, for internal use only
+  def mark_correct
+    self.update_attribute(:option_id, self.question.options.where(correct: true).first.id)
+  end
+
+  def mark_incorrect
+    self.update_attribute(:option_id, self.question.options.where(correct: false).first.id)
+  end
 end

@@ -1,1 +1,15 @@
-<%= link_to "Resume Test", in_progress_paper %>
+
+<div class="row">
+  <%= render "candidates/sidebar", {active: "ongoing-tests"} %>
+  <div class="col-sm-8">
+    <div class="candidate-content">
+      <% if (current_test = current_user.current_test).present? %>
+        <%= render "candidates/inprogress_info", {current_test: current_test} %>
+      <% elsif (subscription = current_user.current_paid_subscription).present? %>
+        <%= render "candidates/start_test", {subscription: subscription} %>
+      <% else %>
+        <%= render "candidates/buy_new" %>
+      <% end %>
+    </div>
+  </div>
+</div>

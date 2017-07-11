@@ -1,0 +1,32 @@
+<div class="col-sm-3">
+  <nav class="navbar navbar-default navbar-fixed-side">
+    <ul>
+      <li class="nav-item-my-tests">
+        My Tests
+      </li>
+      <li class="nav-item-ongoing <%= active == 'ongoing-tests' ? 'active' : '' %>">
+        <%= link_to "Ongoing Test", my_home_path %>
+      </li>
+      <% remaining_test_count = current_user.remaining_test_count %>
+      <li class="nav-item-completed <%= active == 'completed-tests' ? 'active' : '' %>">
+        <% finished_test_count = current_user.completed_test_count %>
+        <% if finished_test_count.zero? %>
+          <div>Completed Tests</div>
+        <% else %>
+          <div>
+            <%= link_to finished_tests_path do %>
+              <div>Completed Tests</div>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="nav-item-description">
+          <% if finished_test_count.zero? %>
+            You don't have any completed tests
+          <% else %>
+            You have finished <%= finished_test_count %> test(s)
+          <% end %>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>

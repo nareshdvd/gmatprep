@@ -62,8 +62,8 @@ class HomeController < ApplicationController
 
   def candidate_dashboard
     InfluxMonitor.push_to_influx("visited", {user: current_user.roles.first.name}) if InfluxMonitor.should_monitor?(cookies, :candidate_visitor_monitoring)
-    @subscription = current_user.usable_subscriptions.last
-    @in_progress_paper = current_user.in_progress_paper
-    render "candidates/dashboard"
+    # @subscription = current_user.usable_subscriptions.last
+    # @in_progress_paper = current_user.in_progress_paper
+    redirect_to my_home_path
   end
 end

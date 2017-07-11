@@ -7,7 +7,7 @@
 <%= simple_form_for [@paper, @paper_question], url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
   <%= render "papers/question_inner", {f: f} %>
 <% end %>
-<%= simple_form_for :paper, url: paper_finish_path(@paper.id), method: :get, html: {class: "form-horizontal test-finish height-100"} do |f| %><% end if @paper.id.present? %>
+<%= simple_form_for :paper, url: paper_finish_path(@paper.id), method: :get, html: {class: "form-horizontal test-finish height-100 hide"} do |f| %><% end if @paper.id.present? %>
 <%= content_for :bottom_js do %>
   <script type="text/javascript">
     var seconds_elapsed = parseInt("<%= (@paper_question.paper.start_time + (Paper::MINUTES).minutes) - Time.now %>");

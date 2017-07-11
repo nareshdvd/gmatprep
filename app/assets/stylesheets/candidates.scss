@@ -1,0 +1,146 @@
+@import 'navbar-fixed-side';
+.navbar-fixed-side {
+  height: 450px;
+  width: 100%;
+}
+.navbar-default .navbar-nav > li > a.upgrade-btn{
+  border: 1px solid #2196f3;
+  color: #2196f3;
+  background-color: #efefef;
+  font-size: 14px;
+  line-height: 14px;
+  padding: 13px 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 90px;
+  border-radius: 2px;
+}
+
+.candidate-content{
+  padding-top: 120px;
+}
+
+.welcome-text{
+  width: 361.5px;
+  height: 30px;
+  font-size: 32px;
+  line-height: 0.94;
+  text-align: center;
+  color: #2196f3;
+  margin: 0 auto;
+}
+
+.welcome-msg{
+  width: 389px;
+  font-size: 14px;
+  line-height: 1.29;
+  text-align: center;
+  color: #4e4e4e;
+  margin: 0 auto;
+  margin-top: 11px;
+}
+
+.start-test-btn{
+  width: 206.7px;
+  margin: 0 auto;
+  border-radius: 2px;
+  border: 1px solid #2196f3;
+  a{
+    padding-top: 13px;
+    padding-bottom: 13px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    width: 100%;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    background-color: #2196f3;
+    &:hover{
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+  margin-top: 16px;
+}
+
+.plan-box{
+  border: 1px solid #efefef;
+  padding: 15px;
+  border-radius: 4px;
+  .head{
+    font-size: 15px;
+    text-align: center;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  .plan-content{
+    .plan-row{
+      display: inline-block;
+      width: 100%;
+      .plan-label{
+        font-weight: 700;
+        float: left;
+      }
+      .plan-value{
+        float: right;
+      }
+      &:last-child{
+        margin-bottom: 32px;
+      }
+    }
+  }
+}
+.paypal-button-container{
+  text-align: center;
+}
+.navbar-default{
+  &.navbar-fixed-side{
+    font-family: 'LatoBold';
+    background-color: #fff;
+    border: solid 1px #efefef;
+    margin: 0px;
+    ul{
+      list-style-type: none;
+      padding: 0px;
+      li{
+        font-size: 14px;
+        font-weight: 900;
+        color: #4e4e4e;
+        padding: 15px;
+        border-left: 4px solid #fff;
+        &.nav-item-ongoing{
+          padding-top: 20.5px;
+          padding-bottom: 20.5px;
+        }
+        &.active{
+          background-color: #efefef;
+          border-left: 4px solid #2196f3;
+          &:hover{
+            border-left: 4px solid #2196f3;
+          }
+        }
+        &:hover{
+          background-color: #efefef;
+          border-left: 4px solid #efefef;
+        }
+        &.nav-item-my-tests{
+          padding: 16px;
+          font-size: 24px;
+          font-family: 'LatoBlack';
+          line-height: 24px;
+          border-left: 0px;
+          &:hover{
+            background-color: #fff;
+          }
+        }
+        .nav-item-description{
+          font-size: 11px;
+          color: #999999;
+          font-family: 'LatoRegular';
+          font-weight: 200;
+        }
+      }
+    }
+  }
+}

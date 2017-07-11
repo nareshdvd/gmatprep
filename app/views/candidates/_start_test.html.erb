@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="welcome-msg">
+      You have <%= current_user.remaining_test_count %> tests left
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="start-test-btn">
+      <% free_plan = subscription.plan.free_plan? %>
+      <%= link_to start_test_path("start", (free_plan ? "free" : "paid")) do %>
+        Start new test
+      <% end %>
+    </div>
+  </div>
+</div>

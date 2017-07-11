@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
   has_and_belongs_to_many :roles
   has_many :subscriptions, dependent: :destroy
-  has_many :identities
+  has_many :identities, dependent: :destroy
   after_create :assign_candidate_role_to_user, if: Proc.new{|user| !user.is_admin? }
   after_create :add_registration_info_to_influx
   after_create :subscribe_for_free_plan, if: Proc.new{|user| !user.is_admin? }
@@ -115,19 +115,97 @@ class User < ActiveRecord::Base
   end
 
   def in_progress_paper
-    sub = ([free_subscription] + usable_subscriptions).detect{|subscription| subscription.papers.last.present? && subscription.papers.last.unfinished?}
-    return sub.papers.last if sub.present?
-    return nil
+    current_test
   end
 
   def paid_subscriptions
     subs = subscriptions.joins(:plan).where("plans.name != ?", Plan::FREE_PLAN)
-    @paid_ones = subs.select{ |sub| sub.paid? || sub.success? }
+    subs.select{ |sub| sub.paid? || sub.success? }
   end
 
   def usable_subscriptions
-    return @usable_subscriptions if !@usable_subscriptions.nil?
-    paid_subscriptions if @paid_ones.nil?
-    @usable_subscriptions = @paid_ones.select{|sub| sub.not_elapsed? && sub.not_exhausted? }
+    paid_subscriptions.select{|sub| sub.not_elapsed? && sub.not_exhausted? }
+  end
+
+  def current_paid_subscription
+    usable_subscriptions.first
+  end
+
+  def current_test
+    if current_paid_subscription.present?
+      if (last_paper = current_paid_subscription.papers.last).present? && last_paper.unfinished?
+        current_paid_subscription.papers.last
+      else
+        return nil
+      end
+    elsif (last_paper = free_subscription.papers.last).present? && last_paper.unfinished?
+      return last_paper
+    else
+      nil
+    end
+  end
+
+  def remaining_test_count
+    ([free_subscription] + [current_paid_subscription]).compact.collect{|subscription| subscription.remaining_paper_count}.sum
+  end
+
+  def completed_tests
+    subscriptions.joins(:papers).preload(:papers).where("finish_time IS NOT NULL").collect{|sub| sub.papers}.flatten
+  end
+
+  def completed_test_count
+    ([free_subscription] + paid_subscriptions).collect{|subscription| subscription.papers.where("finish_time IS NOT NULL").count}.sum
+  end
+
+  def get_available_plans(overall = false)
+    user = self
+    question_type = "(CASE
+      WHEN category_id = 1 AND level_id = 1 THEN '1-1'
+      WHEN category_id = 1 AND level_id = 2 THEN '1-2'
+      WHEN category_id = 1 AND level_id = 3 THEN '1-3'
+      WHEN category_id = 2 AND level_id = 1 THEN '2-1'
+      WHEN category_id = 2 AND level_id = 2 THEN '2-2'
+      WHEN category_id = 2 AND level_id = 3 THEN '2-3'
+      ELSE
+        questions.passage_id
+    END) as question_type"
+    if !overall
+      min_questions_info = Question.select("COUNT(DISTINCT questions.id) as question_count, #{question_type}").joins("LEFT OUTER JOIN papers_questions ON papers_questions.question_id=questions.id").joins("LEFT OUTER JOIN papers ON papers.id=papers_questions.paper_id").joins("LEFT OUTER JOIN subscriptions ON subscriptions.id=papers.subscription_id").joins("LEFT OUTER JOIN users ON users.id=subscriptions.user_id").where("(subscriptions.user_id IS NULL OR subscriptions.user_id != ?)", user.id).group("question_type")
+    else
+      min_questions_info = Question.select("COUNT(DISTINCT questions.id) as question_count, #{question_type}").group("question_type")
+    end
+    passage_3_count = 0
+    passage_4_count = 0
+    other_category_questions = []
+    min_questions_info.each do |question_info|
+      if !question_info.question_type.include?("-")
+        if question_info.question_count == 3
+          passage_3_count += 1
+        else
+          passage_4_count += 1
+        end
+      else
+        other_category_questions << question_info
+      end
+    end
+    data = {
+      passage_3_count: passage_3_count,
+      passage_4_count: passage_4_count
+    }
+    # other_category_questions.each do |question_info|
+    #   data['category_' + question_info.question_type.split("-").join("_level_")] = question_info.question_count
+    # end
+    available_paper_count = [(passage_3_count / 3), other_category_questions.min_by{|ca_q| ca_q.question_count}.question_count].min
+    plans = {
+      7 => [1, 3, 5],
+      6 => [1, 3, 5],
+      5 => [1, 3, 5],
+      4 => [1, 3],
+      3 => [1, 3],
+      2 => [1],
+      1 => [1]
+    }
+    available_plans = Plan.where(paper_count: plans[available_paper_count]).where("name != ?", Plan::FREE_PLAN)
+    return available_plans
   end
 end
