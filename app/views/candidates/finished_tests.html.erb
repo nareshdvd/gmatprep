@@ -1,6 +1,12 @@
+<% finished_test_count = current_user.completed_test_count %>
 <style type="text/css">
+  <% if finished_test_count > 3 %>
+    .candidate-content{
+      padding-top: 0px;
+    }
+  <% end %>
   .top-msg{
-    margin-bottom: 29px;
+    margin-bottom: 14px;
   }
   .test-result-box{
     border: solid 1px #efefef;
@@ -37,6 +43,9 @@
   .margin-t-18{
     margin-top: 18px;
   }
+  .margin-t-15{
+    margin-top: 15px;
+  }
   .margin-t-5{
     margin-top: 5px;
   }
@@ -49,6 +58,9 @@
   .margin-t-3{
     margin-top: 3px;
   }
+  .margin-b-15{
+    margin-bottom: 15px;
+  }
 </style>
 <div class="row">
   <%= render "candidates/sidebar", {active: "completed-tests"} %>
@@ -58,7 +70,6 @@
       <div class="col-sm-12">
         <div class="row top-msg">
           <div class="col-sm-12">
-            <% finished_test_count = current_user.completed_test_count %>
             <div class="text-center font-16">
               You have completed <%= finished_test_count %> tests
             </div>
@@ -76,7 +87,7 @@
         <% completed_tests.each_slice(3) do |tests| %>
           <div class="row">
             <% tests.each do |test| %>
-              <div class="col-sm-4 <%= extra_class_first_element if inx.zero? %>">
+              <div class="col-sm-4 margin-b-15 margin-t-15 <%= extra_class_first_element if inx.zero? %>">
                 <div class="test-result-box">
                   <div class="upper">
                     <div class="pull-left">
