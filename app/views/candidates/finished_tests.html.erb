@@ -64,43 +64,47 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <% completed_tests = current_user.completed_tests %>
-          <% if finished_test_count == 1 %>
-            <% extra_class_first_element = "col-sm-offset-4" %>
-          <% elsif finished_test_count == 2 %>
-            <% extra_class_first_element = "col-sm-offset-2" %>
-          <% else %>
-            <% extra_class_first_element = "" %>
-          <% end %>
-          <% completed_tests.each_with_index do |test, inx| %>
-            <div class="col-sm-4 <%= extra_class_first_element if inx.zero? %>">
-              <div class="test-result-box">
-                <div class="upper">
-                  <div class="pull-left">
-                    <div class="test-name font-16 line-height-16">
-                      Test <%= "%02d" % (inx + 1) %>
+        <% completed_tests = current_user.completed_tests %>
+        <% if finished_test_count == 1 %>
+          <% extra_class_first_element = "col-sm-offset-4" %>
+        <% elsif finished_test_count == 2 %>
+          <% extra_class_first_element = "col-sm-offset-2" %>
+        <% else %>
+          <% extra_class_first_element = "" %>
+        <% end %>
+        <% inx = 0 %>
+        <% completed_tests.each_slice(3) do |tests| %>
+          <div class="row">
+            <% tests.each do |test| %>
+              <div class="col-sm-4 <%= extra_class_first_element if inx.zero? %>">
+                <div class="test-result-box">
+                  <div class="upper">
+                    <div class="pull-left">
+                      <div class="test-name font-16 line-height-16">
+                        Test <%= "%02d" % (inx + 1) %>
+                      </div>
+                      <div class="test-score font-16 line-height-16 margin-t-9">
+                        Score : <%= test.calculate_score %>
+                      </div>
                     </div>
-                    <div class="test-score font-16 line-height-16 margin-t-9">
-                      Score : <%= test.calculate_score %>
+                    <div class=" pull-right">
+                      <div class="test-date-time font-12 line-height-12">
+                        <%= test.start_time.strftime("%d %b, %Y") %>
+                      </div>
+                      <div class="test-date-time font-12 line-height-12 margin-t-3">
+                        <%= test.start_time.strftime("%I:%M %p") %>
+                      </div>
                     </div>
                   </div>
-                  <div class=" pull-right">
-                    <div class="test-date-time font-12 line-height-12">
-                      <%= test.start_time.strftime("%d %b, %Y") %>
-                    </div>
-                    <div class="test-date-time font-12 line-height-12 margin-t-3">
-                      <%= test.start_time.strftime("%I:%M %p") %>
-                    </div>
+                  <div class="lower text-center margin-t-18">
+                    <%= link_to "View Report", report_charts_path(test.id), class: 'view-report-btn' %>
                   </div>
-                </div>
-                <div class="lower text-center margin-t-18">
-                  <%= link_to "View Report", report_charts_path(test.id) %>
                 </div>
               </div>
-            </div>
-          <% end %>
-        </div>
+              <% inx += 1 %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
