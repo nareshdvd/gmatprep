@@ -1,85 +1,59 @@
 class PapersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:test]
-  def test
-
-  end
-
+  before_action :find_paper, only: [:test_finish, :finish_test, :show_score, :question, :answer_question]
+  before_action :find_subscription, only: [:instructions, :new]
+  before_action :redirect_if_in_progress, only: [:instructions, :new]
+  before_action :redirect_if_not_in_progress, only: [:question, :answer_question]
   def test_finish
-    @paper = Paper.find_by_id(params[:paper_id])
     respond_to do |format|
-      if @paper.present?
-        if @paper.finish_time.blank?
-          @paper.update_attributes({finish_time: Time.now})
-        end
-        if @paper.paper_finish_displayed
-          format.html{ redirect_to paper_score_path(@paper) }
-        else
-          @paper.update_attribute(:paper_finish_displayed, true)
-          format.html{ render "candidates/paper_finish" }
-        end
+      if @paper.finish_time.blank?
+        @paper.update_attributes({finish_time: Time.now})
+      end
+      if @paper.paper_finish_displayed
+        format.html{ redirect_to paper_score_path(@paper) }
       else
-        format.html { redirect_to root_path }
+        @paper.update_attribute(:paper_finish_displayed, true)
+        format.html{ render "candidates/paper_finish" }
       end
     end
   end
 
   def finish_test
-    @paper = Paper.find_by_id(params[:paper_id])
     respond_to do |format|
-      if @paper.present?
-        sleep(5)
-        format.html{ redirect_to paper_score_path(@paper) }
-      else
-        format.html{ redirect_to root_path }
-      end
+      sleep(5)
+      format.html{ redirect_to paper_score_path(@paper) }
     end
   end
 
   def show_score
-    @paper = Paper.find_by_id(params[:paper_id])
     respond_to do |format|
-      if @paper.present?
-        format.html{ render "candidates/score" }
-      else
-        format.html{ redirect_to root_path }
-      end
+      format.html{ render "candidates/score" }
     end
   end
 
   def instructions
     step_number = params[:step_number]
-    subscription_id = params[:subscription_id]
     respond_to do |format|
-      if (paper = current_user.in_progress_paper).present?
-        format.html{ redirect_to root_path, notice: "You already have an test in progress 1" }
-      else
-        if (@subscription = Subscription.find_by_id(subscription_id)).present?
-          if @subscription.plan.free_plan? || @subscription.paid? || @subscription.success?
-            if @subscription.elapsed?
-              format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
-            elsif @subscription.exhausted?
-              format.html{ redirect_to root_path, notice: "Your subscription has finished" }
-            else
-              if ['1', '2'].include?(step_number)
-                format.html{ render "candidates/paper_start_step_#{step_number}" }
-              else
-                format.html{ redirect_to paper_instructions_url(@subscription.id, 1)}
-              end
-            end
-          else
-            format.html{ redirect_to root_path, notice: "Subscription not available" }
-          end
+      if @subscription.plan.free_plan? || @subscription.paid? || @subscription.success?
+        if @subscription.elapsed?
+          format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
+        elsif @subscription.exhausted?
+          format.html{ redirect_to root_path, notice: "Your subscription has finished" }
         else
-          format.html{ redirect_to root_path, notice: "Subscription not available" }
+          if ['1', '2'].include?(step_number)
+            format.html{ render "candidates/paper_start_step_#{step_number}" }
+          else
+            format.html{ redirect_to paper_instructions_url(@subscription.id, 1)}
+          end
         end
+      else
+        format.html{ redirect_to root_path, notice: "Subscription not available" }
       end
     end
   end
 
   def new
-    subscription_id = params[:subscription_id].to_i
     respond_to do |format|
-      if (paper = current_user.in_progress_paper).present?
+      if (paper = in_progress_paper).present?
         if paper.subscription.id == subscription_id
           if (question = paper.papers_questions.last).present?
             if question.unanswered?
@@ -95,24 +69,20 @@ class PapersController < ApplicationController
             format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
           end
         else
-          format.html{ redirect_to root_path, notice: "You already have an test in progress 2" }
+          format.html{ redirect_to root_path, notice: "You already have an test in progress" }
         end
       else
-        if (subscription = Subscription.find_by_id(subscription_id)).present?
-          if subscription.plan.free_plan? || subscription.paid? || subscription.success?
-            if subscription.elapsed?
-              format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
-            elsif subscription.exhausted?
-              format.html{ redirect_to root_path, notice: "Your subscription has finished" }
-            else
-              paper = subscription.papers.create(start_time: Time.now)
-              FinishPaperWorker.perform_in(Paper::MINUTES.minutes + 2.seconds, paper.id)
-              InfluxMonitor.push_to_influx("started_test", {"plan" => subscription.plan.name})
-              question = paper.add_question(true)
-              format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
-            end
+        if @subscription.plan.free_plan? || @subscription.paid? || @subscription.success?
+          if @subscription.elapsed?
+            format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
+          elsif @subscription.exhausted?
+            format.html{ redirect_to root_path, notice: "Your subscription has finished" }
           else
-            format.html{ redirect_to root_path, notice: "Subscription not available" }
+            paper = @subscription.papers.create(start_time: Time.now)
+            FinishPaperWorker.perform_in(Paper::MINUTES.minutes + 2.seconds, paper.id)
+            InfluxMonitor.push_to_influx("started_test", {"plan" => @subscription.plan.name})
+            question = paper.add_question(true)
+            format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
           end
         else
           format.html{ redirect_to root_path, notice: "Subscription not available" }
@@ -122,10 +92,9 @@ class PapersController < ApplicationController
   end
 
   def question
-    paper_id = params[:paper_id].to_i
     question_number = params[:question_number].to_i
     respond_to do |format|
-      if (@paper = current_user.in_progress_paper).present? && @paper.id == paper_id
+      if @paper.id == in_progress_paper.id
         last_question = @paper.papers_questions.last
         if last_question.blank?
           last_question = @paper.add_question(true)
@@ -144,17 +113,16 @@ class PapersController < ApplicationController
           format.html
         end
       else
-        format.html{ redirect_to root_path, notice: "Paper not found" }
+        format.html{ redirect_to root_path, notice: "Paper not available" }
       end
     end
   end
 
   def answer_question
-    paper_id = params[:paper_id].to_i
     question_number = params[:question_number].to_i
     respond_to do |format|
-      if (paper = current_user.in_progress_paper).present? && paper.id == paper_id
-        last_question = paper.papers_questions.last
+      if @paper.id == in_progress_paper.id
+        last_question = @paper.papers_questions.last
         if last_question.question_number == question_number
           if last_question.unanswered?
             last_question.update_attributes(answer_params)
@@ -162,16 +130,16 @@ class PapersController < ApplicationController
             last_question.save
           end
           if last_question.question_number == 41
-            format.html{ redirect_to paper_finish_path(paper.id) }
+            format.html{ redirect_to paper_finish_path(@paper.id) }
           else
-            next_question = paper.add_question
-            format.html {redirect_to papers_question_path(paper.id, next_question.question_number)}
+            next_question = @paper.add_question
+            format.html {redirect_to papers_question_path(@paper.id, next_question.question_number)}
           end
         else
           format.html{ redirect_to root_path, notice: "Incorrect question number" }
         end
       else
-        format.html{ redirect_to root_path, notice: "Paper not found" }
+        format.html{ redirect_to root_path, notice: "Paper not available" }
       end
     end
   end
@@ -181,5 +149,37 @@ class PapersController < ApplicationController
   
   def answer_params
     params.require(:papers_question).permit(:option_id)
+  end
+
+  def find_paper
+    @paper = Paper.where(id: params[:paper_id]).first
+    if @paper.blank? || @paper.subscription.user_id != current_user.id
+      raise ActiveRecord::RecordNotFound
+    end
+  end
+
+  def find_subscription
+    @subscription = current_user.subscriptions.where(id: subscription_id).first
+    raise ActiveRecord::RecordNotFound if @subscription.blank?
+  end
+
+  def redirect_if_in_progress
+    redirect_to root_path, notice: "Paper already in progress" if in_progress_paper.present?
+  end
+
+  def redirect_if_not_in_progress
+    redirect_to root_path, notice: "Paper not found" if in_progress_paper.blank?
+  end
+
+  def in_progress_paper
+    @in_progress_paper ||= current_user.in_progress_paper
+  end
+
+  def paper_id
+    params[:paper_id].to_i
+  end
+
+  def subscription_id
+    params[:subscription_id].to_i
   end
 end

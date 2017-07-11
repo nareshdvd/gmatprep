@@ -1,35 +1,25 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!, only: [:testing, :index, :testingnew]
+  skip_before_filter :authenticate_user!, only: [:index]
   def index
     monitor = InfluxMonitor.should_monitor?(cookies, :asynchronous_visitor_monitoring)
     if current_user.blank?
       InfluxMonitor.push_to_influx("visited", {user: "anonymous"}) if monitor
       public_home
     else
-      if current_user.is_admin?
+      if user_is_admin?
         InfluxMonitor.push_to_influx("visited", {user: "admin"}) if monitor
         admin_dashboard
       else
         InfluxMonitor.push_to_influx("visited", {user: "candidate"}) if monitor
-        candidate_dashboard if current_user.is_candidate?
+        candidate_dashboard if user_is_candidate?
       end
     end
-  end
-
-  def testing
-    respond_to do |format|
-      format.html {render text: (Error.first.try(:error_message) || "404 Not Found")}
-      format.json {render json: {"error" => "404 Not Found"}}
-    end
-  end
-
-  def testingnew
   end
 
   def index_users
     @users = User.all
     respond_to do |format|
-      if !current_user.is_admin?
+      if !user_is_admin?
         format.html {redirect_to root_path}
       else
         format.html {render "candidates/index"}
@@ -39,7 +29,7 @@ class HomeController < ApplicationController
 
   def destroy_papers
     respond_to do |format|
-      if !current_user.is_admin?
+      if user_is_admin?
         format.html {redirect_to root_path}
       else
         user = User.find_by_id(params[:candidate_id])
