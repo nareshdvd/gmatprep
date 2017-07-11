@@ -150,11 +150,11 @@ class User < ActiveRecord::Base
   end
 
   def completed_tests
-    subscriptions.joins(:papers).preload(:papers).where("finish_time IS NOT NULL").collect{|sub| sub.papers}.flatten
+    subscriptions.joins(:papers).preload(:papers).where("papers.finish_time IS NOT NULL").collect{|sub| sub.papers}.flatten.uniq
   end
 
   def completed_test_count
-    ([free_subscription] + paid_subscriptions).collect{|subscription| subscription.papers.where("finish_time IS NOT NULL").count}.sum
+    subscriptions.joins(:papers).where("papers.finish_time IS NOT NULL").count
   end
 
   def get_available_plans(overall = false)
