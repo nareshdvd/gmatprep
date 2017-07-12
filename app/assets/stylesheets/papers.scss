@@ -89,3 +89,34 @@ label{
 .form-group{
   margin-bottom: 2px !important;
 }
+
+.paper-init-container div.heading-text{
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.paper-init-container p{
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.paper-init-container ul{
+  margin-top: 15px;
+}
+.paper-init-container ul li{
+  margin-bottom: 10px;
+}
+.paper-init-container ul li:last-child{
+  margin-bottom: 15px;
+}
+.margin-t-15{
+  margin-top: 15px;
+}
+.margin-t-5{
+  margin-top: 5px;
+}
+.margin-b-15{
+  margin-bottom: 15px;
+}
+.margin-b-20{
+  margin-bottom: 20px;
+}

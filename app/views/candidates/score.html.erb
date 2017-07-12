@@ -36,9 +36,50 @@
       <div class="row height-100" style="padding-top: 67px;">
         <div class="col-sm-12 col-xs-12 col-md-12 height-100" style="overflow-y: scroll;">
           <div class="bg-white">
-            <div class="row">
-              <div class="col-sm-12">
-                Your Score : <%= @paper.calculate_score %>
+            <div class="row paper-init-container">
+              <div class="col-sm-8 col-sm-offset-2">
+                <div class="heading-text underline margin-b-20 text-center">
+                  GMATRIC score report
+                </div>
+                <table class="table table-bordered margin-b-15">
+                  <tr>
+                    <th>Verbal Score</th>
+                    <th>Percentile</th>
+                  </tr>
+                  <tr>
+                    <td width="60%"><%= @paper.calculate_score %></td>
+                    <td width="40%"><%= @paper.percentile %>%</td>
+                  </tr>
+                </table>
+                <table class="table table-bordered margin-b-15">
+                  <tr>
+                    <th colspan="2">Breakdown of score</th>
+                  </tr>
+                  <tr>
+                    <th width="60%">Questions answered correctly</th>
+                    <td width="40%">
+                      <%= @paper.papers_questions.joins("INNER JOIN options ON options.id=papers_questions.option_id").where("options.correct=?", true).count %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th width="60%">Questions answered incorrectly</th>
+                    <td width="40%">
+                      <%= @paper.papers_questions.joins("INNER JOIN options ON options.id=papers_questions.option_id").where("options.correct=?", false).count %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th width="60%">Questions not attempted</th>
+                    <td width="40%">
+                      <%= Paper::QUESTION_COUNT - @paper.papers_questions.count %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th width="60%">Total questions attempted</th>
+                    <td width="40%">
+                      <%= @paper.papers_questions.count %>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>

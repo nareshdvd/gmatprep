@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
   has_and_belongs_to_many :roles
   has_many :subscriptions, dependent: :destroy
+  has_many :papers, through: :subscriptions
   has_many :identities, dependent: :destroy
   after_create :assign_candidate_role_to_user, if: Proc.new{|user| !user.is_admin? }
   after_create :add_registration_info_to_influx
@@ -217,18 +218,24 @@ class User < ActiveRecord::Base
     return available_plans
   end
 
-  def test_script(subscription_id, correct_info = "all_correct")
+  def test_script(subscription_id, correct_info = nil)
     user = self
     subscription = user.subscriptions.find_by_id(subscription_id)
     subscription.plan.paper_count.times do
       paper = subscription.papers.create(start_time: Time.now)
       question = paper.add_question(true)
+      question.start_time = Time.now
       while question.question_number <= 41 do
         if correct_info == "all_correct"
           question.mark_correct
-        else
+        elsif correct_info == "all_incorrect"
           question.mark_incorrect
+        else
+          action = ["mark_correct", "mark_incorrect"].sample
+          question.send(action.to_sym)
         end
+        question.finish_time = question.start_time + (100..200).to_a.sample.seconds
+        question.save
         if question.question_number < 41
           question = paper.add_question
         else

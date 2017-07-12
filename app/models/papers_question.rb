@@ -27,4 +27,8 @@ class PapersQuestion < ActiveRecord::Base
   def mark_incorrect
     self.update_attribute(:option_id, self.question.options.where(correct: false).first.id)
   end
+
+  def answer_question(option_id)
+    self.update_attributes(option_id: option_id, finish_time: Time.now)
+  end
 end

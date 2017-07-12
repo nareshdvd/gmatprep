@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="text-center">
-      You have completed about <%= percent_complete.floor %> of your test, hurry up as you only have approximately <%= (((current_test.start_time + Paper::MINUTES.minutes) - Time.now) / 60).round %> minutes left.
+      You have completed about <%= percent_complete.floor %>% of your test, hurry up as you only have approximately <%= (((current_test.start_time + Paper::MINUTES.minutes) - Time.now) / 60).round %> minutes left.
     </div>
   </div>
 </div>
