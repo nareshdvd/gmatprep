@@ -146,7 +146,10 @@ label{
   padding-bottom: 5px;
 }
 
-
+.bootbox-confirm .modal-footer button {
+  float:right;
+  margin-left: 10px;
+}
 
 .bootbox-confirm .modal-content{
   background-color: #66B9BF;

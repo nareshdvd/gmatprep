@@ -91,13 +91,13 @@ $(document).on("submit", ".candidate-question-form", function(e){
         title: "Answer Confirmation",
         message: confirm_message,
         buttons: {
-          confirm: {
-            label: 'Yes',
-            className: 'btn btn-primary'
-          },
           cancel: {
             label: 'No',
             className: 'btn btn-danger'
+          },
+          confirm: {
+            label: 'Yes',
+            className: 'btn btn-primary'
           }
         },
         callback: function (result) {
