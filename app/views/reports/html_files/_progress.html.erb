@@ -4,11 +4,16 @@
       <div class="report-section-heading">Progress chart</div>
       <div class="report-section-content">
         <div class="row">
-          <div class="col-sm-12 col-md-12">
+          <div>
             <div class="graph-content">
               <% css = params[:format] == "pdf" ? " width: 1450px;" : "" %>
-              <div id="progress-graph" style="height: 350px;<%= css %> background-color: transparent;"></div>
+              <div id="progress-graph" style="height: 300px;<%= css %> background-color: transparent;"></div>
             </div>
+          </div>
+        </div>
+        <div class="row margin-t-10 color-medium-gray">
+          <div class="col-sm-12">
+            Progress chart shows your performance during the exam. Every correct response is rewarded with an upward slope, whereas a downward movement shows an incorrect response. A steep downward slope indicates continuously marked incorrect responses, whereas intermittent peaks indicate randomly marked incorrect responses. A series of incorrect responses is penalized heavily by the GMAT. 
           </div>
         </div>
       </div>

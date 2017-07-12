@@ -3,6 +3,11 @@
 <% if @correct_group.blank? %>
   @correct_group = [0, 0, 0, 0]
 <% end %>
+<style type="text/css">
+  .box-3 div:first-child span{
+    font-size: 12px;
+  }
+</style>
 <div class="alwaysbreak"></div>
 <div class="row report-section-container percent-correct-incorrect">
   <div class="col-sm-12 col-xs-12">
@@ -15,7 +20,7 @@
               <div>
                 correct answers
               </div>
-              <div class="color-green">
+              <div class="color-green lato-thin font-w-600">
                 <%= percent_correct_overall = @paper.correct_percent_overall %><span class="percent-text">%</span>
               </div>
             </div>
@@ -23,7 +28,7 @@
               <div>
                 incorrect answers
               </div>
-              <div class="color-g-orange">
+              <div class="color-g-orange lato-thin font-w-600">
                 <%= 100 - percent_correct_overall %><span class="percent-text">%</span>
               </div>
             </div>
@@ -42,7 +47,10 @@
           <div class="col-sm-3 col-xs-3">
             <div class="content">
               <div class="box-3">
-                <div>Set I</div>
+                <div>
+                  <div>Set I</div>
+                  <div class="small-text">Question no. 1-10</div>
+                </div>
                 <div>
                   <div class="text-s-5">
                     <%= @correct_group[:data][0] %><span class="percent-text">%</span>
@@ -50,7 +58,10 @@
                 </div>
               </div>
               <div class="box-3">
-                <div>Set II</div>
+                <div>
+                  <div>Set II</div>
+                  <div class="small-text">Question no. 11-20</div>
+                </div>
                 <div>
                   <div class="text-s-5">
                     <%= @correct_group[:data][1] %><span class="percent-text">%</span>
@@ -58,7 +69,10 @@
                 </div>
               </div>
               <div class="box-3">
-                <div>Set III</div>
+                <div>
+                  <div>Set III</div>
+                  <div class="small-text">Question no. 21-30</div>
+                </div>
                 <div>
                   <div class="text-s-5">
                     <%= @correct_group[:data][2] %><span class="percent-text">%</span>
@@ -66,7 +80,10 @@
                 </div>
               </div>
               <div class="box-3">
-                <div>Set IV</div>
+                <div>
+                  <div>Set IV</div>
+                  <div class="small-text">Question no. 31-41</div>
+                </div>
                 <div>
                   <div class="text-s-5">
                     <%= @correct_group[:data][3] %><span class="percent-text">%</span>

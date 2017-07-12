@@ -7,11 +7,15 @@
           <div class="col-sm-3 col-xs-3">
             <div class="content">
               <% section_name = ["I", "II", "III", "IV"] %>
+              <% set_info = ["Question no. 1-10", "Question no. 11-20", "Question no. 21-30", "Question no. 31-41"]%>
               <% @average_time_per_question.each_with_index do |dt, inx| %>
                 <% sec_name = section_name[inx] %>
                 <% sec_correct_data = dt %>
                 <div class="box-3">
-                  <div>Set <%= sec_name %></div>
+                  <div>
+                    <div>Set <%= sec_name %></div>
+                    <div class="small-text"><%= set_info[inx] %></div>
+                  </div>
                   <div>
                     <div>
                       <div class="text-s-5">
@@ -39,6 +43,12 @@
                     </div>
                   </div>
                 <% end %>
+              </div>
+            </div>
+            <div class="row margin-t-10 color-medium-gray">
+              <div class="col-sm-12">
+                <p>Average time per question set wise shows the average time you spent on a question in a particular set.</p>
+                <p>The recommended time per question is 01:49 minutes. If the time spent is less than the recommended limit, the corresponding graph will be blue in colour; otherwise the colour of the graph will be red. In order to perform well on the exam, you should distribute your time evenly to all the sets. Excessive time spent in any one set of the exam will affect the time available for the next set of questions.</p>
               </div>
             </div>
           </div>

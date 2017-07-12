@@ -43,13 +43,16 @@
                 </div>
               </div>
               <div class="box-3">
-                <div>Set VI</div>
+                <div>Set IV</div>
                 <div>
                   <% range_text = @paper.get_range_text(@average_difficulty_level[3]) %>
                   <div class="<%= range_text.split(" ").join("-").downcase %>" style="color: <%= @average_difficulty_level[3]['color'] %>; font-weight: 900;">
                     <%= range_text %>
                   </div>
                 </div>
+              </div>
+              <div class="margin-t-10 color-medium-gray">
+                The higher the column in the graph, the higher is the difficulty level of the set. For each difficulty level, there are many sub- difficulty levels and therefore you may notice columns of different height in a particular difficulty level.
               </div>
             </div>
           </div>
