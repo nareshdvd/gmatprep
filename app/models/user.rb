@@ -192,17 +192,28 @@ class User < ActiveRecord::Base
       passage_3_count: passage_3_count,
       passage_4_count: passage_4_count
     }
-    available_paper_count = [(passage_3_count / 3), other_category_questions.min_by{|ca_q| ca_q.question_count}.question_count].min
-    plans = {
-      7 => [1, 3, 5],
-      6 => [1, 3, 5],
-      5 => [1, 3, 5],
-      4 => [1, 3],
-      3 => [1, 3],
-      2 => [1],
-      1 => [1]
-    }
-    available_plans = Plan.where(paper_count: plans[available_paper_count]).where("name != ?", Plan::FREE_PLAN)
+
+    if (min_other_category_ques = other_category_questions.min_by{|ca_q| ca_q.question_count}).present?
+      if (min_papers_by_min_cate_ques = (min_other_category_ques.question_count / 14).to_i) >= 1
+        min_papers_by_passage_3 = (passage_3_count / 3).to_i
+        min_papers_by_passage_4 = passage_4_count.to_i
+        available_paper_count = [min_papers_by_passage_3, min_papers_by_passage_4, min_papers_by_min_cate_ques].min
+        plans = {
+          7 => [1, 3, 5],
+          6 => [1, 3, 5],
+          5 => [1, 3, 5],
+          4 => [1, 3],
+          3 => [1, 3],
+          2 => [1],
+          1 => [1]
+        }
+        available_plans = Plan.where(paper_count: plans[available_paper_count]).where("name != ?", Plan::FREE_PLAN)
+      else
+        available_plans = nil
+      end
+    else
+      available_plans = nil
+    end
     return available_plans
   end
 
