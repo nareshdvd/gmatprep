@@ -28,16 +28,16 @@ class HomeController < ApplicationController
   end
 
   def destroy_papers
-    respond_to do |format|
-      if !user_is_admin?
-        format.html {redirect_to root_path}
-      else
-        user = User.find_by_id(params[:candidate_id])
-        user.subscriptions.each do |sbs|
-          sbs.papers.destroy_all
-        end
-        format.html {redirect_to root_path}
+    if !user_is_admin?
+      flash[:notice] = "Not found"
+      redirect_js(root_path)
+    else
+      user = User.find_by_id(params[:candidate_id])
+      user.subscriptions.each do |sbs|
+        sbs.papers.destroy_all
       end
+      flash[:notice] = "all papers are reset for #{user.email}"
+      redirect_js(index_users_path)
     end
   end
 

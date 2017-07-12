@@ -52,4 +52,11 @@ class ApplicationController < ActionController::Base
   def user_is_candidate?
     current_role == "candidate"
   end
+
+  def redirect_js(redirect_to_url)
+    respond_to do |format|
+      @redirect_to = redirect_to_url
+      format.js { render "shared/redirect" }
+    end
+  end
 end
