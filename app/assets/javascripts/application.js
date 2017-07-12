@@ -79,14 +79,21 @@ $(document).on("submit", ".candidate-question-form", function(e){
   e.preventDefault();
   var $form = $(this);
   if($form.find("input[type='radio']:checked").length != 0){
-    if(false){
+    var confirm_message = ""
+    if($form.hasClass(".question-no-41")){
+      confirm_message = "Click yes to finish the test.";
+    }else{
+      confirm_message = "Click yes to confirm your answer and continue to the next question.";
+    }
+    if(true){
       bootbox.confirm({
         size: "small",
-        message: "Click yes to confirm your answer and continue to the next question.",
+        title: "Answer Confirmation",
+        message: confirm_message,
         buttons: {
           confirm: {
             label: 'Yes',
-            className: 'btn btn-success'
+            className: 'btn btn-primary'
           },
           cancel: {
             label: 'No',
@@ -114,7 +121,8 @@ $(document).on("submit", ".candidate-question-form", function(e){
   }else{
     bootbox.alert({
       size: "small",
-      message: "Please select one of the options",
+      title: "Answer Required",
+      message: "You can not continue with this question unanswered.",
       className: ""
     }).find('.modal-content').css({
       'margin-top': function (){
@@ -145,6 +153,7 @@ function set_time(){
   if(seconds_elapsed == -1){
     bootbox.alert({
       size: "small",
+      title: "Time finished",
       message: "Your time is finished, click OK to proceed",
       className: "",
       callback: function () {

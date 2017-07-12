@@ -120,3 +120,51 @@ label{
 .margin-b-20{
   margin-bottom: 20px;
 }
+.margin-r-10{
+  margin-right: 10px;
+}
+
+
+.bootbox .modal-content{
+  background-color: #66B9BF;
+  color: #fff;
+  border-radius: 10px;
+}
+.bootbox .modal-content{
+  border-radius: 5px;
+}
+.bootbox .modal-content .modal-header{
+  background-color: #016DAF;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.bootbox .modal-content .modal-footer{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+
+.bootbox-confirm .modal-content{
+  background-color: #66B9BF;
+  color: #fff;
+  border-radius: 10px;
+}
+.bootbox-confirm .modal-content{
+  border-radius: 5px;
+}
+.bootbox-confirm .modal-content .modal-header{
+  background-color: #016DAF;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.bootbox-confirm .modal-content .modal-footer{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

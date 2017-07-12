@@ -58,9 +58,30 @@
         <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
           <div class="bg-light-blue">
             <button type="submit" class="btn btn-sm btn-primary pull-right" style="display: block;">Next</button>
+            <!--button type="button" class="btn btn-sm btn-primary pull-right full-screen margin-r-10" style="display: block;">Go Full screen!</button-->
           </div>
         </div>
       </div>
     </div>
   </div>
 </form>
+<% content_for :bottom_js do %>
+  <script type="text/javascript">
+    // function requestFullScreen(element) {
+    //   var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+    //   if (requestMethod) { // Native full screen.
+    //     requestMethod.call(element);
+    //   } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+    //     var wscript = new ActiveXObject("WScript.Shell");
+    //     if (wscript !== null) {
+    //       wscript.SendKeys("{F11}");
+    //     }
+    //   }
+    // }
+    // $(document).on("click", ".full-screen", function(){
+    //   var elem = document.body; // Make the body go full screen.
+    //   debugger;
+    //   requestFullScreen(elem);
+    // });
+  </script>
+<% end %>

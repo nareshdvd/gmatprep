@@ -4,7 +4,7 @@
 <%= content_for :body_classes do %>paper_body<% end %>
 <%= content_for :navbar_classes do %>navbar-fixed-top<% end %>
 <%= content_for :main_container_classes do %>paper_container<% end %>
-<%= simple_form_for [@paper, @paper_question], url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100"} do |f| %>
+<%= simple_form_for [@paper, @paper_question], url: papers_question_answer_path, html: {class: "form-horizontal candidate-question-form height-100 question-no-#{@paper_question.question_number if @paper_question.id.present?}"} do |f| %>
   <%= render "papers/question_inner", {f: f} %>
 <% end %>
 <%= simple_form_for :paper, url: paper_finish_path(@paper.id), method: :get, html: {class: "form-horizontal test-finish height-100 hide"} do |f| %><% end if @paper.id.present? %>
