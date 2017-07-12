@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 
   def destroy_papers
     respond_to do |format|
-      if user_is_admin?
+      if !user_is_admin?
         format.html {redirect_to root_path}
       else
         user = User.find_by_id(params[:candidate_id])
