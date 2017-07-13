@@ -91,12 +91,23 @@ class Payment < ActiveRecord::Base
 
   def paypal_request_url(success_url, cancel_url)
     return ""
+    #SANDBOX :username   => "naresh.dwivedi1987-facilitator_api1.gmail.com",
+    #SANDBOX :password   => "1393934793",
+    #SANDBOX :signature  => "AFcWxV21C7fd0v3bYYYRCpSSRl31Aj.tDgmjGvrcNGqxHlgNw2cnnkMT"
     if !self.paid? && !self.success?
-      request = Paypal::Express::Request.new(
-        :username   => "naresh.dwivedi1987-facilitator_api1.gmail.com",
-        :password   => "1393934793",
-        :signature  => "AFcWxV21C7fd0v3bYYYRCpSSRl31Aj.tDgmjGvrcNGqxHlgNw2cnnkMT"
-      )
+      if ENV['PAYPAL_MODE'] == "sandbox"
+        request = Paypal::Express::Request.new(
+          :username   => ENV['PAYPAL_SANDBOX_USERNAME'],
+          :password   => ENV['PAYPAL_SANDBOX_PASSWORD'],
+          :signature  => ENV['PAYPAL_SANDBOX_SIGNATURE']
+        )
+      else
+        request = Paypal::Express::Request.new(
+          :username   => ENV['PAYPAL_PRODUCTION_USERNAME'],
+          :password   => ENV['PAYPAL_PRODUCTION_PASSWORD'],
+          :signature  => ENV['PAYPAL_PRODUCTION_SIGNATURE']
+        )
+      end
       payment_request = Paypal::Payment::Request.new(
         :currency_code => self.subscription.plan.currency.upcase.to_sym,
         :amount => self.subscription.plan.amount,

@@ -62,10 +62,11 @@
     $(".plan-box").each(function(){
       var plan_id = $(this).data("planid");
       paypal.Button.render({
-        env: 'sandbox',
+        env: "<%= ENV['PAYPAL_MODE'] %>",
         commit: true,
         client: {
-          sandbox: "AeUm4BBph_f7umFVHoSzHFw-BLcARaLP2ouWP70jz_tliq6qQS9i_8IMMIAX"
+          sandbox: '<%= ENV["PAYPAL_SANDBOX_CLIENT_ID"] %>',
+          production: '<%= ENV["PAYPAL_PRODUCTION_CLIENT_ID"] %>'
         },
         payment: function(data, actions) {
           var CREATE_URL = "<%= init_subscribe_to_plan_url('___plan_id___', format: :json) %>".replace("___plan_id___", plan_id);
