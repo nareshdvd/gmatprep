@@ -87,11 +87,11 @@
       <%= yield %>
     </div>
     <%= yield :footer_content %>
-    <div class="container">
+    <div class="container footer-container">
       <footer>
         <div class="row">
-          <div class="copyright-text col-sm-3 col-md-3 col-xs-3">GMATRIC &copy; <%= Time.now.year %></div>
-          <div class="footer-menu col-sm-5 col-sm-offset-2 col-md-5 col-md-offset-2 col-xs-5 col-xs-offset-2">
+          <div class="copyright-text col-sm-8 col-md-8 col-xs-8 text-center">GMATRIC &copy; <%= Time.now.year %></div>
+          <div class="footer-menu col-sm-4 col-md-4 col-xs-4">
             <div>
               <%= link_to "Contact Us", contact_us_url %>
               <%= link_to "Disclaimer", disclaimer_url %>

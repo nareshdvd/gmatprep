@@ -211,12 +211,21 @@ body, html{
     }
   }
 }
-
-footer{
+html{
+  min-height: 653px;
+}
+html, body{
+  min-height: 653px;
+  position: relative;
+}
+.footer-container{
   position:absolute;
-  bottom: 10px;
+  width: 100%;
+  bottom: 0px;
+  background-color: #aeaeae;
+}
+footer{
   width: inherit;
-  padding-left: 100px;
   color: #fff;
 }
 
