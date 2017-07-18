@@ -25,4 +25,8 @@ class Invoice < ActiveRecord::Base
   def pending?
     self.status == STATUS[:pending]
   end
+
+  def mark_paid
+    self.update_attribute(:status, STATUS[:paid])
+  end
 end
