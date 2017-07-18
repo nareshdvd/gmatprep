@@ -7,7 +7,6 @@
       <li class="nav-item-ongoing <%= active == 'ongoing-tests' ? 'active' : '' %>">
         <%= link_to "Ongoing Test", my_home_path %>
       </li>
-      <% remaining_test_count = current_user.remaining_test_count %>
       <li class="nav-item-completed <%= active == 'completed-tests' ? 'active' : '' %>">
         <% finished_test_count = current_user.completed_test_count %>
         <% if finished_test_count.zero? %>
@@ -24,6 +23,21 @@
             You don't have any completed tests
           <% else %>
             You have finished <%= finished_test_count %> test(s)
+          <% end %>
+        </div>
+      </li>
+      <% remaining_test_count = current_user.remaining_test_count %>
+      <li class="nav-item-remaining">
+        <div>Remaining Tests</div>
+        <div class="nav-item-description">
+          <% if remaining_test_count.zero? %>
+            <% if current_user.current_test.present? %>
+              You have one on-going test, please finish it
+            <% else %>
+              You don't have any remaining tests
+            <% end %>
+          <% else %>
+            You have <%= remaining_test_count %> remaining test(s)
           <% end %>
         </div>
       </li>
