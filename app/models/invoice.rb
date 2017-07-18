@@ -1,6 +1,6 @@
 class Invoice < ActiveRecord::Base
   belongs_to :subscription
-  has_many :payments
+  has_many :payments, dependent: :destroy
   has_one :successful_payment, ->{where("payments.status=?", Payment::STATUS[:success])}, class_name: "Payment", foreign_key: "invoice_id"
   STATUS = {
     pending: 0,

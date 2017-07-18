@@ -1,7 +1,7 @@
 class Subscription < ActiveRecord::Base
   belongs_to :plan
   belongs_to :user
-  has_one :invoice
+  has_one :invoice, dependent: :destroy
   has_many :papers, dependent: :destroy
   # after_create :add_invoice
   scope :with_plan, -> { joins(:plan) }

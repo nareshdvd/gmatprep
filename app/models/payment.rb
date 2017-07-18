@@ -9,7 +9,7 @@ class Payment < ActiveRecord::Base
     failed: 4
   }
   belongs_to :invoice
-  has_many :payment_methods
+  has_many :payment_methods, dependent: :destroy
   has_one :success_payment_method, -> {where("payment_methods.status=?", PaymentMethod::STATUS[:success])}, class_name: "PaymentMethod", foreign_key: "payment_id"
 
   scope :pending, -> {where("status=?", STATUS[:pending])}
@@ -102,7 +102,7 @@ class Payment < ActiveRecord::Base
   def mark_success(payment_method)
     payment_method.mark_success
     self.update_attribute(:status, STATUS[:success])
-    self.invoice.update_attribute(:status, Invoice::STATUS[:paid])
+    self.invoice.mark_paid
     subscription = self.invoice.subscription
     if subscription.plan.interval_count == 0
       subscription.start_date = Time.now.to_date
