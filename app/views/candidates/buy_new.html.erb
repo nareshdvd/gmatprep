@@ -31,10 +31,11 @@
                     </div>
                     <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
                       <div id="paypal-button-<%= plan.id%>"></div>
-                      <div class="text-center">OR</div>
-                      <button class="payment-button payu"></button>
-                      <%= link_to payment_init_url(payment_method: "payu", plan_id: plan.id, format: :js), remote: true, method: :post do %>
-                        Pay using Payu
+                      <% if RedisConfig.payu_enabled? %>
+                        <div class="text-center">OR</div>
+                        <%= link_to payment_init_url(payment_method: "payu", plan_id: plan.id, format: :js), remote: true, method: :post, class: "btn btn-primary" do %>
+                          Pay using Payu
+                        <% end %>
                       <% end %>
                     </div>
                   </div>
