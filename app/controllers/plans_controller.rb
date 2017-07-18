@@ -5,7 +5,7 @@ class PlansController < ApplicationController
     respond_to do |format|
       if current_user.current_subscription.present?
         @redirect_to = root_url
-        flash[:notice] = "Already subscribed to a plan"
+        flash[:alert] = "Already subscribed to a plan"
         format.js { render "shared/redirect" }
       else
         @plan = Plan.find_by_id(plan_id)

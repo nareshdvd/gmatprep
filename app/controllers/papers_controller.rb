@@ -35,9 +35,9 @@ class PapersController < ApplicationController
     respond_to do |format|
       if @subscription.plan.free_plan? || @subscription.paid?
         if @subscription.elapsed?
-          format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
+          format.html{ redirect_to root_path, alert: "Your subscription has elapsed" }
         elsif @subscription.exhausted?
-          format.html{ redirect_to root_path, notice: "Your subscription has finished" }
+          format.html{ redirect_to root_path, alert: "Your subscription has finished" }
         else
           if ['1', '2'].include?(step_number)
             format.html{ render "candidates/paper_start_step_#{step_number}" }
@@ -46,7 +46,7 @@ class PapersController < ApplicationController
           end
         end
       else
-        format.html{ redirect_to root_path, notice: "Subscription not available" }
+        format.html{ redirect_to root_path, alert: "Subscription not available" }
       end
     end
   end
@@ -69,14 +69,14 @@ class PapersController < ApplicationController
             format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
           end
         else
-          format.html{ redirect_to root_path, notice: "You already have an test in progress" }
+          format.html{ redirect_to root_path, alert: "You already have an test in progress" }
         end
       else
         if @subscription.plan.free_plan? || @subscription.paid?
           if @subscription.elapsed?
-            format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
+            format.html{ redirect_to root_path, alert: "Your subscription has elapsed" }
           elsif @subscription.exhausted?
-            format.html{ redirect_to root_path, notice: "Your subscription has finished" }
+            format.html{ redirect_to root_path, alert: "Your subscription has finished" }
           else
             paper = @subscription.papers.create(start_time: Time.now)
             FinishPaperWorker.perform_in(Paper::MINUTES.minutes + 2.seconds, paper.id)
@@ -85,7 +85,7 @@ class PapersController < ApplicationController
             format.html{ redirect_to papers_question_path(paper.id, question.question_number) }
           end
         else
-          format.html{ redirect_to root_path, notice: "Subscription not available" }
+          format.html{ redirect_to root_path, alert: "Subscription not available" }
         end
       end
     end
@@ -113,7 +113,7 @@ class PapersController < ApplicationController
           format.html
         end
       else
-        format.html{ redirect_to root_path, notice: "Paper not available" }
+        format.html{ redirect_to root_path, alert: "Paper not available" }
       end
     end
   end
@@ -136,10 +136,10 @@ class PapersController < ApplicationController
             format.html {redirect_to papers_question_path(@paper.id, next_question.question_number)}
           end
         else
-          format.html{ redirect_to root_path, notice: "Incorrect question number" }
+          format.html{ redirect_to root_path, alert: "Incorrect question number" }
         end
       else
-        format.html{ redirect_to root_path, notice: "Paper not available" }
+        format.html{ redirect_to root_path, alert: "Paper not available" }
       end
     end
   end
@@ -164,11 +164,11 @@ class PapersController < ApplicationController
   end
 
   def redirect_if_in_progress
-    redirect_to root_path, notice: "Paper already in progress" if in_progress_paper.present?
+    redirect_to root_path, alert: "Paper already in progress" if in_progress_paper.present?
   end
 
   def redirect_if_not_in_progress
-    redirect_to root_path, notice: "Paper not found" if in_progress_paper.blank?
+    redirect_to root_path, alert: "Paper not found" if in_progress_paper.blank?
   end
 
   def in_progress_paper

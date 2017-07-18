@@ -1,5 +1,7 @@
 module ApplicationHelper
-
+  def gmat_trademark
+    "<span class='gmat-trademark'>GMAT&trade;</span>".html_safe
+  end
   def auth_path(provider)
     if Rails.env.development?
       send("user_omniauth_authorize_path", *[provider])

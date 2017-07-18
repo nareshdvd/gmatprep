@@ -32,7 +32,7 @@ class ReportsController < ApplicationController
   end
 
   def check_unfinished
-    redirect_to root_path, notice: "This paper hasn't been finished, so report generation is not possible" if @paper.unfinished?
+    redirect_to root_path, alert: "This paper hasn't been finished, so report generation is not possible" if @paper.unfinished?
   end
 
   def paper_id

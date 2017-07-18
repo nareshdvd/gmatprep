@@ -13,7 +13,7 @@ class CandidatesController < ApplicationController
       else
         if paid_info == "free"
           if current_user.free_subscription.exhausted?
-            format.html{ redirect_to root_path, notice: "You already have finished your free test" }
+            format.html{ redirect_to root_path, alert: "You already have finished your free test" }
           else
             format.html{ redirect_to paper_instructions_path(current_user.free_subscription.id, 1) }
           end
@@ -21,10 +21,10 @@ class CandidatesController < ApplicationController
           if (current_subscription = current_user.current_subscription).present?
             format.html{ redirect_to paper_instructions_path(current_subscription.id, 1) }
           else
-            format.html{ redirect_to root_path, notice: "You dont have any paid subscriptions" }
+            format.html{ redirect_to root_path, alert: "You dont have any paid subscriptions" }
           end
         else
-          format.html{ redirect_to root_path, notice: "Oops! Page says, I don't know what you are looking for" }
+          format.html{ redirect_to root_path, alert: "Oops! Page says, I don't know what you are looking for" }
         end
       end
     end
@@ -33,7 +33,7 @@ class CandidatesController < ApplicationController
   def buy_new
     respond_to do |format|
       if current_user.current_subscription.present?
-        format.html{ redirect_to root_path, notice: "You already have subscribed"}
+        format.html{ redirect_to root_path, alert: "You already have subscribed"}
       else
         @plans = current_user.get_available_plans
         format.html

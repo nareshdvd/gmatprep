@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.json{ render json: {status: "error", message: error_message}}
       format.js do
-        flash[:notice] = error_message
+        flash[:alert] = error_message
         redirect_js(root_path)
       end
     end

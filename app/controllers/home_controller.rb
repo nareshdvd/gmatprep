@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 
   def destroy_papers
     if !user_is_admin?
-      flash[:notice] = "Not found"
+      flash[:alert] = "Not found"
       redirect_js(root_path)
     else
       user = User.find_by_id(params[:candidate_id])
@@ -41,8 +41,28 @@ class HomeController < ApplicationController
     end
   end
 
+  def contact_us
+    respond_to do |format|
+      if request.post?
+        @enquiry = Enquiry.create(enquiry_params)
+        format.html{ redirect_to root_path, notice: "We have successfully received your enquiry, we will reply you soon" }
+      else
+        @enquiry = Enquiry.new
+      end
+      format.html
+    end
+  end
+  def disclaimer
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
 
+  def enquiry_params
+    params.require(:enquiry).permit(:email, :phone, :message, :title)
+  end
   def public_home
     render "public/home"
   end

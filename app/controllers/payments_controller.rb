@@ -80,7 +80,7 @@ class PaymentsController < ApplicationController
         @payment = user.subscriptions.joins(:payments).where(start_date: nil)
         format.js
       else
-        flash[:notice] = "Invalid Request"
+        flash[:alert] = "Invalid Request"
         redirect_js(root_url)
       end
     end

@@ -5,13 +5,15 @@
         <% if @paper_question.paper_id.present? %>
           <b class="color-white pull-left">Test Exam <%= @paper_question.paper.subscription.papers.count %></b>
         <% end %>
-        <div class="pull-right">
-          <% if @paper_question.paper.present? %>
-            <b>Paper ID</b> : <%= @paper_question.paper.id %>
-          <% end %>
-          <b>Level</b> : <b><%= @paper_question.question.level %></b>
-          <b>Category</b> : <b><%= @paper_question.question.category %></b>
-        </div>
+        <% if current_user.is_manish? %>
+          <div class="pull-right">
+            <% if @paper_question.paper.present? %>
+              <b>Paper ID</b> : <%= @paper_question.paper.id %>
+            <% end %>
+            <b>Level</b> : <b><%= @paper_question.question.level %></b>
+            <b>Category</b> : <b><%= @paper_question.question.category %></b>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px;">

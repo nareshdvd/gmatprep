@@ -75,13 +75,31 @@
     </nav>
     <div class="container <%= yield :main_container_classes %>">
       <% if notice %>
-        <div class="alert alert-danger">
+        <div class="alert alert-success">
           <%= notice %>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger">
+          <%= alert %>
         </div>
       <% end %>
       <%= yield %>
     </div>
     <%= yield :footer_content %>
+    <div class="container">
+      <footer>
+        <div class="row">
+          <div class="copyright-text col-sm-3 col-md-3 col-xs-3">GMATRIC &copy; <%= Time.now.year %></div>
+          <div class="footer-menu col-sm-5 col-sm-offset-2 col-md-5 col-md-offset-2 col-xs-5 col-xs-offset-2">
+            <div>
+              <%= link_to "Contact Us", contact_us_url %>
+              <%= link_to "Disclaimer", disclaimer_url %>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
     <%= javascript_include_tag 'application' %>
     <% if current_user && current_user.is_admin? %>
       <%= tinymce %>

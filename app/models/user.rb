@@ -148,13 +148,9 @@ class User < ActiveRecord::Base
   end
 
   def current_test
-    if current_subscription.present?
-      if (last_paper = current_subscription.papers.last).present? && last_paper.unfinished?
-        current_subscription.papers.last
-      else
-        return nil
-      end
-    elsif (last_paper = free_subscription.papers.last).present? && last_paper.unfinished?
+    if (last_paper = free_subscription.papers.last).present? && last_paper.unfinished?
+      return last_paper
+    elsif current_subscription.present? && (last_paper = current_subscription.papers.last).present? && last_paper.unfinished?
       return last_paper
     else
       nil

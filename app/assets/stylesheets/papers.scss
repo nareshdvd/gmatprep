@@ -171,3 +171,19 @@ label{
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
+footer{
+  position:absolute;
+  bottom: 0px;
+  width: inherit;
+}
+
+.footer-menu{
+  >div{
+    >a{
+      display: inline-block;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+}
