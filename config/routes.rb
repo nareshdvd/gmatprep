@@ -30,10 +30,11 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     unlocks: 'users/unlocks',
   }
-  post "/payment/init" => "payments#init_payment", as: :payment_init
-  get "/payment/paypal/success" => "payments#paypal_callback", as: :paypal_success
-  get "/payment/paypal/cancel" => "payments#paypal_cancel", as: :paypal_cancel
-
+  post "/payu_callback" => "payments#payu_callback", as: :payu_callback
+  post "/payment/:payment_method/:plan_id/init" => "payments#init_payment", as: :payment_init
+  get "/payment/:payment_method/success" => "payments#payment_success_callback", as: :payment_success_callback
+  get "/payment/:payment_method/cancel" => "payments#payment_cancel_callback", as: :payment_cancel_callback
+  get "/payment/:payment_method/:payment_id/thankyou" => "payments#thankyou", as: :payment_thankyou
   get "/plans" => "plans#candidate_index", as: :plans_to_buy
   post "/plans/:id/init_subscribe" => "plans#init_subscribe", as: :init_subscribe_to_plan
 

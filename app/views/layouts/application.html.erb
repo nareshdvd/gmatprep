@@ -4,9 +4,6 @@
     <title>Gmatric</title>
     <%= csrf_meta_tags %>
     <meta/>
-    <script>
-      var payment_init_url = "<%= payment_init_url(format: :json) %>";
-    </script>
     <%= stylesheet_link_tag 'candidates', media: 'all' if current_user && current_user.is_candidate? %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     
@@ -56,7 +53,7 @@
             <% end %>
           <% else %>
             <ul class="nav navbar-nav navbar-right">
-              <% if current_user && current_user.is_candidate? && current_user.current_paid_subscription.blank? %>
+              <% if current_user && current_user.is_candidate? && current_user.current_subscription.blank? %>
                 <li>
                   <%= link_to buy_new_path, class: "btn btn-default upgrade-btn" do %>
                     Upgrade for more tests

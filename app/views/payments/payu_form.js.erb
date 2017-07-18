@@ -1,0 +1,2 @@
+$('body').append("<%= escape_javascript(render 'payments/payu_form') %>");
+$("#payment-form-<%= @payment_method.unique_id %>").submit();

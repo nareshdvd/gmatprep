@@ -18,8 +18,8 @@ class CandidatesController < ApplicationController
             format.html{ redirect_to paper_instructions_path(current_user.free_subscription.id, 1) }
           end
         elsif paid_info == "paid"
-          if (current_paid_subscription = current_user.current_paid_subscription).present?
-            format.html{ redirect_to paper_instructions_path(current_paid_subscription.id, 1) }
+          if (current_subscription = current_user.current_subscription).present?
+            format.html{ redirect_to paper_instructions_path(current_subscription.id, 1) }
           else
             format.html{ redirect_to root_path, notice: "You dont have any paid subscriptions" }
           end
@@ -32,7 +32,7 @@ class CandidatesController < ApplicationController
 
   def buy_new
     respond_to do |format|
-      if current_user.current_paid_subscription.present?
+      if current_user.current_subscription.present?
         format.html{ redirect_to root_path, notice: "You already have subscribed"}
       else
         @plans = current_user.get_available_plans

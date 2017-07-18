@@ -236,12 +236,22 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :google_oauth2, ENV["GOOGLE_OAUTH_CLIENT_ID"], ENV["GOOGLE_OAUTH_SECRET"], {
-    scope: "email"
-  }
-  config.omniauth :facebook, ENV["FACEBOOK_APP_ID"], ENV["FACEBOOK_SECRET"], {
-    scope: "email"
-  }
+  
+  if Gmatprep::Application.config.app_mode == "production"
+    config.omniauth :google_oauth2, ENV["GOOGLE_OAUTH_CLIENT_ID"], ENV["GOOGLE_OAUTH_SECRET"], {
+      scope: "email"
+    }
+    config.omniauth :facebook, ENV["FACEBOOK_APP_ID"], ENV["FACEBOOK_SECRET"], {
+      scope: "email"
+    }
+  else
+    config.omniauth :google_oauth2, ENV["GOOGLE_SANDBOX_OAUTH_CLIENT_ID"], ENV["GOOGLE_SANDBOX_OAUTH_SECRET"], {
+      scope: "email"
+    }
+    config.omniauth :facebook, ENV["FACEBOOK_SANDBOX_APP_ID"], ENV["FACEBOOK_SANDBOX_SECRET"], {
+      scope: "email"
+    }
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

@@ -1,19 +1,53 @@
 class PaymentsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:notification]
-  skip_before_action :verify_authenticity_token, only: [:notification]
+  skip_before_action :verify_authenticity_token, only: [:notification, :payu_callback]
 
-  def init_payment
-    payment_id = params[:id]
-    @payment = Payment.find_by_id(payment_id)
-    @payment.update_attribute(:status, Payment::STATUS[:initiated])
-    plan = @payment.subscription.plan
-    InfluxMonitor.push_to_influx("payment_initiated", {plan_name: plan.name})
+  def init_subscribe
     respond_to do |format|
-      format.json {render json: {status: "success"}}
+      if current_user.current_subscription.present?
+        format.json{ render json: {status: "error", message: "Already subscribed to a plan"} }
+      else
+        format.json{ render json: init_with_payment_method }
+      end
     end
   end
 
-  def paypal_callback
+  def init_payment
+    if current_user.current_subscription.present?
+      render_ajax_error("Already subscribed to a plan")
+    else
+      @plan = Plan.find_by_id(plan_id)
+      if @plan.present? && current_user.get_available_plans.include?(@plan)
+        p_method = params[:payment_method] == "paypal" ? PaymentMethod::PAYPAL : PaymentMethod::PAYU
+        @unpaid_plan_subscription, @invoice, @payment, @payment_method = current_user.get_or_add_pending_subscription(@plan, {payment_method: p_method, success_url: payment_success_callback_url, cancel_url: payment_cancel_callback_url})
+        respond_to do |format|
+          format.json{render json: {payment_id: @payment_method.unique_id}}
+          format.js{ render "payments/payu_form" }
+        end
+      end
+    end
+  end
+
+  def payment_success_callback
+    unique_id = params[:paymentId]
+    payer_id = params[:PayerID]
+    proceed_with_unique_id(unique_id)
+  end
+
+  def payment_cancel_callback
+    render text: "OK"
+  end
+
+  def payu_callback
+    # ENV['PAYU_KEY'], ENV['PAYU_SALT']
+    notification = PayuIndia::Notification.new(request.query_string, options = {:key => ENV['PAYU_KEY'], :salt => ENV['PAYU_SALT'], :params => params})
+    if notification.acknowledge && notification.complete?
+      unique_id = notification.invoice
+      proceed_with_unique_id(unique_id)
+    end
+  end
+
+  def paypal_callback_latest_old
     payment_id = params[:paymentId]
     token = params[:token]
     payer_id = params[:PayerID]
@@ -35,6 +69,19 @@ class PaymentsController < ApplicationController
         format.html {render "payments/thankyou" }
       else
         format.html {redirect_to root_url }
+      end
+    end
+  end
+
+  def payu_form
+    plan = Plan.find_by_id(plan_id)
+    respond_to do |format|
+      if plan.present?
+        @payment = user.subscriptions.joins(:payments).where(start_date: nil)
+        format.js
+      else
+        flash[:notice] = "Invalid Request"
+        redirect_js(root_url)
       end
     end
   end
@@ -108,6 +155,71 @@ class PaymentsController < ApplicationController
         Rails.logger.info ex.backtrace.join("\n") if ex.respond_to?(:backtrace)
       end
       format.html { render text: "OK" }
+    end
+  end
+
+  def thankyou
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  private
+
+  def plan_id
+    params[:plan_id]
+  end
+
+  def payment_method
+    params[:payment_method]
+  end
+
+  def init_with_payment_method
+    if ["paypal", "payu"].include?(payment_method)
+      @plan = Plan.find_by_id(plan_id)
+      if @plan.present? && current_user.get_available_plans.include?(@plan)
+        # @plan_subscription = current_user.subscriptions.create(plan_id: plan_id) if (@plan_subscription = @plan.subscriptions.where(user_id: current_user.id, start_date: nil).joins(:pending_payment).first).blank?
+        pending_plan_subscription = current_user.get_or_add_pending_subscription(@plan)
+        if pending_plan_subscription.present?
+          @payment = pending_plan_subscription.invoice.payments.pending.last
+          if payment_method == "paypal"
+            init_with_paypal
+          else
+            init_with_payu
+          end
+        else
+          render_ajax_error("Invalid arguments")
+        end
+      else
+        render_ajax_error("Invalid arguments")
+      end
+    else
+      render_ajax_error("Invalid arguments")
+    end
+  end
+
+  def init_with_paypal
+    @payment_method = @payment.get_or_add_payment_method(PaymentMethod::PAYPAL)
+    render_js("payments/payu_form")
+  end
+
+  def init_with_payu
+    @payment_method = @payment.get_or_add_payment_method(PaymentMethod::PAYU)
+    render_js("payments/payu_form")
+  end
+
+  def proceed_with_unique_id(unique_id)
+    if (payment_method = PaymentMethod.find_by_unique_id(unique_id)).present?
+      token = params[:token] || params[:item_number]
+      if payment_method.match_token(token)
+        @payment = payment_method.payment
+        @payment.mark_success(payment_method)
+        format_redirect(payment_thankyou_url(payment_method.url_name, @payment.id))
+      else
+        render_ajax_error("Payment Failed")
+      end
+    else
+      render_ajax_error("Payment Failed")
     end
   end
 end

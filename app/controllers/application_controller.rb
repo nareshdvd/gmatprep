@@ -56,7 +56,32 @@ class ApplicationController < ActionController::Base
   def redirect_js(redirect_to_url)
     respond_to do |format|
       @redirect_to = redirect_to_url
-      format.js { render "shared/redirect" }
+      format.js{ render "shared/redirect" }
+    end
+  end
+
+  def render_js(js_path)
+    respond_to do |format|
+      format.js{ render js_path }
+    end
+  end
+
+  def format_redirect(redirect_to_url)
+    respond_to do |format|
+      @redirect_to = redirect_to_url
+      format.js{ render "shared/redirect" }
+      format.json{ render json: {redirect_to: @redirect_to} }
+      format.html{ redirect_to redirect_to_url }
+    end
+  end
+
+  def render_ajax_error(error_message)
+    respond_to do |format|
+      format.json{ render json: {status: "error", message: error_message}}
+      format.js do
+        flash[:notice] = error_message
+        redirect_js(root_path)
+      end
     end
   end
 end

@@ -33,7 +33,7 @@ class PapersController < ApplicationController
   def instructions
     step_number = params[:step_number]
     respond_to do |format|
-      if @subscription.plan.free_plan? || @subscription.paid? || @subscription.success?
+      if @subscription.plan.free_plan? || @subscription.paid?
         if @subscription.elapsed?
           format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
         elsif @subscription.exhausted?
@@ -72,7 +72,7 @@ class PapersController < ApplicationController
           format.html{ redirect_to root_path, notice: "You already have an test in progress" }
         end
       else
-        if @subscription.plan.free_plan? || @subscription.paid? || @subscription.success?
+        if @subscription.plan.free_plan? || @subscription.paid?
           if @subscription.elapsed?
             format.html{ redirect_to root_path, notice: "Your subscription has elapsed" }
           elsif @subscription.exhausted?

@@ -31,6 +31,11 @@
                     </div>
                     <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
                       <div id="paypal-button-<%= plan.id%>"></div>
+                      <div class="text-center">OR</div>
+                      <button class="payment-button payu"></button>
+                      <%= link_to payment_init_url(payment_method: "payu", plan_id: plan.id, format: :js), remote: true, method: :post do %>
+                        Pay using Payu
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -54,6 +59,7 @@
 </div>
 <% content_for :bottom_js do %>
   <script type="text/javascript">
+    var init_payment_url = "<%= payment_init_url('___payment_method___', '___plan_id___', format: :json) %>";
     paypal.request.addHeaderBuilder(function () {
       return {
         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -61,15 +67,15 @@
     });
     $(".plan-box").each(function(){
       var plan_id = $(this).data("planid");
+      var payment_method = "paypal";
       paypal.Button.render({
         env: "<%= ENV['PAYPAL_MODE'] %>",
         commit: true,
         client: {
-          sandbox: '<%= ENV["PAYPAL_SANDBOX_CLIENT_ID"] %>',
-          production: '<%= ENV["PAYPAL_PRODUCTION_CLIENT_ID"] %>'
+          sandbox: '<%= ENV["PAYPAL_SANDBOX_CLIENT_ID"] %>'
         },
         payment: function(data, actions) {
-          var CREATE_URL = "<%= init_subscribe_to_plan_url('___plan_id___', format: :json) %>".replace("___plan_id___", plan_id);
+          var CREATE_URL = init_payment_url.replace("___payment_method___", payment_method).replace("___plan_id___", plan_id);
           return paypal.request.post(CREATE_URL).then(function(res) {
             return res.payment_id;
           });
@@ -78,6 +84,10 @@
           return actions.payment.execute().then(function() {
             window.location.href = data.returnUrl;
           });
+        },
+        onError: function(err) {
+          debugger;
+            // Show an error page here, when an error occurs
         }
       }, '#paypal-button-' + plan_id);
     });

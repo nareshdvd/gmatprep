@@ -1,23 +1,25 @@
 class Payment < ActiveRecord::Base
   include PayPal::SDK::REST
   include PayPal::SDK::Core::Logging
-  belongs_to :subscription
-  serialize :txn_notify_data, JSON
   STATUS={
-    :pending => "0",
-    :initiated => "1",
-    :success => "2",
-    :paid => "3",
-    :canceled => "4",
-    :failed => "5"
+    pending: 0,
+    success: 1,
+    paid: 2,
+    canceled: 3,
+    failed: 4
   }
+  belongs_to :invoice
+  has_many :payment_methods
+  has_one :success_payment_method, -> {where("payment_methods.status=?", PaymentMethod::STATUS[:success])}, class_name: "PaymentMethod", foreign_key: "payment_id"
+
+  scope :pending, -> {where("status=?", STATUS[:pending])}
+
+  serialize :txn_notify_data, JSON
+
+  
 
   def pending?
     self.status == STATUS[:pending]
-  end
-
-  def initiated?
-    self.status == STATUS[:initiated]
   end
 
   def paid?
@@ -39,12 +41,20 @@ class Payment < ActiveRecord::Base
   def encrypted_key
     return @encrypted_key if @encrypted_key.present?
     payment = self
-    plain_text = "#{payment.id}$#{payment.amount}$#{payment.currency}$#{payment.gm_txn_id}$#{payment.created_at.to_i}$#{payment.subscription.plan_id}"
+    plain_text = "#{payment.id}$#{payment.amount}$#{payment.currency}$#{payment.gm_txn_id}$#{payment.created_at.to_i}$#{payment.invoice.subscription.plan_id}"
     iv = AES.iv(:base_64)
     key = Gmatprep::Application.config.secret_for_encryption
     @encrypted_key = AES.encrypt(plain_text, key, {:iv => iv})
   end
 
+  def get_or_add_payment_method(payment_method_name, method_params)
+    if (payment_method = self.payment_methods.where(name: payment_method_name).first).blank?
+      payment_method = self.payment_methods.build(name: payment_method_name)
+      payment_method.set_params(method_params)
+      payment_method.save
+    end
+    return payment_method
+  end
 
   def create_paypal_payment(success_url, cancel_url)
     payment = self
@@ -62,19 +72,19 @@ class Payment < ActiveRecord::Base
           :item_list => {
             :items => [
               {
-                :name => payment.subscription.plan.name,
-                :sku => payment.subscription.plan.id,
-                :price => payment.subscription.plan.amount.round(2).to_s,
-                :currency => payment.subscription.plan.currency.upcase,
+                :name => payment.invoice.subscription.plan.name,
+                :sku => payment.invoice.subscription.plan.id,
+                :price => payment.invoice.subscription.plan.amount.round(2).to_s,
+                :currency => payment.invoice.subscription.plan.currency.upcase,
                 :quantity => 1
               }
             ]
           },
           :amount => {
-            :total => payment.subscription.plan.amount.round(2).to_s,
-            :currency => payment.subscription.plan.currency.upcase
+            :total => payment.invoice.subscription.plan.amount.round(2).to_s,
+            :currency => payment.invoice.subscription.plan.currency.upcase
           },
-          :description => "Payment for Plan #{payment.subscription.plan.id}"
+          :description => "Payment for Plan #{payment.invoice.subscription.plan.id}"
         }
       ]
     })
@@ -89,42 +99,18 @@ class Payment < ActiveRecord::Base
     end
   end
 
-  def paypal_request_url(success_url, cancel_url)
-    return ""
-    #SANDBOX :username   => "naresh.dwivedi1987-facilitator_api1.gmail.com",
-    #SANDBOX :password   => "1393934793",
-    #SANDBOX :signature  => "AFcWxV21C7fd0v3bYYYRCpSSRl31Aj.tDgmjGvrcNGqxHlgNw2cnnkMT"
-    if !self.paid? && !self.success?
-      if ENV['PAYPAL_MODE'] == "sandbox"
-        request = Paypal::Express::Request.new(
-          :username   => ENV['PAYPAL_SANDBOX_USERNAME'],
-          :password   => ENV['PAYPAL_SANDBOX_PASSWORD'],
-          :signature  => ENV['PAYPAL_SANDBOX_SIGNATURE']
-        )
-      else
-        request = Paypal::Express::Request.new(
-          :username   => ENV['PAYPAL_PRODUCTION_USERNAME'],
-          :password   => ENV['PAYPAL_PRODUCTION_PASSWORD'],
-          :signature  => ENV['PAYPAL_PRODUCTION_SIGNATURE']
-        )
-      end
-      payment_request = Paypal::Payment::Request.new(
-        :currency_code => self.subscription.plan.currency.upcase.to_sym,
-        :amount => self.subscription.plan.amount,
-        :items => [{
-          :name => self.subscription.plan.name,
-          :description => "",
-          :amount => self.subscription.plan.amount,
-          :category => :Digital
-        }]
-      )
-      response = request.setup(
-        payment_request,
-        success_url,
-        cancel_url,
-        :no_shipping => true
-      )
-      return response.popup_uri
+  def mark_success(payment_method)
+    payment_method.mark_success
+    self.update_attribute(:status, STATUS[:success])
+    self.invoice.update_attribute(:status, Invoice::STATUS[:paid])
+    subscription = self.invoice.subscription
+    if subscription.plan.interval_count == 0
+      subscription.start_date = Time.now.to_date
+      subscription.end_date = subscription.start_date + 1000.days
+    else
+      subscription.start_date = Time.now.to_date
+      subscription.end_date = subscription.start_date + subscription.plan.interval_count.send(subscription.plan.interval.downcase.pluralize.to_sym)
     end
+    subscription.save
   end
 end

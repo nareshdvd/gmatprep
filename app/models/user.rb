@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
   after_create :add_registration_info_to_influx
   after_create :subscribe_for_free_plan, if: Proc.new{|user| !user.is_admin? }
 
-
   def self.from_omniauth(auth)
     @identity = Identity.find_with_omniauth(auth)
     if @identity.nil?
@@ -119,23 +118,36 @@ class User < ActiveRecord::Base
     current_test
   end
 
-  def paid_subscriptions
-    subs = subscriptions.joins(:plan).where("plans.name != ?", Plan::FREE_PLAN)
-    subs.select{ |sub| sub.paid? || sub.success? }
+  def last_purchased
+    subscriptions.purchased.last
   end
 
-  def usable_subscriptions
-    paid_subscriptions.select{|sub| sub.not_elapsed? && sub.not_exhausted? }
+  def current_subscription
+    if (lp = last_purchased).present? && lp.not_elapsed? && lp.not_exhausted?
+      return lp
+    else
+      return nil
+    end
   end
 
-  def current_paid_subscription
-    usable_subscriptions.first
+  def get_or_add_pending_subscription(plan, payment_params)
+    if (unpaid_plan_subscription = self.subscriptions.unpaid.where("plan_id=?", plan.id).first).blank?
+      unpaid_plan_subscription = self.subscriptions.create(plan_id: plan.id)
+      invoice, payment, payment_method = unpaid_plan_subscription.add_invoice(payment_params)
+    else
+      invoice = unpaid_plan_subscription.invoice
+      payment = invoice.payments.preload(:payment_methods).joins(:payment_methods).where("payment_methods.name=? AND payments.status=?", payment_params[:payment_method], Payment::STATUS[:pending]).first
+      payment = invoice.create_pending_payment(payment_params) if payment.blank?
+      payment_method = payment.payment_methods.detect{|payment_method| payment_method.name == payment_params[:payment_method]}
+    end
+    payment_method.set_params(payment_params)
+    return unpaid_plan_subscription, invoice, payment, payment_method
   end
 
   def current_test
-    if current_paid_subscription.present?
-      if (last_paper = current_paid_subscription.papers.last).present? && last_paper.unfinished?
-        current_paid_subscription.papers.last
+    if current_subscription.present?
+      if (last_paper = current_subscription.papers.last).present? && last_paper.unfinished?
+        current_subscription.papers.last
       else
         return nil
       end
@@ -147,7 +159,7 @@ class User < ActiveRecord::Base
   end
 
   def remaining_test_count
-    ([free_subscription] + [current_paid_subscription]).compact.collect{|subscription| subscription.remaining_paper_count}.sum
+    ([free_subscription] + [current_subscription]).compact.collect{|subscription| subscription.remaining_paper_count}.sum
   end
 
   def completed_tests

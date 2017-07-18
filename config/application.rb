@@ -31,29 +31,35 @@ module Gmatprep
     end
   end
   class Application < Rails::Application
-  config.active_record.default_timezone = :local
-  config.active_record.time_zone_aware_attributes = false
-  # Settings in config/environments/* take precedence over those specified here.
-  # Application configuration should go into files in config/initializers
-  # -- all .rb files in that directory are automatically loaded.
+    def config.app_mode
+      if (app_mode = ENV["APP_MODE"]).blank?
+        raise "Please define APP_MODE in your ~/.bash_profile"
+      end
+      return app_mode
+    end
+    config.active_record.default_timezone = :local
+    config.active_record.time_zone_aware_attributes = false
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
 
-  # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-  # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-  # config.time_zone = 'Central Time (US & Canada)'
+    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
+    # config.time_zone = 'Central Time (US & Canada)'
 
-  # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-  # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-  # config.i18n.default_locale = :de
+    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+    # config.i18n.default_locale = :de
 
-  # Do not swallow errors in after_commit/after_rollback callbacks.
-  config.active_record.raise_in_transactional_callbacks = true
-  config.autoload_paths << Rails.root.join('lib', 'modules')
-  config.assets.paths << Rails.root.join("app", "assets", "fonts")
-  config.log_formatter = QLogFormatter.new
-  config.log_tags = [ :uuid, lambda { |req| Time.now.strftime("%Y-%m-%d %H:%M:%S") } ]
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
+    config.autoload_paths << Rails.root.join('lib', 'modules')
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
+    config.log_formatter = QLogFormatter.new
+    config.log_tags = [ :uuid, lambda { |req| Time.now.strftime("%Y-%m-%d %H:%M:%S") } ]
 
-  def config.secret_for_encryption
-    return ENV['SECRET_FOR_ENCRYPTION']
-  end
+    def config.secret_for_encryption
+      return ENV['SECRET_FOR_ENCRYPTION']
+    end
   end
 end
