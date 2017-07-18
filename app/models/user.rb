@@ -138,6 +138,9 @@ class User < ActiveRecord::Base
       invoice = unpaid_plan_subscription.invoice
       payment = invoice.payments.preload(:payment_methods).joins(:payment_methods).where("payment_methods.name=? AND payments.status=?", payment_params[:payment_method], Payment::STATUS[:pending]).first
       payment, payment_method = invoice.create_pending_payment(payment_params) if payment.blank?
+      if payment_method.blank?
+        payment.get_or_add_payment_method(payment_params[:payment_method], payment_params.except(:payment_method))
+      end
       #payment_method = payment.payment_methods.detect{|payment_method| payment_method.name == payment_params[:payment_method]}
     end
     payment_method.set_params(payment_params)
