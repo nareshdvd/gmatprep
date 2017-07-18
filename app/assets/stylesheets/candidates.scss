@@ -106,9 +106,14 @@
       li{
         font-size: 14px;
         font-weight: 900;
-        color: #4e4e4e;
         padding: 15px;
         border-left: 4px solid #fff;
+        a{
+          color: #4e4e4e !important;
+        }
+        &.disabled{
+          cursor: default;
+        }
         &.nav-item-ongoing{
           padding-top: 20.5px;
           padding-bottom: 20.5px;
@@ -118,6 +123,9 @@
           border-left: 4px solid #2196f3;
           &:hover{
             border-left: 4px solid #2196f3;
+          }
+          a{
+            color: #337ab7 !important;
           }
         }
         &:hover{

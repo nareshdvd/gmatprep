@@ -222,20 +222,20 @@ html, body{
   position:absolute;
   width: 100%;
   bottom: 0px;
-  background-color: #aeaeae;
+  background-color: #efefef;
+  height: 40px;
+  padding-top: 10px;
 }
 footer{
   width: inherit;
-  color: #fff;
+  color: #4e4e4e;
 }
 
 .footer-menu{
-  >div{
-    >a{
-      display: inline-block;
-      margin-left: 20px;
-      margin-right: 20px;
-      color: #fff;
-    }
+  a{
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #4e4e4e;
   }
 }

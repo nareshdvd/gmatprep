@@ -12,11 +12,16 @@
 .paper_body{
   .paper_container{
     height: 100%;
-    padding-top: 73px;
     width: 100%;
     form{
       font-family: 'Tahoma';
     }
+  }
+  .footer-container{
+    display: none;
+  }
+  .navbar.navbar-default.navbar-fixed-top{
+    display: none;
   }
 }
 .form-horizontal .radio-inline{
