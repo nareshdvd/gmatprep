@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!, only: [:index]
+  skip_before_filter :authenticate_user!, only: [:index, :contact_us, :disclaimer]
   def index
     monitor = InfluxMonitor.should_monitor?(cookies, :asynchronous_visitor_monitoring)
     if current_user.blank?
@@ -61,6 +61,9 @@ class HomeController < ApplicationController
   private
 
   def enquiry_params
+    if current_user.present?
+      params[:enquiry][:email] = current_user.email
+    end
     params.require(:enquiry).permit(:email, :phone, :message, :title)
   end
   def public_home

@@ -27,8 +27,6 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <% if current_user.blank? %>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Contact Us</a></li>
             <% elsif current_user.is_admin? %>
               <ul class="nav navbar-nav">
                 <li><%= link_to "Categories", categories_path %></li>
