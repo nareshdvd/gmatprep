@@ -76,4 +76,17 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'mail.smtp2go.com',
+    port:                 2525,
+    domain:               'gmatric.com',
+    user_name:            'gmatric-mail',
+    password:             'ZnE1aDZhZmIwY2pp',
+    authentication:       'plain',
+    enable_starttls_auto: true
+  }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { protocol: 'https', host: 'www.gmatric.com' }
 end

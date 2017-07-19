@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require_relative '../config/ssl'
+# require_relative '../config/ssl'
 begin
   load File.expand_path('../spring', __FILE__)
 rescue LoadError => e

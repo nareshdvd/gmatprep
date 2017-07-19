@@ -214,6 +214,7 @@ class PaymentsController < ApplicationController
       if payment_method.match_token(token)
         @payment = payment_method.payment
         @payment.mark_success(payment_method)
+        PaymentMailerWorker.perform_async(current_user.id, @payment.id)
         begin
           InfluxMonitor.push_to_influx("paid", {plan_name: @payment.invoice.subscription.plan.name})
         rescue => ex

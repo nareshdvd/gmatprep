@@ -1,0 +1,8 @@
+<b>Dear Customer</b>,
+<br/><br/>
+<p>We have successfully received your payment of <%= @payment.invoice.subscription.plan.currency %> <%= @payment.invoice.subscription.plan.amount %> through Paypal.</p>
+<br/><br/>
+Your plan includes <%= @payment.invoice.subscription.plan.paper_count %> paper(s).
+<br/><br/>
+You can <%= link_to "Contact Us", contact_us_url %> to give your feedback.
+<br/><br/>
