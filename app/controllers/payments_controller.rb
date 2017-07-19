@@ -214,6 +214,11 @@ class PaymentsController < ApplicationController
       if payment_method.match_token(token)
         @payment = payment_method.payment
         @payment.mark_success(payment_method)
+        begin
+          InfluxMonitor.push_to_influx("paid", {plan_name: @payment.invoice.subscription.plan.name})
+        rescue => ex
+          Rails.logger.info "exception occurred while adding paid data to influx"
+        end
         format_redirect(payment_thankyou_url(payment_method.url_name, @payment.id))
       else
         render_ajax_error("Payment Failed")
