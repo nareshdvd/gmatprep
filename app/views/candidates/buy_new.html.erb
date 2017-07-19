@@ -28,6 +28,14 @@
                           <%= plan.interval_count == 0 ? 'Unlimited' : "#{plan.interval_count} #{plan.interval.downcase.pluralize}" %>
                         </span>
                       </div>
+                      <div class="plan-row">
+                        <span class="plan-label">
+                          Plan Price:
+                        </span>
+                        <span class="plan-value">
+                          <%= plan.currency %> <%= plan.amount %>
+                        </span>
+                      </div>
                     </div>
                     <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
                       <div id="paypal-button-<%= plan.id%>"></div>
