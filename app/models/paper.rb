@@ -442,10 +442,6 @@ class Paper < ActiveRecord::Base
     current_question.question_number + 1
   end
 
-  def questions_finished
-    current_question.question_number == QUESTION_COUNT
-  end
-
   def remaining_seconds
     (self.start_time + (Paper::MINUTES).minutes) - Time.now
   end
@@ -460,6 +456,24 @@ class Paper < ActiveRecord::Base
 
   def unfinished?
     !finished?
+  end
+
+  def complete_remaining_part
+    paper = self
+    finished_question_count = paper.finished_questions.count
+    while finished_question_count < Paper::QUESTION_COUNT
+      if (last_question = paper.papers_questions.last).answered?
+        last_question = paper.add_question()
+      end
+      last_question.update_attributes({
+        option_id: (last_question.question.options.where("correct != ?", true).first.id),
+        finish_time: Time.now
+      })
+      finished_question_count += 1
+    end
+    if paper.finish_time.blank?
+      paper.update_attribute(:finish_time, Time.now)
+    end
   end
 
   def formatted_remaining_time

@@ -6,6 +6,7 @@ class PapersController < ApplicationController
   def test_finish
     respond_to do |format|
       if @paper.finish_time.blank?
+        @paper.complete_remaining_part
         @paper.update_attributes({finish_time: Time.now})
       end
       if @paper.paper_finish_displayed

@@ -80,7 +80,7 @@ $(document).on("submit", ".candidate-question-form", function(e){
   var $form = $(this);
   if($form.find("input[type='radio']:checked").length != 0){
     var confirm_message = ""
-    if($form.hasClass(".question-no-41")){
+    if($form.hasClass("question-no-41")){
       confirm_message = "Click yes to finish the test.";
     }else{
       confirm_message = "Click yes to confirm your answer and continue to the next question.";
