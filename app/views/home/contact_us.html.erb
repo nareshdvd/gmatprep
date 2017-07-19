@@ -1,10 +1,18 @@
+<div>
+  <div class="row">
+    <h3 class="text-center">
+      Have a question or feedback?
+    </h3>
+    <h4 class="text-center" style="margin-bottom: 12px;">Get in touch!</h4>
+  </div>
+</div>
 <div class="row">
-  <div class="col-sm-8 col-sm-offset-2">
+  <div class="col-sm-8 col-sm-offset-2" style="padding-bottom: 100px;">
     <%= simple_form_for @enquiry, url: post_contact_us_path do |f| %>
       <%= f.input :title %>
       <%= f.input :email %>
       <%= f.input :phone %>
-      <%= f.input :message %>
+      <%= f.input :message, input_html: {rows: "5"} %>
       <%= f.button :submit, "Post your enquiry" %>
     <% end %>
   </div>
