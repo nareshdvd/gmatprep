@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!, only: [:index, :contact_us, :disclaimer]
+  skip_before_filter :authenticate_user!, only: [:index, :contact_us, :disclaimer, :overview]
   def index
     monitor = InfluxMonitor.should_monitor?(cookies, :asynchronous_visitor_monitoring)
     if current_user.blank?
@@ -53,6 +53,12 @@ class HomeController < ApplicationController
     end
   end
   def disclaimer
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def overview
     respond_to do |format|
       format.html
     end

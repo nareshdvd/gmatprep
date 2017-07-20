@@ -212,12 +212,14 @@ body, html{
   }
 }
 html{
-  min-height: 653px;
+  height: 100%;
+  box-sizing: border-box;
 }
-html, body{
-  min-height: 653px;
+body{
   position: relative;
+  min-height: 100%;
 }
+
 .footer-container{
   position:absolute;
   width: 100%;
