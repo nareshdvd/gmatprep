@@ -26,7 +26,7 @@ class ReportsController < ApplicationController
   
   def find_paper
     @paper = Paper.where(id: paper_id).first
-    if @paper.blank? || @paper.subscription.user_id != current_user.id
+    if (@paper.blank? || @paper.subscription.user_id != current_user.id) && !current_user.is_admin?
       raise ActiveRecord::RecordNotFound
     end
   end

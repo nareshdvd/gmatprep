@@ -251,7 +251,7 @@ class User < ActiveRecord::Base
           question = paper.add_question
         else
           paper.paper_finish_displayed = true
-          paper.finish_time = Time.now
+          paper.finish_time = paper.papers_questions.last.finish_time + 1.seconds
           paper.save
           break
         end
