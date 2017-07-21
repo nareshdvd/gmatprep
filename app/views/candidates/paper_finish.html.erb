@@ -86,16 +86,16 @@
 <%= simple_form_for :paper, url: finish_paper_path(@paper.id), html: {class: "form-horizontal finish-test height-100"} do |f| %>
   <div class="row height-100 thick-border-lr">
     <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">
-        <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
+      <div class="row bg-blue" style="position: absolute; width: 100%; margin-left: -15px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
           <b class="color-white pull-left"></b>
           <div class="pull-right">
             &nbsp;
           </div>
         </div>
       </div>
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px;">
-        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+      <div class="row bg-light-blue" style="position: absolute; width: 100%; margin-left: -15px; margin-top: 27px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
           <div class="row">
             <div class="col-sm-6 col-xs-6 col-md-6">
               <div class="pull-left">
@@ -128,8 +128,8 @@
           </div>
         </div>
       </div>
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
-        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+      <div class="row bg-light-blue" style="position: absolute; width: 100%; margin-left: -15px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
           <div class="bg-light-blue">
             <button type="submit" class="btn btn-sm btn-primary pull-right show-score" style="display: block;">Show Result</button>
           </div>

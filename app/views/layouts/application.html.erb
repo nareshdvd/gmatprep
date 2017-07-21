@@ -8,6 +8,16 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= stylesheet_link_tag 'candidates', media: 'all' if current_user && current_user.is_candidate? %>
     <%= yield :extra_css %>
+    <script type="text/javascript">
+      <% if browser.device.mobile? %>
+        var is_devise_mobile = true;
+      <% else %>
+        var is_devise_mobile = false;
+      <% end %>
+
+      // report_page is the variable to check if user is visiting charts page
+      var charts_page;
+    </script>
   </head>
   <body class="new <%= yield :body_classes %>">
     <nav class="navbar navbar-default <%= yield :navbar_classes %>">

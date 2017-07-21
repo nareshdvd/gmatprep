@@ -19,7 +19,36 @@
 //= require moment
 //= require_tree .
 
+
+function device_warning(){
+  if(is_devise_mobile == true){
+    var show_device_warning = false;
+    if($(".instruction-form-1").length != 0){
+      show_device_warning = true;
+      device_warning_message = "Although we have worked very hard to provide similar experience on mobile devices too, but still we recommend to use desktop pcs or laptops for attempting the test!";
+    }else if(charts_page == true){
+      show_device_warning = true;
+      device_warning_message = "Graphical representations of your performance are best visible on desktop or laptops!";
+    }
+    if(show_device_warning == true){
+      bootbox.alert({
+        size: "small",
+        title: "Device alert!",
+        message: device_warning_message,
+        className: ""
+      }).find('.modal-content').css({
+        'margin-top': function (){
+          var w = $( window ).height();
+          var b = $(".modal-dialog").height();
+          var h = (w-b)/2 - 180;
+          return h+"px";
+        }
+      });
+    }
+  }
+}
 $(document).on('ready', function(){
+  device_warning();
   $("p").each(function(){
     var $p = $(this);
     if($p.text() == ""){

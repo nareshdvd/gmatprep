@@ -4,19 +4,19 @@
 <%= content_for :body_classes do %>paper_body<% end %>
 <%= content_for :navbar_classes do %>navbar-fixed-top<% end %>
 <%= content_for :main_container_classes do %>paper_container<% end %>
-<form action="<%= paper_instructions_url(@subscription.id, 2) %>" class="form-horizontal height-100">
+<form action="<%= paper_instructions_url(@subscription.id, 2) %>" class="form-horizontal height-100 instruction-form-1">
   <div class="row height-100 thick-border-lr">
     <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">
-        <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
+      <div class="row bg-blue" style="position: absolute; width: 100%; margin-left: -15px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
           <b class="color-white pull-left">Test Exam <%= current_user.papers.count + 1 %></b>
           <div class="pull-right">
             &nbsp;
           </div>
         </div>
       </div>
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px;">
-        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+      <div class="row bg-light-blue" style="position: absolute; width: 100%; margin-left: -15px; margin-top: 27px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
           <div class="row">
             <div class="col-sm-6 col-xs-6 col-md-6">
               <div class="pull-left">
@@ -54,8 +54,8 @@
           </div>
         </div>
       </div>
-      <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
-        <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+      <div class="row bg-light-blue" style="position: absolute; width: 100%; margin-left: -15px;">
+        <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
           <div class="bg-light-blue">
             <button type="submit" class="btn btn-sm btn-primary pull-right" style="display: block;">Next</button>
             <!--button type="button" class="btn btn-sm btn-primary pull-right full-screen margin-r-10" style="display: block;">Go Full screen!</button-->
