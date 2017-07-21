@@ -1,4 +1,5 @@
 @import 'navbar-fixed-side';
+@import "common";
 .navbar-fixed-side {
   height: 450px;
   width: 100%;
@@ -150,5 +151,17 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 767px){
+  .navbar-fixed-side{
+    height: 270px;
+  }
+  .candidate-content{
+    padding-top: 30px;
+  }
+  .progress{
+    margin-bottom: 5px;
   }
 }

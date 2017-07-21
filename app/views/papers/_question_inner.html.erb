@@ -1,7 +1,7 @@
-<div class="row height-100 border-l-100 border-r-100">
+<div class="row height-100 thick-border-lr">
   <div class="col-sm-12 col-xs-12 col-md-12 height-100 border-color-blue border-t-0 border-20 border-b-60">
-    <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px;">
-      <div class="col-sm-12 col-xs-12 col-md-12 bg-blue color-white padding-5">
+    <div class="row bg-blue" style="position: absolute; width: 100%; margin-left: -15px;">
+      <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
         <% if @paper_question.paper_id.present? %>
           <b class="color-white pull-left">Test Exam <%= @paper_question.paper.subscription.papers.count %></b>
         <% end %>
@@ -16,19 +16,19 @@
         <% end %>
       </div>
     </div>
-    <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px;">
-      <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+    <div class="row bg-light-blue" style="position: absolute; width: 100%; margin-left: -15px; margin-top: 27px;">
+      <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
         <div class="row">
           <div class="col-sm-6 col-xs-6 col-md-6">
             <div class="pull-left">
               <span>
-                Question <%= @paper_question.question_number %> of <%= Paper::QUESTION_COUNT%>
+                <span class="hidden-xs">Question </span><%= @paper_question.question_number %> of <%= Paper::QUESTION_COUNT%>
               </span>
             </div>
           </div>
           <div class="col-sm-6 col-xs-6 col-md-6">
             <div class="pull-right">
-              <span style="">
+              <span class="hidden-xs">
                 Time Remaining
               </span>
               <span id="timer" style="">
@@ -48,8 +48,8 @@
         <%= render partial: "papers/question", locals: {f: f} %>
       <% end %>
     </div>
-    <div class="row" style="position: fixed; width: 100%; margin-left: -15px; padding-right: 240px; margin-top: 27px; bottom: 20px;">
-      <div class="col-sm-12 col-xs-12 col-md-12 bg-light-blue color-white padding-5">
+    <div class="row bg-light-blue" style="position: absolute; width: 100%; margin-left: -15px;">
+      <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
         <div class="bg-light-blue">
           <button type="button" class="btn btn-sm btn-primary pull-right wait-btn" style="display: block;">Please wait...</button>
           <% if @paper_question.question_number.blank? || @paper_question.question_number < 41 %>

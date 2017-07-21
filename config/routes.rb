@@ -47,9 +47,11 @@ Rails.application.routes.draw do
   post "/admins/questions/:id" => "admins#question", as: :post_admin_question
 
   get "/home" => "candidates#home", as: :my_home
+  get "/about_us" => "home#about_us", as: :about_us
   get "/contact_us" => "home#contact_us", as: :contact_us
   post "/contact_us" => "home#contact_us", as: :post_contact_us
   get "/disclaimer" => "home#disclaimer", as: :disclaimer
+  get "/overview" => "home#overview", as: :overview
 
   root "home#index"
 end

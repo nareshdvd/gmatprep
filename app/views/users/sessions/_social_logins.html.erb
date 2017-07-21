@@ -1,0 +1,19 @@
+<div class="social-login-container">
+  <%= link_to auth_path(:facebook), class: "fb-btn" do %>
+    <div class="pull-left">
+      <%= image_tag "icons/fb-icon.png", alt: "login with Facebook", class: "social-icon" %>
+    </div>
+    <div class="pull-left text">
+      <div class="main">Continue with facebook</div>
+      <div class="support">We won't post without asking</div>
+    </div>
+  <% end %>
+  <%= link_to auth_path(:google_oauth2), class: "google-btn" do %>
+    <div class="pull-left">
+      <%= image_tag "icons/google-icon.png", alt: "login with Google", class: "social-icon" %>
+    </div>
+    <div class="pull-left text">
+      <div class="main">Continue with google</div>
+    </div>
+  <% end %>
+</div>

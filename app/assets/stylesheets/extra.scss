@@ -1,0 +1,239 @@
+html{
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body{
+  position: relative;
+  min-height: 100%;
+  background-color: #f9f9f9;
+  padding: 0;
+  margin: 0;
+}
+
+.home-container{
+  margin-top: 90px;
+}
+
+.login-button-form-xs{
+  padding: 4px 0px;
+  border: none;
+  margin-right: 30px;
+}
+
+.home-container .selling-pitch .heading{
+  font-family: 'LatoMedium';
+  font-size: 32px;
+  width: 100%;
+  color: #4e4e4e;
+  font-weight: 100;
+  margin-bottom: 16px;
+}
+.home-container .selling-pitch .points{
+  list-style-type: none;
+  padding-left: 0px;
+  margin-bottom: 16px;
+}
+.home-container .selling-pitch .points li{
+  font-family: 'LatoMedium';
+  color: #4e4e4e;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+
+
+
+
+.auth-container{
+  font-family: 'LatoMedium';
+  width: 304px;
+  float: right;
+  margin-top: -42px;
+}
+.auth-container .auth-text{
+  color: #7e7e7e;
+  font-family: 'LatoMedium';
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.auth-container .social-login-container .fb-btn{
+  background-color: #3b5998;
+  border-radius: 2px;
+  color: #ffffff;
+  display: inline-block;
+  width: 100%;
+  padding: 11px;
+  margin-bottom: 16px;
+}
+.auth-container .social-login-container .fb-btn .social-icon{
+  width: 17.4px;
+  height: 17.4px;
+  margin: 6.4px;
+  margin-right: 19.6px;
+}
+
+.auth-container .social-login-container .fb-btn .text .main{
+  font-size: 16px;
+  line-height: 16px;
+  color: #fff;
+  font-family: 'LatoRegular';
+}
+
+.auth-container .social-login-container .fb-btn .text .support{
+  font-size: 10px;
+  line-height: 10px;
+  padding-left: 2px;
+}
+
+.auth-container .social-login-container .google-btn{
+  height: 48px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: solid 1px #9a9a9a;
+  display: inline-block;
+  width: 100%;
+  padding: 11px;
+  margin-bottom: 16px;
+}
+.auth-container .social-login-container .google-btn .social-icon{
+  width: 17.4px;
+  height: 17.4px;
+  margin: 6.4px;
+  margin-right: 19.6px;
+  margin-top: 4px;
+}
+
+.auth-container .social-login-container .google-btn .text .main{
+  font-size: 16px;
+  line-height: 16px;
+  color: #4e4e4e;
+  margin-top: 4px;
+  font-family: 'LatoRegular';
+  display: inline-block;
+}
+
+
+
+.auth-form-container{
+  padding: 24px;
+  border: 1px solid #e4e4e4;
+  background-color: #fff;
+}
+.auth-form-container .support{
+  font-family: 'LatoBold';
+  margin-bottom: 16px;
+  color: #b2b2b2;
+}
+.auth-form-container .auth-form .input-container{
+  margin-bottom: 16px;
+}
+
+.auth-form-container .auth-form .auth-btn{
+  width: 100%;
+  font-family: 'LatoBold';
+  background-color: #ff6600;
+  color: #fff;
+}
+
+.auth-form-container .auth-form .input-container input{
+  font-family: 'LatoRegular';
+  background-color: #ffffff;
+  border: solid 1px #9a9a9a;
+  width: 100%;
+  padding: 8px 6px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 2px;
+}
+
+.home-vr{
+  float: right;
+  border-right: 2px solid #b2b2b2;
+  height: 200px;
+  margin-top: 78px;
+  margin-right: 88px;
+}
+
+@media (max-width: 1200px){
+  .home-vr{
+    margin-right: 53px;
+  }
+}
+
+@media (max-width: 991px) and (min-width: 768px){
+  .home-container .col-md-8{
+    width: 100%;
+  }
+  .home-container .col-md-8 .selling-pitch{
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px){
+  .home-container .col-md-8 .selling-pitch{
+    width: 100%;
+    text-align: center;
+  }
+  .home-container .col-md-8 .selling-pitch .heading{
+    font-size: 26px;
+    font-family: 'LatoMedium';
+    font-weight: 600;
+  }
+  .auth-container .social-login-container .fb-btn{
+    margin-bottom: 10px;
+  }
+  .auth-container .social-login-container .google-btn{
+    margin-bottom: 10px;
+  }
+  .auth-container .auth-text{
+    margin-bottom: 10px;
+    font-family: 'LatoBold';
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .auth-form-container .auth-form .input-container{
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 443px){
+  .home-container .col-md-8 .selling-pitch .heading{
+    font-size: 20px;
+    font-family: 'LatoRegular';
+    font-weight: 300;
+  }
+  .home-container .col-md-8 .selling-pitch .points li{
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-family: 'LatoRegular';
+    font-weight: 400;
+  }
+}
+#login-modal{
+  padding-left: 0px !important;
+}
+#login-modal .modal-body{
+  display: inline-block;
+  width: 100%;
+}
+#login-modal .modal-body .auth-container{
+  margin-top: 0px;
+  width: 100%;
+}
+
+#login-modal.modal.in .modal-dialog{
+  margin: 0px;
+}
+
+#login-modal .modal-content{
+  border-radius: 0px;
+  min-height: 520px;
+}
+
+#login-modal .modal-header{
+  border-bottom: none;
+}

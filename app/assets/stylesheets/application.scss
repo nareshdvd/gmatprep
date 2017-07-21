@@ -1,7 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "bootstrap_overrides";
-@import "common";
+@import "extra";
 
 @font-face {
   font-family: 'LatoThin';
@@ -218,6 +218,7 @@ html{
 body{
   position: relative;
   min-height: 100%;
+  padding-bottom: 100px;
 }
 
 .footer-container{
@@ -239,5 +240,13 @@ footer{
     padding-left: 15px;
     padding-right: 15px;
     color: #4e4e4e;
+  }
+}
+
+@media screen and (max-width: 991px){
+  .home-container{
+    .left-box{
+      border-right: 0px;
+    }
   }
 }

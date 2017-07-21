@@ -1,0 +1,23 @@
+<div class="auth-container">
+  <div class="auth-text">
+    Sign up to assess how you are doing with your preparation.
+  </div>
+  <%= render "users/sessions/social_logins" %>
+  <div class="auth-form-container">
+    <div class="support text-center">or Sign Up with Email</div>
+    <form class="auth-form">
+      <div class="input-container">
+        <input type="text" name="email" placeholder="Email"/>
+      </div>
+      <div class="input-container">
+        <input type="password" name="password" placeholder="Password"/>
+      </div>
+      <div class="input-container">
+        <input type="password" name="password_confirmation" placeholder="Password Confirmation"/>
+      </div>
+      <button type="submit" class="btn btn-default auth-btn signup-btn">
+        Create Account
+      </button>
+    </form>
+  </div>
+</div>

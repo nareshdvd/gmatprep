@@ -1,0 +1,18 @@
+<div class="auth-container">
+  <%= render "users/sessions/social_logins" %>
+  <div class="auth-form-container">
+    <div class="support text-center">OR</div>
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "auth-form"}) do |f| %>
+      <div class="input-container">
+         <%= f.text_field :email, required: false, autofocus: true, class: "", placeholder: "Email" %>
+      </div>
+      <div class="input-container password-container">
+        <%= f.password_field :password, required: false, class: "", placeholder: "Password" %>
+      </div>
+      <div class="input-container">
+        <a href="">Forgot password?</a>
+      </div>
+      <%= f.button :submit, "Log in", class: "btn btn-default auth-btn signin-btn" %>
+    <% end %>
+  </div>
+</div>

@@ -1,101 +1,23 @@
-<div class="home-container">
+<%= content_for :main_container_classes do %>home-container <% end %>
+<div class="container home-container">
   <div class="row">
-    <div class="col-sm-4 col-sm-offset-8 furious-text-container">
-      <div class="furious-text above">
-        Sign up to assess how you are doing with your preparation.
+    <div class="col-md-8">
+      <div class="selling-pitch pull-left">
+        <div class="heading">
+          <div>Access the most advanced platform</div>
+          <div>for GMAT&trade; Verbal Test at the price</div>
+          <div>of a cup of coffee.</div>
+        </div>
+        <ul class="points">
+          <li>7 computer adaptive verbal tests.</li>
+          <li>Accurate score measurement.</li>
+          <li>Detailed score report worth $15 free with every test.</li>
+        </ul>
       </div>
+      <div class="home-vr hidden-sm hidden-xs"></div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-7 left-box">
-      <div class="inner">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="heading-text">
-              Access the most advanced platform for <%= gmat_trademark %> Verbal Test at the price of a cup of coffee.
-            </div>
-          </div>
-        </div>
-        <div class="heading-points">
-          <ul>
-            <li>
-              7 computer adaptive verbal tests.
-            </li>
-            <li>
-              Accurate score measurement.
-            </li>
-            <li>
-              Detailed score report worth $15 free with every test.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4 col-sm-offset-1 right-box">
-      <div class="inner">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="furious-text below">
-              Sign up to assess how you are doing with your preparation.
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="social-login">
-              <%= link_to auth_path(:facebook), class: "fb-btn social-btn" do %>
-                <div>
-                  <%= image_tag "icons/fb-icon.png", class: "pull-left social-icon" %>
-                  <div class="text-container">
-                    <div class="top-text">
-                      Continue with Facebook
-                    </div>
-                    <div class="bottom-text">
-                      We won’t post without asking
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-              <%= link_to auth_path(:google_oauth2), class: "google-btn social-btn" do %>
-                <div>
-                  <%= image_tag "icons/google-icon.png", class: "pull-left social-icon" %>
-                  <div class="text-container">
-                    <div class="top-text">
-                      Continue with Google
-                    </div>
-                    <div class="bottom-text">
-                      We won’t post without asking
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup-form"}) do |f| %>
-              <div class="top-text">
-                or Sign Up with Email
-              </div>
-              <div class="input-container">
-                <%= f.text_field :email, required: true, autofocus: true, placeholder: "Email" %>
-              </div>
-              <div class="input-container">
-                <%= f.password_field :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), placeholder: "Password" %>
-              </div>
-              <div class="input-container">
-                <%= f.password_field :password_confirmation, required: true, placeholder: "Re-Type Password" %>
-              </div>
-              <div class="submit-container">
-                <button type="submit" class="btn btn-success">
-                  Create Account
-                </button>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
+    <div class="col-md-4 hidden-sm hidden-xs">
+      <%= render "users/sessions/signup_container" %>
     </div>
   </div>
 </div>
