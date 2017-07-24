@@ -51,7 +51,6 @@ Rails.application.routes.draw do
   get "/contact_us" => "home#contact_us", as: :contact_us
   post "/contact_us" => "home#contact_us", as: :post_contact_us
   get "/disclaimer" => "home#disclaimer", as: :disclaimer
-  get "/overview" => "home#overview", as: :overview
 
   root "home#index"
 end
