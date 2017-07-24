@@ -2,6 +2,8 @@
 @import "bootstrap";
 @import "bootstrap_overrides";
 @import "extra";
+@import "home";
+@import "smooth-scrollbar";
 
 @font-face {
   font-family: 'LatoThin';
@@ -55,6 +57,7 @@
 body, html{
   font-family: 'LatoRegular';
 }
+
 .login-form{
   font-family: 'LatoRegular';
   padding-top: 16px;
@@ -218,7 +221,9 @@ html{
 body{
   position: relative;
   min-height: 100%;
-  padding-bottom: 100px;
+  .scroll-content{
+    padding-bottom: 100px;
+  }
 }
 
 .footer-container{
@@ -249,4 +254,8 @@ footer{
       border-right: 0px;
     }
   }
+}
+
+.scroll-content{
+  height: 100%;
 }

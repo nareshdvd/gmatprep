@@ -1,3 +1,64 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.overview-container{
+  font-family: 'LatoRegular';
+  margin-top: 100px;
+  font-weight: 100;
+  .heading-part{
+    margin-bottom: 50px;
+    .heading{
+      font-size: 28px;
+      text-align: center;
+      font-family: 'LatoBold';
+      font-weight: 100;
+    }
+    .sub-heading{
+      font-size: 18px;
+    }
+  }
+  .content-part{
+    .content-row{
+      margin-top: 26px;
+      .content-box{
+        .content-heading{
+          font-size: 18px;
+          font-weight: bold;
+          border-bottom: 1px solid #e7e7e7;
+          padding-bottom: 15px;
+          margin-bottom: 15px;
+          font-weight: 600;
+          &.ch-left{
+            margin-right: 50px;
+          }
+          &.ch-right{
+            margin-left: 50px;
+          }
+          &.content-heading-1{
+            margin-top: 75px;
+          }
+          &.content-heading-2{
+            margin-top: 130px;
+          }
+          &.content-heading-3{
+            margin-top: 0px;
+          }
+          &.content-heading-4{
+            margin-top: 130px;
+          }
+        }
+        .content-text{
+          font-size: 14px;
+          &.ct-left{
+            margin-right: 50px;
+          }
+          &.ct-right{
+            margin-left: 50px;
+          }
+        }
+      }
+      padding-bottom: 30px;
+    }
+  }
+}

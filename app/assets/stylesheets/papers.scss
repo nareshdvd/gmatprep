@@ -8,7 +8,9 @@
       font-url('tahoma/tahoma.woff') format('woff'),
       font-url('tahoma/tahoma.ttf') format('truetype');
 }
-
+body .scroll-content{
+  padding-bottom: 0px;
+}
 .paper_body{
   .paper_container{
     height: 100%;

@@ -19,7 +19,6 @@
 //= require moment
 //= require_tree .
 
-
 function device_warning(){
   if(is_devise_mobile == true){
     var show_device_warning = false;
@@ -48,6 +47,8 @@ function device_warning(){
   }
 }
 $(document).on('ready', function(){
+  $(".body-inner").css("height", $(window).height());
+  var scrollbar = Scrollbar.init($(".body-inner")[0], { speed: 2, alwaysShowTracks: true });
   device_warning();
   $("p").each(function(){
     var $p = $(this);
