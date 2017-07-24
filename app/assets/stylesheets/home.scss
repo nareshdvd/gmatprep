@@ -5,6 +5,7 @@
 .overview-container{
   font-family: 'LatoRegular';
   margin-top: 100px;
+  padding-bottom: 100px;
   font-weight: 100;
   .heading-part{
     margin-bottom: 50px;
@@ -22,6 +23,12 @@
     .content-row{
       margin-top: 26px;
       .content-box{
+        .content-image{
+          text-align: center;
+          &.content-image-3{
+            margin-top: 30px;
+          }
+        }
         .content-heading{
           font-size: 18px;
           font-weight: bold;
@@ -36,16 +43,16 @@
             margin-left: 50px;
           }
           &.content-heading-1{
-            margin-top: 75px;
+            margin-top: 0px;
           }
           &.content-heading-2{
-            margin-top: 130px;
+            margin-top: 44px;
           }
           &.content-heading-3{
             margin-top: 0px;
           }
           &.content-heading-4{
-            margin-top: 130px;
+            margin-top: 36px;
           }
         }
         .content-text{
