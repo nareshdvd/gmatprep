@@ -23,8 +23,7 @@
     </script>
   </head>
   <body class="new <%= yield :body_classes %>">
-    <div class="body-inner">
-      <nav class="navbar navbar-default <%= yield :navbar_classes %>">
+    <nav class="navbar navbar-default <%= yield :navbar_classes %>">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -38,15 +37,15 @@
           <div class="hidden-md hidden-lg hidden-sm brand-xs">
             <a class="navbar-brand" href="/home.html">GMATRIC</a>
           </div>
-          <% if current_user.blank? %>
-            <form class="navbar-form login-button-form-xs pull-right hidden-sm  hidden-md  hidden-lg">
+          <%# if current_user.blank? %>
+            <!--form class="navbar-form login-button-form-xs pull-right hidden-sm  hidden-md  hidden-lg">
               <div class="hidden-md hidden-lg">
                 <div class="form-group">
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
                 </div>
               </div>
-            </form>
-          <% end %>
+            </form-->
+          <%# end %>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -66,7 +65,7 @@
                     Home
                   <% end %>
                 </li>
-                <li class="<% if page_is?("home#contact_us") %>active<%end%>">
+                <li class="<% if page_is?("home#contact_us") %>active<% end %>">
                   <%= link_to "Contact us", contact_us_path %>
                 </li>
               <% end %>
@@ -76,8 +75,11 @@
                   Home
                 <% end %>
               </li>
-              <li class="<% if page_is?("home#contact_us") %>active<%end%>">
+              <li class="<% if page_is?("home#contact_us") %>active<% end %>">
                 <%= link_to "Contact us", contact_us_path %>
+              </li>
+              <li class="hidden-lg hidden-sm hidden-xl">
+                <button type="button" class="btn btn-primary login-btn" data-toggle="modal" data-target="#login-modal">Login</button>
               </li>
             <% end %>
           </ul>
@@ -114,14 +116,15 @@
               </div>
               <div class="hidden-md hidden-lg">
                 <div class="form-group">
-                  <%= f.button :button, "Login", type: "submit", class: "btn btn-primary", data: {toggle: "modal", target: "#login-modal"} %>
+                  <%= f.button :button, "Login", type: "button", class: "btn btn-primary login-btn", data: {toggle: "modal", target: "#login-modal"} %>
                 </div>
               </div>
             <% end %>
           <% end %>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container -->
-      </nav>
+    </nav>
+    <div class="body-inner">
       <div class="container">
       <% if notice %>
         <div class="alert alert-success">
