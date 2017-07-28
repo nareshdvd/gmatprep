@@ -17,6 +17,7 @@
 //= require bootstrap-sprockets
 //= require bootbox
 //= require moment
+//= require jquery-ui
 //= require_tree .
 
 function device_warning(){

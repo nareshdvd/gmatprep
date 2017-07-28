@@ -4,6 +4,7 @@
 @import "extra";
 @import "home";
 @import "smooth-scrollbar";
+@import "jquery-ui";
 
 @font-face {
   font-family: 'LatoThin';
@@ -258,4 +259,8 @@ footer{
 
 .scroll-content{
   height: 100%;
+}
+
+.body-inner > .scrollbar-track.scrollbar-track-x{
+  display: none !important;
 }

@@ -1,7 +1,7 @@
 $(document).on("ready", function(){
   $('[data-toggle="slide-collapse"]').on('click', function() {
     $navMenuCont = $($(this).data('target'));
-    $navMenuCont.animate({'width':'toggle'}, 10);
+    $navMenuCont.animate({'width':'toggle'}, 500, 'easeOutBounce');
   });
   $(".nav-tabs li[role='presentation'] a").on("click", function(e){
     // $(".nav-tabs li[role='presentation']").removeClass("active");

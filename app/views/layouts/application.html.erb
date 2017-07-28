@@ -61,22 +61,22 @@
                 <li><%= link_to "Users", index_users_path %></li>
                 <li><%= link_to "C-Mode", admin_question_path(Question.select("id").order("id asc").first.id) %></li>
               <% else %>
-                <li class="active">
+                <li class="<% if page_is?("home#index") || page_is?("candidates#home") %>active<% end %>">
                   <%= link_to root_path do %>
                     Home
                   <% end %>
                 </li>
-                <li>
+                <li class="<% if page_is?("home#contact_us") %>active<%end%>">
                   <%= link_to "Contact us", contact_us_path %>
                 </li>
               <% end %>
             <% else %>
-              <li class="active">
+              <li class="<% if page_is?("home#index") %>active<% end %>">
                 <%= link_to root_path do %>
                   Home
                 <% end %>
               </li>
-              <li>
+              <li class="<% if page_is?("home#contact_us") %>active<%end%>">
                 <%= link_to "Contact us", contact_us_path %>
               </li>
             <% end %>
@@ -137,19 +137,19 @@
       <div class="body-container container <%= yield :main_container_classes %>">
         <%= yield %>
       </div>
-      <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modal-label">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Sign in</a></li>
-                <li role="presentation"><a href="#sign-up" aria-controls="sign-up" role="tab" data-toggle="tab">Sign up</a></li>
-              </ul>
-            </div>
-            <div class="modal-body">
-              <%= render "users/sessions/auth_container" %>
-            </div>
+    </div>
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modal-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Sign in</a></li>
+              <li role="presentation"><a href="#sign-up" aria-controls="sign-up" role="tab" data-toggle="tab">Sign up</a></li>
+            </ul>
+          </div>
+          <div class="modal-body">
+            <%= render "users/sessions/auth_container" %>
           </div>
         </div>
       </div>

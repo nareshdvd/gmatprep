@@ -64,4 +64,8 @@ module ApplicationHelper
   def chart_right()
 
   end
+
+  def page_is?(compare_to)
+    compare_to == "#{params[:controller]}##{params[:action]}"
+  end
 end
