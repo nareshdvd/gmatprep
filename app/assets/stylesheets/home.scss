@@ -98,12 +98,12 @@
     padding-bottom: 100px;
     font-weight: 100;
     .heading-part{
-      margin-bottom: 50px;
+      margin-bottom: 10px;
       .heading{
-        font-size: 30px;
+        font-size: 26px;
+        font-family: 'LatoMedium';
+        font-weight: 600;
         text-align: center;
-        font-family: 'LatoBold';
-        font-weight: 100;
         span{
           border-bottom: 1px solid #e7e7e7;
           padding-bottom: 5px;
@@ -120,20 +120,20 @@
           .content-image{
             text-align: center;
             &.content-image-1{
-              margin-top: 30px;
+              margin-top: 10px;
             }
             &.content-image-2{
-              margin-top: 30px;
+              margin-top: 10px;
             }
             &.content-image-3{
-              margin-top: 60px;
+              margin-top: 10px;
             }
             &.content-image-4{
-              margin-top: 30px;
+              margin-top: 10px;
             }
           }
           .content-heading{
-            font-size: 22px;
+            font-size: 14px;
             font-weight: bold;
             border-bottom: 1px solid #e7e7e7;
             padding-bottom: 15px;
@@ -149,17 +149,18 @@
               margin-top: 0px;
             }
             &.content-heading-2{
-              margin-top: 44px;
+              margin-top: 0px;
             }
             &.content-heading-3{
               margin-top: 0px;
             }
             &.content-heading-4{
-              margin-top: 36px;
+              margin-top: 0px;
             }
           }
           .content-text{
-            font-size: 17px;
+            margin-top: 10px;
+            font-size: 13px;
             &.ct-left{
               margin-right: 0px;
             }
@@ -172,4 +173,9 @@
       }
     }
   }
+}
+
+.public-home{
+  padding-top: 60px;
+  height: 80vh;
 }

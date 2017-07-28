@@ -35,7 +35,9 @@
           </button>
           <a class="navbar-brand hidden-xs" href="<%= root_path %>">GMATRIC</a>
           <div class="hidden-md hidden-lg hidden-sm brand-xs">
-            <a class="navbar-brand" href="/home.html">GMATRIC</a>
+            <%= link_to root_path, class: "navbar-brand" do %>
+              GMATRIC
+            <% end %>
           </div>
           <%# if current_user.blank? %>
             <!--form class="navbar-form login-button-form-xs pull-right hidden-sm  hidden-md  hidden-lg">
@@ -102,7 +104,7 @@
               </li>
             </ul>
           <% else %>
-            <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "navbar-form navbar-right hidden-xs"}) do |f| %>
+            <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "navbar-form login-form-inline navbar-right hidden-xs"}) do |f| %>
               <div class="hidden-sm hidden-xs">
                 <div class="form-group">
                   <%= f.text_field :email, required: false, autofocus: true, class: "", placeholder: "Email" %>
@@ -125,7 +127,7 @@
       </div><!-- /.container -->
     </nav>
     <div class="body-inner">
-      <div class="container">
+      <div class="container notice-container">
       <% if notice %>
         <div class="alert alert-success">
           <%= notice %>

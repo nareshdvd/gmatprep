@@ -1,8 +1,11 @@
 $(document).on("ready", function(){
   $('[data-toggle="slide-collapse"]').on('click', function() {
-    console.log($(".nav.navbar-nav").css("height"));
+    if($(".nav.navbar-nav").css("width")){
+      $(".nav.navbar-nav").css("width", "100vw");
+      $(".collapse.navbar-collapse").css("width", "100vw");
+    }
     if($(".nav.navbar-nav").css("height") == "0px"){
-      $(".nav.navbar-nav").css("height", "100vh");
+      $(".nav.navbar-nav").css("height", "70vh");
     }
     else{
       $(".nav.navbar-nav").css("height", "0px");

@@ -265,3 +265,24 @@ footer{
 .body-inner > .scrollbar-track.scrollbar-track-x{
   display: none !important;
 }
+
+input{
+  font-family: 'LatoRegular';
+  background-color: #ffffff;
+  border: solid 1px #9a9a9a;
+  width: 100%;
+  padding: 8px 6px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 2px;
+  &:hover{
+    border: solid 1px #9a9a9a;
+  }
+}
+
+.login-form-inline{
+  input{
+    padding: 3px 6px;
+  }
+}
+
