@@ -56,7 +56,7 @@ body{
   color: #7e7e7e;
   font-family: 'LatoMedium';
   font-size: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .auth-container .social-login-container .fb-btn{
@@ -65,8 +65,8 @@ body{
   color: #ffffff;
   display: inline-block;
   width: 100%;
-  padding: 11px;
-  margin-bottom: 16px;
+  padding: 7px;
+  margin-bottom: 10px;
 }
 .auth-container .social-login-container .fb-btn .social-icon{
   width: 17.4px;
@@ -89,21 +89,19 @@ body{
 }
 
 .auth-container .social-login-container .google-btn{
-  height: 48px;
   border-radius: 2px;
   background-color: #ffffff;
   border: solid 1px #9a9a9a;
   display: inline-block;
   width: 100%;
-  padding: 11px;
-  margin-bottom: 16px;
+  padding: 7px;
+  margin-bottom: 10px;
 }
 .auth-container .social-login-container .google-btn .social-icon{
   width: 17.4px;
   height: 17.4px;
-  margin: 6.4px;
+  margin: 4px;
   margin-right: 19.6px;
-  margin-top: 4px;
 }
 
 .auth-container .social-login-container .google-btn .text .main{
@@ -118,17 +116,21 @@ body{
 
 
 .auth-form-container{
-  padding: 24px;
+  padding: 18px;
   border: 1px solid #e4e4e4;
   background-color: #fff;
+
+}
+.auth-form .form-group{
+  margin-bottom: 10px;
 }
 .auth-form-container .support{
   font-family: 'LatoBold';
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   color: #b2b2b2;
 }
 .auth-form-container .auth-form .input-container{
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .auth-form-container .auth-form .auth-btn{
@@ -136,6 +138,8 @@ body{
   font-family: 'LatoBold';
   background-color: #ff6600;
   color: #fff;
+  padding: 8px 0px;
+  border: none;
 }
 
 .auth-form-container .auth-form .input-container input{

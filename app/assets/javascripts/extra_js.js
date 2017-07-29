@@ -21,4 +21,7 @@ $(document).on("ready", function(){
     // e.preventDefault();
     $(this).tab("show");
   });
+  $(".modal-trigger-forgot-password").on("click", function(e){
+    $(this).tab("show");
+  });
 });

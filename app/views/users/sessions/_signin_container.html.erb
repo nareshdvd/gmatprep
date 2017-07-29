@@ -10,7 +10,9 @@
         <%= f.password_field :password, required: false, class: "", placeholder: "Password" %>
       </div>
       <div class="input-container">
-        <a href="">Forgot password?</a>
+        <a href="#forgot-password" class="modal-trigger-forgot-password" aria-controls="forgot-password" role="tab" data-toggle="tab">
+          Forgot password?
+        </a>
       </div>
       <%= f.button :submit, "Log in", class: "btn btn-default auth-btn signin-btn" %>
     <% end %>
