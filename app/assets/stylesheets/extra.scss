@@ -9,6 +9,7 @@ body{
   background-color: #f9f9f9;
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 .home-container{
@@ -22,11 +23,11 @@ body{
 }
 
 .home-container .selling-pitch .heading{
-  font-family: 'LatoMedium';
+  font-family: 'LatoRegular';
   font-size: 32px;
   width: 100%;
-  color: #4e4e4e;
-  font-weight: 100;
+  color: #2196f3;
+  font-weight: 300;
   margin-bottom: 16px;
 }
 .home-container .selling-pitch .points{

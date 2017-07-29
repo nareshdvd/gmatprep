@@ -143,6 +143,17 @@
         <%= yield %>
       </div>
     </div>
+    <div class="container footer-container">
+      <footer>
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">
+            <div class="text-center">
+              GMATRIC &copy; <%= Time.now.year %>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modal-label">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -158,17 +169,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="container footer-container">
-      <footer>
-        <div class="row">
-          <div class="col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">
-            <div class="text-center">
-              GMATRIC &copy; <%= Time.now.year %>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
     <%= javascript_include_tag 'application' %>
     <% if current_user && current_user.is_admin? %>
