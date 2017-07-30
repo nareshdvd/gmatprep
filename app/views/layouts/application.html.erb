@@ -108,13 +108,24 @@
             <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "navbar-form login-form-inline navbar-right hidden-xs"}) do |f| %>
               <div class="hidden-sm hidden-xs">
                 <div class="form-group">
-                  <%= f.text_field :email, required: false, autofocus: true, class: "", placeholder: "Email" %>
+                  <div>
+                    <%= f.text_field :email, required: false, autofocus: true, class: "", placeholder: "Email" %>
+                  </div>
+                  <br/>
                 </div>
                 <div class="form-group">
-                  <%= f.password_field :password, required: false, class: "", placeholder: "Password" %>
+                  <div>
+                    <%= f.password_field :password, required: false, class: "", placeholder: "Password" %>
+                  </div>
+                  <a href="#forgot-password" class="modal-trigger-forgot-password" aria-controls="forgot-password" role="tab" data-toggle="tab">
+                    Forgot password?
+                  </a>
                 </div>
                 <div class="form-group">
-                  <%= f.button :button, "Login", class: "btn btn-primary", type: "submit" %>
+                  <div>
+                    <%= f.button :button, "Login", class: "btn btn-primary", type: "submit" %>
+                  </div>
+                  <br/>
                 </div>
               </div>
               <div class="hidden-md hidden-lg">

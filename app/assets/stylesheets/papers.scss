@@ -8,13 +8,16 @@
       font-url('tahoma/tahoma.woff') format('woff'),
       font-url('tahoma/tahoma.ttf') format('truetype');
 }
+.body-inner.sticky{
+  height: 100vh !important;
+}
 body .scroll-content{
   padding-bottom: 0px;
 }
 .paper_body{
   .paper_container{
     height: 100%;
-    width: 100%;
+    width: 100vw;
     form{
       font-family: 'Tahoma';
     }
@@ -224,4 +227,8 @@ body{
   .passage-option-container{
     padding-left: 15px;
   }
+}
+
+.notice-container {
+  margin-top: 0px;
 }

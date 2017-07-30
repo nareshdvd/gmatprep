@@ -5,7 +5,9 @@
 @import "home";
 @import "smooth-scrollbar";
 @import "jquery-ui";
-
+.body-inner.sticky{
+  height: 90vh !important;
+}
 @font-face {
   font-family: 'LatoThin';
   src: font-url('lato/thin/Lato.eot');

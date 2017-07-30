@@ -3,7 +3,8 @@
   margin-bottom: 10px;
 }
 .navbar-form{
-  padding: 4px 0px;
+  padding: 0px 0px;
+  margin-bottom: 0px;
 }
 .navbar-form .form-group{
   margin-right: 16px;
@@ -56,9 +57,21 @@
     color: #2196f3;
     cursor: pointer;
   }
+  height: auto;
 }
 .navbar-default .navbar-toggle{
   margin-left: 30px;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    padding-top: 17px;
+    padding-bottom: 17px;
+  }
+}
+.nav > li > a{
+  padding-left: 27px;
+  padding-right: 27px;
 }
 @media (max-width: 767px){
   #bs-example-navbar-collapse-1{
@@ -83,7 +96,8 @@
   .collapse.navbar-collapse > ul.nav.navbar-nav > li > a{
     display: inline-block;
     width: 100%;
-    padding: 10px 0px;
+    padding: 7px 0px;
+    line-height: 14px;
   }
   .navbar-default .navbar-toggle{
     border: none;

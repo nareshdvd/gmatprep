@@ -203,6 +203,40 @@ body{
   .auth-form-container .auth-form .input-container{
     margin-bottom: 10px;
   }
+
+
+
+  #login-modal{
+    padding-left: 0px !important;
+  }
+  #login-modal .modal-body{
+    display: inline-block;
+    width: 100%;
+  }
+  #login-modal .modal-body .auth-container{
+    margin-top: 0px;
+    width: 100%;
+  }
+
+  #login-modal.modal.in .modal-dialog{
+    margin: 0px;
+  }
+
+  #login-modal .modal-content{
+    border-radius: 0px;
+    min-height: 100vh;
+  }
+
+  #login-modal .modal-header{
+    border-bottom: none;
+  }
+
+  .login-btn{
+    padding: 3px 9px;
+    font-size: 12px;
+    background-color: #2196f3;
+    border-color: #2196f3;
+  }
 }
 
 @media (max-width: 443px){
@@ -218,38 +252,22 @@ body{
     font-weight: 400;
   }
 }
-#login-modal{
-  padding-left: 0px !important;
-}
 #login-modal .modal-body{
   display: inline-block;
   width: 100%;
 }
-#login-modal .modal-body .auth-container{
-  margin-top: 0px;
-  width: 100%;
-}
-
-#login-modal.modal.in .modal-dialog{
-  margin: 0px;
-}
-
-#login-modal .modal-content{
-  border-radius: 0px;
-  min-height: 100vh;
-}
-
-#login-modal .modal-header{
-  border-bottom: none;
-}
-
-.login-btn{
-  padding: 3px 9px;
-  font-size: 12px;
-  background-color: #2196f3;
-  border-color: #2196f3;
-}
 
 .notice-container{
   margin-top: 20px;
+}
+
+#login-modal .auth-container{
+  float: none;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#login-modal .modal-header{
+  padding-bottom: 0px;
+  border-bottom: none;
 }
