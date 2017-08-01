@@ -5,10 +5,10 @@ $(document).on("ready", function(){
       $(".collapse.navbar-collapse").css("width", "100vw");
     }
     if($(".nav.navbar-nav").css("height") == "0px"){
-      $(".nav.navbar-nav").css("height", "70vh");
+      $(".collapse.navbar-collapse").css("height", "70vh");
     }
     else{
-      $(".nav.navbar-nav").css("height", "0px");
+      // $(".collapse.navbar-collapse").css("height", "");
     }
     $navMenuCont = $($(this).data('target'));
     $navMenuCont.animate({'width':'toggle'}, 500, 'easeOutBounce');

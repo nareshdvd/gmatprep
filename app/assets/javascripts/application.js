@@ -204,3 +204,9 @@ function set_time(){
     $("#timer").html(smin + ":" + ssec);
   }
 }
+
+// setTimeout(function(){
+//   $(window).on("mouseleave", function(){
+    
+//   });
+// }, 5000);
