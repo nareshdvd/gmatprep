@@ -93,14 +93,19 @@
       background-color: transparent;
     }
   }
-  .collapse.navbar-collapse > ul.nav.navbar-nav > li > a{
-    display: inline-block;
-    width: 100%;
-    padding: 7px 0px;
-    line-height: 14px;
-    text-align: left;
-    &.active{
-      background-color: #e7e7e7;
+  .collapse.navbar-collapse > ul.nav.navbar-nav > li{
+    > a{
+      display: inline-block;
+      width: 100%;
+      padding: 7px 0px;
+      line-height: 14px;
+      text-align: left;
+      &.active{
+        background-color: #e7e7e7;
+      }
+    }
+    &:last-child{
+      margin-top: 10px;
     }
   }
   .navbar-default .navbar-toggle{
