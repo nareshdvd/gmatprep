@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!, only: [:index, :contact_us, :disclaimer]
+  skip_before_filter :authenticate_user!, only: [:index, :contact_us, :disclaimer, :test]
+  layout "testing", only: [:test]
   def index
     monitor = InfluxMonitor.should_monitor?(cookies, :asynchronous_visitor_monitoring)
     if current_user.blank?
@@ -14,6 +15,9 @@ class HomeController < ApplicationController
         candidate_dashboard if user_is_candidate?
       end
     end
+  end
+
+  def test
   end
 
   def index_users

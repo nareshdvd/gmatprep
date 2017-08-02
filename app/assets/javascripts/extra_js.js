@@ -36,3 +36,10 @@ $(window).on("resize", function(){
   }
 });
 
+// window.exit_intent_shown = false;
+// $(document).on("mouseleave", function(e){
+//   if((e.clientX >= 1100 || e.clientX <= 300) && !window.exit_intent_shown){
+//     window.exit_intent_shown = true
+//     $("#exit-modal-1").modal("show");
+//   }
+// });

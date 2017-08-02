@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <style type="text/css">
+      body{
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
+        /* Rules below not implemented in browsers yet */
+        -o-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        background-color: #000;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+    <%= javascript_include_tag 'application' %>
+    <script type="text/javascript">
+      var is_mouse_down = false;
+      $(document).mousedown(function() {
+        is_mouse_down = true;
+      }).mouseup(function() {
+        is_mouse_down = false;
+      });
+      $(document).on("mouseover", "body > div", function(){
+        if(is_mouse_down){
+          $(this).css("transition", "color 0.5s linear");
+          $(this).css("color", "#fff");
+          // $(this).fadeIn( "slow" );
+        }
+      }).on("mouseleave", "body > div", function(){
+        $(this).css("color", "#000");
+
+      });
+    </script>
+  </body>
+</html>

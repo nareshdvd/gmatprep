@@ -22,8 +22,19 @@
       // report_page is the variable to check if user is visiting charts page
       var charts_page;
     </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5S97MB5');</script>
+    <!-- End Google Tag Manager -->
   </head>
   <body class="new <%= yield :body_classes %>">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5S97MB5"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <nav class="navbar navbar-default <%= yield :navbar_classes %>">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -182,6 +193,7 @@
         </div>
       </div>
     </div>
+    <%#= render "shared/exit_popup_1" %>
     <%= javascript_include_tag 'application' %>
     <% if current_user && current_user.is_admin? %>
       <%= tinymce %>
