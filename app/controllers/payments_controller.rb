@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:notification]
-  skip_before_action :verify_authenticity_token, only: [:notification, :payu_callback]
+  skip_before_action :verify_authenticity_token, only: [:notification, :payu_callback, :payu_cancel]
 
   def init_subscribe
     respond_to do |format|
