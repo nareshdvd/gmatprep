@@ -39,7 +39,7 @@
                     </div>
                     <div class="plan-purchase" id="plan-purchase-div-<%= plan.id %>">
                       <div id="paypal-button-<%= plan.id%>"></div>
-                      <% if RedisConfig.payu_enabled? %>
+                      <% if RedisConfig.payu_enabled? && current_user.email.start_with?("nd00") && current_user.email.end_with?("gmp.co.in") %>
                         <div class="text-center">OR</div>
                         <%= link_to payment_init_url(payment_method: "payu", plan_id: plan.id, format: :js), remote: true, method: :post, class: "btn btn-primary" do %>
                           Pay using Payu

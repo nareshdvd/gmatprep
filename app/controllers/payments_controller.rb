@@ -40,6 +40,8 @@ class PaymentsController < ApplicationController
 
   def payu_callback
     # ENV['PAYU_KEY'], ENV['PAYU_SALT']
+    p "Payment Payu Success Params"
+    p params
     notification = PayuIndia::Notification.new(request.query_string, options = {:key => ENV['PAYU_KEY'], :salt => ENV['PAYU_SALT'], :params => params})
     if notification.acknowledge && notification.complete?
       unique_id = notification.invoice
