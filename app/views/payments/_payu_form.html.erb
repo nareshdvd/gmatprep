@@ -7,5 +7,6 @@
   :phone => '8755061616',
   :surl => @payment_method.success_url,
   :furl => @payment_method.cancel_url,
-  :html => { :id => "payment-form-#{@payment_method.unique_id}" }
+  :html => { :id => "payment-form-#{@payment_method.unique_id}" },
+  :service_provider => "payu_paisa"
 %>
