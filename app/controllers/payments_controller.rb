@@ -49,6 +49,12 @@ class PaymentsController < ApplicationController
     end
   end
 
+  def payu_cancel
+    p "Payment Payu failure params"
+    p params
+    render text: "Payu payment is failed"
+  end
+
   def paypal_callback_latest_old
     payment_id = params[:paymentId]
     token = params[:token]
