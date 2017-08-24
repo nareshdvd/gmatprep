@@ -6,30 +6,15 @@ class PayuPaymentMethod < PaymentMethod
     self.success_url = method_params[:success_url]
     self.cancel_url = method_params[:cancel_url]
   end
+
   def generate_unique_id
     payment = self.payment
     invoice = payment.invoice
     self.unique_id = "#{invoice.id}-#{payment.id}"
-    self.generate_token
-  end
-  
-  def generate_token
-    payment = self.payment
-    iv = AES.iv(:base_64)
-    key = Gmatprep::Application.config.secret_for_encryption
-    self.payment_token = AES.encrypt(plain_text, key, {:iv => iv})
   end
 
-  def plain_text
-    "#{self.unique_id}$#{payment.currency}$#{payment.created_at.to_i}$#{payment.invoice.subscription.plan_id}"
-  end
-
+  #nothing to be matched as the payuindia gem is already checking for the data we receive after payment through payu.
   def match_token(token)
-    begin
-      decrypted_text = AES.decrypt(token, Gmatprep::Application.config.secret_for_encryption)
-      return decrypted_text == plain_text
-    rescue OpenSSL::Cipher::CipherError => ex
-      return false
-    end
+    return true
   end
 end

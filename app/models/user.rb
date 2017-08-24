@@ -141,7 +141,6 @@ class User < ActiveRecord::Base
       if payment_method.blank?
         payment_method = payment.get_or_add_payment_method(payment_params[:payment_method], payment_params.except(:payment_method))
       end
-      #payment_method = payment.payment_methods.detect{|payment_method| payment_method.name == payment_params[:payment_method]}
     end
     payment_method.set_params(payment_params)
     return unpaid_plan_subscription, invoice, payment, payment_method

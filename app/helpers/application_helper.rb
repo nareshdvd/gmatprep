@@ -4,7 +4,7 @@ module ApplicationHelper
   end
   def auth_path(provider)
     if Rails.env.development?
-      send("user_omniauth_authorize_path", *[provider])
+      send("user_#{provider}_omniauth_authorize_path", *[provider])
     else
       send("user_#{provider}_omniauth_authorize_path".to_sym)
     end
@@ -58,7 +58,7 @@ module ApplicationHelper
   end
 
   def chart_left()
-    
+
   end
 
   def chart_right()

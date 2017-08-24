@@ -1,12 +1,12 @@
-<% payment_form_for_payu ENV['PAYU_KEY'], ENV['PAYU_SALT'],
+<%= payment_form_for_payu ENV['PAYU_KEY'], ENV['PAYU_SALT'],
   :txnid => @payment_method.unique_id,
   :amount => 1,
-  :productinfo => @payment_method.payment.invoice.subscription.plan.name,
+  :productinfo => @plan.name,
   :firstname => 'Manish',
   :email => 'gmatricprep@gmail.com',
   :phone => '8755061616',
   :surl => @payment_method.success_url,
   :furl => @payment_method.cancel_url,
   :html => { :id => "payment-form-#{@payment_method.unique_id}" },
-  :service_provider => "payu_paisa"
+  :service_provider => "#{Rails.env.production? ? 'payu_paisa' : 'payu_paisa'}"
 %>

@@ -1,4 +1,4 @@
-<% if (free_paper = current_user.free_subscription.papers.last).blank? %>
+<% if (free_paper = current_user.free_subscription.papers.last).blank? && current_user.last_purchased.blank? %>
   <%= render "candidates/welcome" %>
 <% else %>
   <%= render "candidates/home" %>

@@ -41,9 +41,15 @@
                       <div id="paypal-button-<%= plan.id%>"></div>
                       <% if RedisConfig.payu_enabled? && current_user.email.start_with?("nd00") && current_user.email.end_with?("gmp.co.in") %>
                         <div class="text-center">OR</div>
-                        <%= link_to payment_init_url(payment_method: "payu", plan_id: plan.id, format: :js), remote: true, method: :post, class: "btn btn-primary" do %>
-                          Pay using Payu
-                        <% end %>
+                        <div class="text-center">
+                          <%= link_to payment_init_url(payment_method: "payu", plan_id: plan.id, format: :js), remote: true, method: :post, class: "btn btn-primary" do %>
+                            Pay using Payu
+                          <% end %>
+                          <div style="font-size: 10px;">
+                            If you are an Indian customer
+                            <i class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" data-html="true" title="Paypal does not support receiving payments from Indian customers to Indian Merchants, so if you are an Indian customer, please use Payu for Payment."></i>
+                          </div>
+                        </div>
                       <% end %>
                     </div>
                   </div>

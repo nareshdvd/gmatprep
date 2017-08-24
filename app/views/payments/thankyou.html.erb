@@ -5,7 +5,10 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="welcome-msg width-100 font-18">
-            Thank you for your payment. Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.
+            Thank you for your payment of <%= @payment.currency %> <%= @payment.amount %>. Your transaction has been completed, and a receipt for your purchase has been emailed to you.
+            <% if @payment_method.is_a?(PaypalPaymentMethod) %>
+              You may log into your account at www.paypal.com to view details of this transaction.
+            <% end %>
           </div>
         </div>
       </div>

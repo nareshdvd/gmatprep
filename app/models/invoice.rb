@@ -9,10 +9,17 @@ class Invoice < ActiveRecord::Base
   #after_create :create_pending_payment
 
   def create_pending_payment(params)
+    if params[:payment_method] == "PayuPaymentMethod"
+      amt = Concurrency.convert(self.subscription.plan.amount, self.subscription.plan.currency, "INR")
+      curr = "INR"
+    else
+      amt = self.subscription.plan.amount
+      curr = self.subscription.plan.currency
+    end
     payment = self.payments.create(
       status: Payment::STATUS[:pending],
-      amount: self.subscription.plan.amount,
-      currency: self.subscription.plan.currency
+      amount: amt,
+      currency: curr
     )
     payment_method = payment.get_or_add_payment_method(params[:payment_method], params.except(:payment_method))
     return payment, payment_method
