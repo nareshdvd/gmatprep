@@ -1,6 +1,6 @@
 <%= payment_form_for_payu ENV['PAYU_KEY'], ENV['PAYU_SALT'],
   :txnid => @payment_method.unique_id,
-  :amount => 1,
+  :amount => <% @payment.amount %>,
   :productinfo => @plan.name,
   :firstname => 'Manish',
   :email => 'gmatricprep@gmail.com',

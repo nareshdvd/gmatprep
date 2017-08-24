@@ -10,7 +10,7 @@ class Invoice < ActiveRecord::Base
 
   def create_pending_payment(params)
     if params[:payment_method] == "PayuPaymentMethod"
-      amt = Concurrency.convert(self.subscription.plan.amount, self.subscription.plan.currency, "INR")
+      amt = Concurrency.convert(self.subscription.plan.amount, self.subscription.plan.currency, "INR").round(2)
       curr = "INR"
     else
       amt = self.subscription.plan.amount
