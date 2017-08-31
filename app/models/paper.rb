@@ -312,7 +312,7 @@ class Paper < ActiveRecord::Base
 
   def get_deductions
     deductions = 0
-    get_incorrect_answers_count.each do |level, incorrect_count|
+    Hash[get_incorrect_answers_count].each do |level, incorrect_count|
       deductions += (Level::SCORE[level] * incorrect_count).ceil
     end
     last_two_questions = papers_questions.where("question_number IN (40, 41)")

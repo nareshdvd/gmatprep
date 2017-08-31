@@ -109,35 +109,55 @@ $(document).on("submit", ".paypal-form", function(e){
 $(document).on("submit", ".candidate-question-form", function(e){
   e.preventDefault();
   var $form = $(this);
-  if($form.find("input[type='radio']:checked").length != 0){
-    var confirm_message = ""
-    if($form.hasClass("question-no-41")){
-      confirm_message = "Click yes to finish the test.";
-    }else{
-      confirm_message = "Click yes to confirm your answer and continue to the next question.";
-    }
-    if(true){
-      bootbox.confirm({
-        size: "small",
-        title: "Answer Confirmation",
-        message: confirm_message,
-        buttons: {
-          cancel: {
-            label: 'No',
-            className: 'btn btn-danger'
+  if($form.hasClass("sol-mode")){
+    window.location.href = $form.attr("action");
+  }else{
+    if($form.find("input[type='radio']:checked").length != 0){
+      var confirm_message = ""
+      if($form.hasClass("question-no-41")){
+        confirm_message = "Click yes to finish the test.";
+      }else{
+        confirm_message = "Click yes to confirm your answer and continue to the next question.";
+      }
+      if(true){
+        bootbox.confirm({
+          size: "small",
+          title: "Answer Confirmation",
+          message: confirm_message,
+          buttons: {
+            cancel: {
+              label: 'No',
+              className: 'btn btn-danger'
+            },
+            confirm: {
+              label: 'Yes',
+              className: 'btn btn-primary'
+            }
           },
-          confirm: {
-            label: 'Yes',
-            className: 'btn btn-primary'
+          callback: function (result) {
+            if(result){
+              $(".submit-btn").hide();
+              $(".wait-btn").show();
+              $form[0].submit();
+            }
           }
-        },
-        callback: function (result) {
-          if(result){
-            $(".submit-btn").hide();
-            $(".wait-btn").show();
-            $form[0].submit();
+        }).find('.modal-content').css({
+          'margin-top': function (){
+            var w = $( window ).height();
+            var b = $(".modal-dialog").height();
+            var h = (w-b)/2 - 180;
+            return h+"px";
           }
-        }
+        });
+      }else{
+        $form[0].submit();
+      }
+    }else{
+      bootbox.alert({
+        size: "small",
+        title: "Answer Required",
+        message: "You can not continue with this question unanswered.",
+        className: ""
       }).find('.modal-content').css({
         'margin-top': function (){
           var w = $( window ).height();
@@ -146,23 +166,7 @@ $(document).on("submit", ".candidate-question-form", function(e){
           return h+"px";
         }
       });
-    }else{
-      $form[0].submit();
     }
-  }else{
-    bootbox.alert({
-      size: "small",
-      title: "Answer Required",
-      message: "You can not continue with this question unanswered.",
-      className: ""
-    }).find('.modal-content').css({
-      'margin-top': function (){
-        var w = $( window ).height();
-        var b = $(".modal-dialog").height();
-        var h = (w-b)/2 - 180;
-        return h+"px";
-      }
-    });
   }
 });
 
@@ -207,6 +211,6 @@ function set_time(){
 
 // setTimeout(function(){
 //   $(window).on("mouseleave", function(){
-    
+
 //   });
 // }, 5000);

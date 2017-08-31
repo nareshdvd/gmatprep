@@ -1,5 +1,5 @@
 class PapersController < ApplicationController
-  before_action :find_paper, only: [:test_finish, :finish_test, :show_score, :question, :answer_question]
+  before_action :find_paper, only: [:test_finish, :finish_test, :show_score, :question, :answer_question, :candidate_solution]
   before_action :find_subscription, only: [:instructions, :new]
   before_action :redirect_if_in_progress, only: [:instructions, :new]
   before_action :redirect_if_not_in_progress, only: [:question, :answer_question]
@@ -93,7 +93,6 @@ class PapersController < ApplicationController
   end
 
   def question
-    question_number = params[:question_number].to_i
     respond_to do |format|
       if @paper.id == in_progress_paper.id
         last_question = @paper.papers_questions.last
@@ -120,7 +119,6 @@ class PapersController < ApplicationController
   end
 
   def answer_question
-    question_number = params[:question_number].to_i
     respond_to do |format|
       if @paper.id == in_progress_paper.id
         last_question = @paper.papers_questions.last
@@ -145,9 +143,25 @@ class PapersController < ApplicationController
     end
   end
 
-  
+  def candidate_solution
+    respond_to do |format|
+      if @paper.finished? && @paper.all_answered?
+        if question_number >= 1 && question_number <= 41
+          @solution_mode = true
+          @paper_question = @paper.papers_questions.where(question_number: question_number).first
+          format.html {render "papers/question" }
+        else
+          format.html{ redirect_to root_path, notice: "" }
+        end
+      else
+        format.html{ redirect_to root_path, alert: "Paper hasn't been finished yet" }
+      end
+    end
+  end
+
+
   private
-  
+
   def answer_params
     params.require(:papers_question).permit(:option_id)
   end
@@ -182,5 +196,9 @@ class PapersController < ApplicationController
 
   def subscription_id
     params[:subscription_id].to_i
+  end
+
+  def question_number
+    params[:question_number].to_i
   end
 end

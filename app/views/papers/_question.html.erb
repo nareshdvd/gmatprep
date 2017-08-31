@@ -13,7 +13,29 @@
               <%= f.radio_button :option_id, option.id, checked: (option.correct && (Rails.env.development? || current_user.is_manish? || current_user.is_admin?)), style: "margin-top: 0px !important; margin-right: 0px !important; vertial-align: 0px !important;" %>
             </div>
             <div class="padding-l-30">
-              <%= option.description.html_safe %>
+              <% if @solution_mode %>
+                <div>
+                  <%= option.description.html_safe %>
+                  <% if option.correct %>
+                    <span class="color-green">
+                      (Correct Option)
+                      <% if option.id == @paper_question.option_id %>
+                        (You answered correctly)
+                      <% end %>
+                    </span>
+                  <% else %>
+                    <% if option.id == @paper_question.option_id %>
+                      <span class="color-red">
+                        (You answered incorrectly)
+                      </span>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% else %>
+                <div>
+                  <%= option.description.html_safe %>
+                </div>
+              <% end %>
             </div>
           </div>
         <% end %>

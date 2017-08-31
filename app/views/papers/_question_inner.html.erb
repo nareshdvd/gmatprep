@@ -26,18 +26,20 @@
               </span>
             </div>
           </div>
-          <div class="col-sm-6 col-xs-6 col-md-6">
-            <div class="pull-right">
-              <span class="hidden-xs">
-                Time Remaining
-              </span>
-              <span id="timer" style="">
-                <% if @paper_question.paper.present? %>
-                  <%= @paper_question.paper.formatted_remaining_time %>
-                <% end %>
-              </span>
+          <% if !@solution_mode %>
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="pull-right">
+                <span class="hidden-xs">
+                  Time Remaining
+                </span>
+                <span id="timer" style="">
+                  <% if @paper_question.paper.present? %>
+                    <%= @paper_question.paper.formatted_remaining_time %>
+                  <% end %>
+                </span>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -51,6 +53,9 @@
     <div class="row bg-light-blue" style="position: absolute; width: 100%; margin-left: -15px;">
       <div class="col-sm-12 col-xs-12 col-md-12 color-white padding-5">
         <div class="bg-light-blue">
+          <% if @solution_mode && @paper_question.question_number > 1 %>
+            <%= link_to "Previous", papers_candidate_solution_path(@paper.id, @paper_question.question_number - 1), class: "btn btn-sm btn-primary pull-left" %>
+          <% end %>
           <button type="button" class="btn btn-sm btn-primary pull-right wait-btn" style="display: block;">Please wait...</button>
           <% if @paper_question.question_number.blank? || @paper_question.question_number < 41 %>
             <button type="submit" class="btn btn-sm btn-primary pull-right submit-btn" style="display: none;">Next</button>

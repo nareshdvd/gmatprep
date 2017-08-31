@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get '/:test_action/test/:paid_info' => "candidates#start_test", as: :start_test
   get '/test/:paper_id/questions/:question_number' => "papers#question", as: "papers_question"
   patch '/test/:paper_id/questions/:question_number' => "papers#answer_question", as: "papers_question_answer"
+  get '/solutions/:paper_id/questions/:question_number' => "papers#candidate_solution", as: "papers_candidate_solution"
   get '/buy/new' => "candidates#buy_new", as: :buy_new
   get '/users' => "home#index_users", as: :index_users
   delete 'candidates/:candidate_id/tests/destroy' => 'home#destroy_papers', as: :destroy_tests

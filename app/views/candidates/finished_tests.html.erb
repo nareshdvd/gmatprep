@@ -110,6 +110,9 @@
                     <div class="lower text-center margin-t-18">
                       <%= link_to "View Report", report_charts_path(test.id), class: 'view-report-btn' %>
                     </div>
+                    <div class="lower text-center margin-t-18">
+                      <%= link_to "View Solutions", papers_candidate_solution_path(test.id, 1), class: 'view-report-btn' %>
+                    </div>
                   </div>
                 </div>
                 <% inx += 1 %>
