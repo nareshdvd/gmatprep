@@ -116,7 +116,7 @@ class Paper < ActiveRecord::Base
   end
 
   def average_time_per_question
-    data = papers_questions.select("COUNT(id) as id_count, ((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, SUM(TIME_TO_SEC(DATE_FORMAT(TIMEDIFF(finish_time, start_time), '%H:%i:%s'))) as total_time").group("id_group").as_json
+    data = papers_questions.select("COUNT(id) as id_count, ((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, SUM(TIME_TO_SEC(TIMEDIFF(finish_time, start_time))) as total_time").group("id_group").as_json
     # data = papers_questions.select("COUNT(id) as id_count, ((CASE WHEN (question_number <=10) THEN 'I' WHEN (question_number > 10 AND question_number <= 20) THEN 'II' WHEN (question_number > 20 AND question_number <= 30) THEN 'III' WHEN (question_number > 30) THEN 'IV' END)) as id_group, SUM(TIMEDIFF(finish_time, start_time)) as total_time").group("id_group").as_json
     new_data = []
     data.each do |dt|

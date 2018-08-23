@@ -194,13 +194,11 @@ body{
 .passage-question-left{
   padding: 10px;
   border-right: 20px solid #66B9BF;
-  overflow-y: scroll;
   height: 100%;
 }
 .passage-question-right{
   padding: 10px;
   padding-left: 30px;
-  overflow-y: scroll;
   height: 100%;
 }
 .passage-option-container{
@@ -215,13 +213,11 @@ body{
     padding: 10px;
     border-right: 0px;
     border-bottom: 10px solid #66B9BF;
-    overflow-y: scroll;
     height: 50%;
   }
   .passage-question-right{
     padding: 10px;
     padding-left: 10px;
-    overflow-y: scroll;
     height: 50%;
   }
   .passage-option-container{
@@ -231,6 +227,10 @@ body{
 
 .notice-container {
   margin-top: 0px;
+}
+
+.mCSB_container{
+  padding-bottom: 50px;
 }
 
 input[type="radio"]{

@@ -18,6 +18,7 @@
 //= require bootbox
 //= require moment
 //= require jquery-ui
+//= require jquery.mCustomScrollbar
 //= require_tree .
 
 function device_warning(){
@@ -48,6 +49,15 @@ function device_warning(){
   }
 }
 $(document).on('ready', function(){
+  var scrollbar_options = {
+    theme:"dark",
+    scrollbarPosition: "inside",
+    scrollInertia: 100
+  }
+  $(".passage-question-left").mCustomScrollbar(scrollbar_options);
+  $(".passage-question-right").mCustomScrollbar(scrollbar_options);
+  $(".scrolling-box").mCustomScrollbar(scrollbar_options);
+
   $(".body-inner").css("height", $(window).height());
   var scrollbar = Scrollbar.init($(".body-inner")[0], { speed: 2, alwaysShowTracks: true });
   device_warning();
